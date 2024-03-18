@@ -20,4 +20,7 @@ public class User {
 
     @OneToMany(mappedBy = "user")
     private List<Collaboration> collaborations;
+
+    @OneToMany(mappedBy = "user")
+    private List<Reclamation> reclamations;
 }
