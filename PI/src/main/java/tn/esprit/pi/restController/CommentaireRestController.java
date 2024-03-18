@@ -1,0 +1,35 @@
+package tn.esprit.pi.restController;
+
+import lombok.NoArgsConstructor;
+import org.springframework.web.bind.annotation.*;
+import tn.esprit.pi.entities.Commentaire;
+import tn.esprit.pi.services.ICommentaire;
+
+import java.util.List;
+
+@RestController
+@NoArgsConstructor
+public class CommentaireRestController {
+    public ICommentaire iCommentaire;
+@PostMapping("/addCom")
+    public Commentaire addC (@RequestBody Commentaire com){
+       return iCommentaire.addC(com);
+    }
+    @PutMapping("/updateC")
+    public Commentaire updateC (@RequestBody Commentaire com){
+    return iCommentaire.updateC(com);
+    }
+    @DeleteMapping("/deleteC/{idC}")
+    public void deleteC (@PathVariable int idC){
+    iCommentaire.deleteC(idC);
+    }
+
+    @GetMapping("/retrieveALLC")
+    public List<Commentaire> retrieveAllC (){
+    return iCommentaire.retrieveAllC();
+    }
+    @GetMapping("/retieveByKeyWordsC")
+    public List<Commentaire> retrieveByKeyWords(@RequestParam String keyWords){
+    return iCommentaire.retrieveByKeyWords(keyWords);
+    }
+}
