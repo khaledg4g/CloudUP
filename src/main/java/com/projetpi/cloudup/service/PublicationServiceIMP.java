@@ -13,6 +13,7 @@ import java.util.Optional;
 @Service
 @NoArgsConstructor
 public class PublicationServiceIMP implements IPublication {
+    @Autowired
 
     public PublicationRepository publicationRepository;
 
@@ -24,7 +25,7 @@ public class PublicationServiceIMP implements IPublication {
 
     @Override
     public Publication updatePub(Publication pub) {
-        Optional<Publication> existingPubOptional= publicationRepository.findById((long) pub.getId_pub());
+        Optional<Publication> existingPubOptional = publicationRepository.findById((long) pub.getId_pub());
         if (existingPubOptional.isPresent()) {
             Publication existingPub = existingPubOptional.get();
             existingPub.setContenuP(pub.getContenuP());
@@ -40,7 +41,6 @@ public class PublicationServiceIMP implements IPublication {
     public void deletePub(int idP) {
         publicationRepository.deleteById((long) idP);
     }
-
 
 
 }

@@ -26,7 +26,7 @@ public class ForumServiceIMP implements IForum {
     public List<Publication> retrieveByKeyWordscontaining(@RequestParam String keyWords
                                                 ) {
 
-            return publicationRepository.findByKeyWordsContainingP(keyWords);
+            return publicationRepository.findByKeyWords(keyWords);
 
     }
 }

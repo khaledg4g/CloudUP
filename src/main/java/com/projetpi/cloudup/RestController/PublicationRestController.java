@@ -11,6 +11,7 @@ import java.util.List;
 @RestController
 @NoArgsConstructor
 public class PublicationRestController {
+    @Autowired
     public IPublication iPublication;
 
 

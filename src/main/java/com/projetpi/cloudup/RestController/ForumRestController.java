@@ -15,15 +15,15 @@ import java.util.List;
 @RestController
 @NoArgsConstructor
 public class ForumRestController {
+    @Autowired
     public IForum iForum;
-
     @GetMapping("/retrieveAllP")
     public List<Publication> retrieveAll (){
         return iForum.retrieveAll();
     }
     @GetMapping("/retrieveByKeyWordsP")
     public List<Publication> retrieveByKeyWordsContaining(@RequestParam String keyWords)
-                                                 {
+    {
         return iForum.retrieveByKeyWordscontaining(keyWords);
 
     }

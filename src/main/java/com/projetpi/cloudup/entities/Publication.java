@@ -16,7 +16,7 @@ import java.util.List;
 @NoArgsConstructor
 @ToString
 public class Publication implements Serializable {
-    @Id
+   @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id_pub;
     @Temporal(TemporalType.DATE)
@@ -32,8 +32,8 @@ public class Publication implements Serializable {
     private Forum forum;
 
     @OneToMany (mappedBy = "publication")
-    private List<Commentaire> commentaires;
+    private List<Commentary> commentaries;
 
-    @ManyToOne
+   @ManyToOne
     private User user;
 }
