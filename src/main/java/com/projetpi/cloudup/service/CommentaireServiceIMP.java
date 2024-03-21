@@ -2,9 +2,12 @@ package com.projetpi.cloudup.service;
 
 import com.projetpi.cloudup.entities.Commentaire;
 import com.projetpi.cloudup.repository.CommentaireRepository;
+import com.projetpi.cloudup.repository.ForumRepository;
 import lombok.NoArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -12,6 +15,8 @@ import java.util.Optional;
 @NoArgsConstructor
 public class CommentaireServiceIMP implements ICommentaire {
     public CommentaireRepository commentaireRepository;
+
+
     @Override
     public Commentaire addC(Commentaire com) {
         return commentaireRepository.save(com);
@@ -39,6 +44,8 @@ public class CommentaireServiceIMP implements ICommentaire {
 
     @Override
     public List<Commentaire> retrieveByKeyWords(String keyWords) {
-        return commentaireRepository.findByKeyWordsContaining(keyWords);
+
+            return commentaireRepository.findByKeyWordsContainingC(keyWords);
+
     }
 }

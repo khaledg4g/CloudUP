@@ -10,4 +10,5 @@ public interface ICommentaire {
     public void deleteC (int idC);
     public List<Commentaire> retrieveAllC ();
     public List<Commentaire> retrieveByKeyWords(String keyWords);
+
 }

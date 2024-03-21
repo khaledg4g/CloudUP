@@ -17,9 +17,9 @@ public class User {
 
     private int    iduser;
     private String nom;
+    private String mail;
 
-    @OneToMany(mappedBy = "user")
-    private List<Collaboration> collaborations;
+
 
     @OneToMany(mappedBy = "user")
     private List<Publication> publications;
