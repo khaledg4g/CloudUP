@@ -14,8 +14,12 @@ import java.util.List;
 @Service
 @NoArgsConstructor
 public class ForumServiceIMP implements IForum {
-@Autowired
-    private PublicationRepository publicationRepository;
+private PublicationRepository publicationRepository;
+
+    @Autowired
+    public ForumServiceIMP(PublicationRepository publicationRepository) {
+        this.publicationRepository = publicationRepository;
+    }
 
     @Override
     public List<Publication> retrieveAll() {
@@ -23,10 +27,19 @@ public class ForumServiceIMP implements IForum {
     }
 
     @Override
-    public List<Publication> retrieveByKeyWordscontaining(@RequestParam String keyWords
+    public List<Publication> retrieveByKeyWords(@RequestParam String keyWords
                                                 ) {
 
-            return publicationRepository.findByKeyWords(keyWords);
+            return publicationRepository.findByKeyWordsContaining(keyWords);
 
+    }
+  @Override
+    public List<Publication> retrieveBySubject (@RequestParam String subject){
+        return publicationRepository.findBySubjectContaining(subject);
+    }
+
+    @Override
+    public List<Publication> retrieveByContent (@RequestParam String content) {
+        return publicationRepository.findByContentContaining(content);
     }
 }

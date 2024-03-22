@@ -15,7 +15,7 @@ public class CommentaryRestController {
     public ICommentary iCommentary;
 
 
-    @PostMapping("/addCom")
+   @PostMapping("/addCom")
     public Commentary addC (@RequestBody Commentary com){
         return iCommentary.addC(com);
     }
@@ -37,6 +37,10 @@ public class CommentaryRestController {
 
             return iCommentary.retrieveByKeyWords(keyWords);
 
+    }
+    @GetMapping("/retrieveByContentC")
+    public List<Commentary> retrieveByContent(@RequestBody String content){
+        return iCommentary.findByContent(content);
     }
 
 }

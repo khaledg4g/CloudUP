@@ -11,8 +11,12 @@ import java.util.List;
 @RestController
 @NoArgsConstructor
 public class PublicationRestController {
-    @Autowired
     public IPublication iPublication;
+
+    @Autowired
+    public PublicationRestController(IPublication iPublication) {
+        this.iPublication = iPublication;
+    }
 
 
     @PostMapping("/addPub")

@@ -7,5 +7,9 @@ import java.util.List;
 
 public interface PublicationRepository extends JpaRepository<Publication,Long> {
 
-    List<Publication> findByKeyWords(String keyWords);
+    List<Publication> findByKeyWordsContaining(String keyWords);
+
+    List<Publication> findBySubjectContaining(String subject);
+
+    List<Publication> findByContentContaining(String content);
 }

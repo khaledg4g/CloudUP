@@ -1,5 +1,6 @@
 package com.projetpi.cloudup.service;
 
+import com.projetpi.cloudup.entities.Commentary;
 import com.projetpi.cloudup.entities.Publication;
 
 import java.util.List;

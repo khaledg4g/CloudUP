@@ -6,6 +6,8 @@ import java.util.List;
 
 public interface IForum {
     public List<Publication> retrieveAll ();
-    public List<Publication> retrieveByKeyWordscontaining(String keyWords);
+    public List<Publication> retrieveByKeyWords(String keyWords);
+    public List<Publication> retrieveBySubject(String subject);
+    public List<Publication> retrieveByContent (String content);
 
 }

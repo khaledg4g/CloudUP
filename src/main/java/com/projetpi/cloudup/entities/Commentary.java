@@ -19,15 +19,20 @@ public class Commentary implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id_com;
     @Temporal(TemporalType.DATE)
-    private Date datePublication;
-    private String contenuC;
+    private Date datePublication= new Date();
+    private String content;
     private String keyWords;
     private int votePositif;
     private int voteNegatif;
+    private boolean solution;
 
     @ManyToOne
+    @JoinColumn(name = "id_pub",referencedColumnName = "id_pub")
     private Publication publication;
 
     @ManyToOne
     private User user;
+
+
+
 }

@@ -11,4 +11,6 @@ public interface ICommentary {
     public List<Commentary> retrieveAllC ();
     public List<Commentary> retrieveByKeyWords(String keyWords);
 
+    public List<Commentary> findByContent(String content);
+
 }
