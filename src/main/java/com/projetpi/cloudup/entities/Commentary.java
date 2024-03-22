@@ -24,14 +24,13 @@ public class Commentary implements Serializable {
     private String keyWords;
     private int votePositif;
     private int voteNegatif;
-    private boolean solution;
+    private boolean solution=false;
 
     @ManyToOne
-    @JoinColumn(name = "id_pub",referencedColumnName = "id_pub")
-    private Publication publication;
+    Publication publication;
 
     @ManyToOne
-    private User user;
+    User user;
 
 
 

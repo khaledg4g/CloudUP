@@ -1,5 +1,6 @@
 package com.projetpi.cloudup.service;
 
+import com.projetpi.cloudup.entities.Forum;
 import com.projetpi.cloudup.entities.Publication;
 import com.projetpi.cloudup.repository.ForumRepository;
 import com.projetpi.cloudup.repository.PublicationRepository;
@@ -14,11 +15,25 @@ import java.util.List;
 @Service
 @NoArgsConstructor
 public class ForumServiceIMP implements IForum {
+    private ForumRepository forumRepository;
+    @Autowired
 private PublicationRepository publicationRepository;
 
     @Autowired
-    public ForumServiceIMP(PublicationRepository publicationRepository) {
+    public ForumServiceIMP(PublicationRepository publicationRepository, ForumRepository forumRepository) {
         this.publicationRepository = publicationRepository;
+        this.forumRepository = forumRepository;
+    }
+
+
+    @Override
+    public Forum addForum(Forum f) {
+        return forumRepository.save(f);
+    }
+
+    @Override
+    public void deleteForum(Long idf) {
+forumRepository.deleteById(idf);
     }
 
     @Override

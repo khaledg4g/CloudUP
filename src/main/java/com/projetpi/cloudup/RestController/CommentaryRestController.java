@@ -1,9 +1,11 @@
 package com.projetpi.cloudup.RestController;
 
 import com.projetpi.cloudup.entities.Commentary;
+import com.projetpi.cloudup.entities.Publication;
 import com.projetpi.cloudup.service.ICommentary;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -15,9 +17,9 @@ public class CommentaryRestController {
     public ICommentary iCommentary;
 
 
-   @PostMapping("/addCom")
-    public Commentary addC (@RequestBody Commentary com){
-        return iCommentary.addC(com);
+   @PostMapping("/addCom/{idpub}")
+    public Commentary addC (@RequestBody Commentary com, @PathVariable Long idpub){
+        return iCommentary.addCommentToPub(com,idpub);
     }
     @PutMapping("/updateC")
     public Commentary updateC (@RequestBody Commentary com){
@@ -43,4 +45,14 @@ public class CommentaryRestController {
         return iCommentary.findByContent(content);
     }
 
+    @PutMapping("/{commentId}/upvote")
+    public ResponseEntity<?> upvoteCommentary(@PathVariable("commentId") int commentId) {
+        iCommentary.upvoteCommentary(commentId);
+        return ResponseEntity.ok().build();
+    }
+    @PutMapping("/{commentId}/downvote")
+    public ResponseEntity<?> downvoteCommentary(@PathVariable("commentId") int commentId) {
+        iCommentary.downvoteCommentary(commentId);
+        return ResponseEntity.ok().build();
+    }
 }

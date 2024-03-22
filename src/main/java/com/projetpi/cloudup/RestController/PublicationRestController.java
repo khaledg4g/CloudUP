@@ -4,6 +4,7 @@ import com.projetpi.cloudup.entities.Publication;
 import com.projetpi.cloudup.service.IPublication;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -19,9 +20,9 @@ public class PublicationRestController {
     }
 
 
-    @PostMapping("/addPub")
-    public Publication addPub(@RequestBody Publication pub) {
-        return iPublication.addPub(pub);
+    @PostMapping("/addPub/{idf}")
+    public Publication addPub(@RequestBody Publication pub, @PathVariable Long idf) {
+        return iPublication.addPubtoForum(pub,idf);
     }
 
     @PutMapping("/updatePub")
@@ -32,5 +33,11 @@ public class PublicationRestController {
     @DeleteMapping("/deletePub/{idP}")
     public void deletePub(@PathVariable int idP) {
         iPublication.deletePub(idP);
+    }
+
+    @PutMapping("/publications/{id}/increment-views")
+    public ResponseEntity<?> incrementViewsForPublication(@PathVariable Long id) {
+        iPublication.incrementViews(id);
+        return ResponseEntity.ok().build();
     }
 }

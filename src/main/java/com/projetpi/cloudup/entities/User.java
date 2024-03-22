@@ -5,6 +5,7 @@ import lombok.*;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Set;
 
 @Data
 @AllArgsConstructor
@@ -21,11 +22,11 @@ public class User implements Serializable {
  private String mail;
 
 
-    @OneToMany(mappedBy = "user")
-    private List<Publication> publications;
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private Set<Publication> publications;
 
-    @OneToMany(mappedBy = "user")
-    private List<Commentary>commentaries;
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private Set<Commentary>commentaries;
 
 
 

@@ -1,14 +1,12 @@
 package com.projetpi.cloudup.RestController;
 
 
+import com.projetpi.cloudup.entities.Forum;
 import com.projetpi.cloudup.entities.Publication;
 import com.projetpi.cloudup.service.IForum;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Collections;
 import java.util.List;
@@ -21,6 +19,14 @@ public class ForumRestController {
     @Autowired
     public ForumRestController(IForum iForum) {
         this.iForum = iForum;
+    }
+
+    @PostMapping("/addForum")
+    public Forum addForum (@RequestBody Forum f){return iForum.addForum(f);}
+
+    @DeleteMapping("/deleteForum/{idf}")
+    public void deleteForum(@PathVariable Long idf) {
+        iForum.deleteForum(idf);
     }
 
     @GetMapping("/retrieveAllP")

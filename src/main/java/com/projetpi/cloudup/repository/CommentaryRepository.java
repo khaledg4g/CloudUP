@@ -9,4 +9,5 @@ public interface CommentaryRepository extends JpaRepository<Commentary,Long> {
     List<Commentary> findByKeyWordsContaining(String keyWords);
 
     List<Commentary> findByContentContaining(String content) ;
+
 }

@@ -9,9 +9,11 @@ import lombok.ToString;
 import org.hibernate.annotations.GenericGenerator;
 
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 @Entity
@@ -20,6 +22,8 @@ import java.util.UUID;
 @NoArgsConstructor
 @ToString
 public class Publication implements Serializable {
+ @Serial
+ private static final long serialVersionUID=1L;
    @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id_pub;
@@ -35,21 +39,13 @@ public class Publication implements Serializable {
     private String cloture;
 
     @ManyToOne
-    private Forum forum;
+    Forum forum;
 
- @OneToMany(mappedBy = "publication", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Commentary> commentaries;
+ @OneToMany(mappedBy = "publication", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private Set<Commentary> commentaries;
 
    @ManyToOne
-    private User user;
-@Transactional
- public void addCommentary(Commentary commentary) {
-  commentaries.add(commentary);
-  commentary.setPublication(this);
- }
- public void removeCommentary(Commentary commentary) {
-  commentaries.remove(commentary);
-  commentary.setPublication(null);
-  this.setNbr_com(commentaries.size());
- }
+   User user;
+
+
 }
