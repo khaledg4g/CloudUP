@@ -2,8 +2,10 @@ package com.projetpi.cloudup.service;
 
 import com.projetpi.cloudup.entities.Commentary;
 import com.projetpi.cloudup.entities.Publication;
+import com.projetpi.cloudup.entities.User;
 import com.projetpi.cloudup.repository.CommentaryRepository;
 import com.projetpi.cloudup.repository.PublicationRepository;
+import com.projetpi.cloudup.repository.UserRepository;
 import jakarta.transaction.Transactional;
 import lombok.NoArgsConstructor;
 import org.hibernate.validator.internal.util.stereotypes.Lazy;
@@ -23,6 +25,8 @@ public class CommentaryServiceIMP implements ICommentary {
     private CommentaryRepository commentaryRepository;
     @Autowired
 private PublicationRepository publicationRepository;
+    @Autowired
+    private UserRepository userRepository;
 
     @Autowired
     public CommentaryServiceIMP(CommentaryRepository commentaryRepository, PublicationRepository publicationRepository) {
@@ -32,14 +36,18 @@ private PublicationRepository publicationRepository;
 
     @Override
     @Transactional
-    public Commentary addCommentToPub (Commentary com, Long idpub) {
+    public Commentary addCommentToPubUser (Commentary com, Long idpub, Long idu) {
 
         Publication publication = publicationRepository.findById(idpub).orElse(null);
-        if (publication !=null) {
+        User user= userRepository.findById(idu).orElse(null);
+        if ((publication != null && user != null) && (!publication.getClosed().equals("true"))) {
             com.setPublication(publication);
+            com.setUser(user);
             publication.setNbr_com(publication.getNbr_com() + 1);
+            user.setNbr_com(user.getNbr_com()+1);
+            return commentaryRepository.save(com);
         }
-        return commentaryRepository.save(com);
+        return null;
     }
 
     @Override
@@ -92,17 +100,7 @@ private PublicationRepository publicationRepository;
             commentaryRepository.save(com);
         }
     }
-    @Override
-    @Transactional
-    public void markAsSolution(Commentary com) {
-        int positiveVotes = com.getVotePositif();
-        int negativeVotes = com.getVoteNegatif();
-        int threshold = 5;
-        if (positiveVotes > negativeVotes + threshold)
-            com.setSolution(true);
 
-        commentaryRepository.save(com);
-    }
 
 
 }

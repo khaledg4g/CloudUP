@@ -17,9 +17,9 @@ public class CommentaryRestController {
     public ICommentary iCommentary;
 
 
-   @PostMapping("/addCom/{idpub}")
-    public Commentary addC (@RequestBody Commentary com, @PathVariable Long idpub){
-        return iCommentary.addCommentToPub(com,idpub);
+   @PostMapping("/addCom/{idu}/{idpub}")
+    public Commentary addC (@RequestBody Commentary com, @PathVariable Long idpub, @PathVariable Long idu){
+        return iCommentary.addCommentToPubUser(com,idpub, idu);
     }
     @PutMapping("/updateC")
     public Commentary updateC (@RequestBody Commentary com){

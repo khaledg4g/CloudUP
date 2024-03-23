@@ -20,6 +20,8 @@ public class User implements Serializable {
  private int    id;
  private String nom;
  private String mail;
+ private int nbr_pub;
+ private int nbr_com;
 
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)

@@ -29,7 +29,7 @@ public class ForumRestController {
         iForum.deleteForum(idf);
     }
 
-    @GetMapping("/retrieveAllP")
+    @GetMapping("/retrieveAllPofForum")
     public List<Publication> retrieveAll (){
         return iForum.retrieveAll();
     }

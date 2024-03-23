@@ -24,7 +24,7 @@ public class Commentary implements Serializable {
     private String keyWords;
     private int votePositif;
     private int voteNegatif;
-    private boolean solution=false;
+    private String solution="false";
 
     @ManyToOne
     Publication publication;

@@ -20,9 +20,9 @@ public class PublicationRestController {
     }
 
 
-    @PostMapping("/addPub/{idf}")
-    public Publication addPub(@RequestBody Publication pub, @PathVariable Long idf) {
-        return iPublication.addPubtoForum(pub,idf);
+    @PostMapping("/addPub/{idu}/{idf}")
+    public Publication addPub(@RequestBody Publication pub, @PathVariable Long idf,@PathVariable Long idu) {
+        return iPublication.addPubtoForumUser(pub,idf,idu);
     }
 
     @PutMapping("/updatePub")
@@ -39,5 +39,11 @@ public class PublicationRestController {
     public ResponseEntity<?> incrementViewsForPublication(@PathVariable Long id) {
         iPublication.incrementViews(id);
         return ResponseEntity.ok().build();
+    }
+
+    @PutMapping("/mark-solution-and-close")
+    public ResponseEntity<String> markSolutionAndClosePublication() {
+        iPublication.markSolutionAndClosePublication();
+        return ResponseEntity.ok("Method executed successfully!");
     }
 }

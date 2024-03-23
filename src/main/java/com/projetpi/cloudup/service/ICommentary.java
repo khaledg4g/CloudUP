@@ -6,7 +6,7 @@ import com.projetpi.cloudup.entities.Publication;
 import java.util.List;
 
 public interface ICommentary {
-    public Commentary addCommentToPub (Commentary com, Long idpub);
+    public Commentary addCommentToPubUser (Commentary com, Long idpub, Long idu);
     public Commentary updateC (Commentary com);
     public void deleteC (int idC);
     public List<Commentary> retrieveAllC ();
@@ -16,6 +16,6 @@ public interface ICommentary {
 
     public void upvoteCommentary(int commentId);
     public void downvoteCommentary(int commentId);
-    public void markAsSolution (Commentary com);
+
 
 }

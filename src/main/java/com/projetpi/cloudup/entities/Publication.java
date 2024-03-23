@@ -36,7 +36,7 @@ public class Publication implements Serializable {
     private String keyWords;
     private int nbr_vue;
     private int nbr_com;
-    private String cloture;
+    private String closed="false";
 
     @ManyToOne
     Forum forum;
