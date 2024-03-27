@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mappings xmlns="http://dozer.sourceforge.net"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://dozer.sourceforge.net
+          http://dozer.sourceforge.net/schema/beanmapping.xsd">
+    <configuration>
+        <stop-on-errors>false</stop-on-errors>
+
+    </configuration>
+    <mapping>
+        <class-a>com.projetpi.cloudup.entities.Product</class-a>
+        <class-b>com.projetpi.cloudup.dto.ProductDto</class-b>
+    </mapping>
+    <mapping>
+        <class-a>com.projetpi.cloudup.entities.Product</class-a>
+        <class-b>com.projetpi.cloudup.dto.ProductSummaryDto</class-b>
+    </mapping>
+    <mapping>
+        <class-a>com.projetpi.cloudup.entities.Command</class-a>
+        <class-b>com.projetpi.cloudup.dto.CommandDto</class-b>
+    </mapping>
+    <mapping>
+        <class-a>com.projetpi.cloudup.entities.CommandProduct</class-a>
+        <class-b>com.projetpi.cloudup.dto.CommandProductDto</class-b>
+    </mapping>
+
+</mappings>
