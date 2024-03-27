@@ -19,4 +19,7 @@ public interface PublicationRepository extends JpaRepository<Publication,Long> {
     List<Publication> findByidpub(int idpub);
 
     List<Publication> findByCategoriesContaining(categories category);
+    
+
+
 }

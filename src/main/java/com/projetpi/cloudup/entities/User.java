@@ -1,5 +1,6 @@
 package com.projetpi.cloudup.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -25,9 +26,11 @@ public class User implements Serializable {
 
 
     @OneToMany(mappedBy = "user")// ,cascade = CascadeType.ALL)
+    @JsonIgnore
     private Set<Publication> publications;
 
     @OneToMany(mappedBy = "user")//, cascade = CascadeType.ALL)
+    @JsonIgnore
     private Set<Commentary>commentaries;
 
 

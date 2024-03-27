@@ -8,6 +8,7 @@ import com.projetpi.cloudup.repository.PublicationRepository;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.ArrayList;
@@ -17,13 +18,13 @@ import java.util.List;
 @NoArgsConstructor
 public class ForumServiceIMP implements IForum {
     private ForumRepository forumRepository;
-    @Autowired
-private PublicationRepository publicationRepository;
+    private PublicationRepository publicationRepository;
 
     @Autowired
-    public ForumServiceIMP(PublicationRepository publicationRepository, ForumRepository forumRepository) {
-        this.publicationRepository = publicationRepository;
+    public ForumServiceIMP( ForumRepository forumRepository, PublicationRepository publicationRepository) {
+
         this.forumRepository = forumRepository;
+        this.publicationRepository = publicationRepository;
     }
 
 
@@ -42,8 +43,12 @@ forumRepository.deleteById(idf);
         return publicationRepository.findAll();
     }
 
-    @Override
-    public List<Publication> retrievePById(int idpub) {return publicationRepository.findByidpub(idpub);}
+@Override
+public List<Publication> retrieveById(int idpub){
+        return publicationRepository.findByidpub(idpub);
+}
+
+
 
    /* @Override
     public List<Publication> retrieveSubjectDate() {
@@ -80,7 +85,7 @@ forumRepository.deleteById(idf);
         return publicationRepository.findByContentContaining(content);
     }
     @Override
-    public List<Publication> retrieveByCategories(@RequestParam categories categories){
+    public List<Publication> retrieveByCategories(categories categories){
         return publicationRepository.findByCategoriesContaining(categories);
     }
 }

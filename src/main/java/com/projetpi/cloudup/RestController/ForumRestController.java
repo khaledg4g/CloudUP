@@ -7,10 +7,7 @@ import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 @RestController
@@ -40,14 +37,16 @@ public class ForumRestController {
                 .collect(Collectors.toList());
         return publicationDTOs;
     }
-@GetMapping("/retrieveByID/{idpub}")
-public List<PublicationDTO> retrieveById (@PathVariable int idpub){
-        List<Publication> publications = iForum.retrievePById(idpub);
-    List<PublicationDTO> publicationDTOs = publications.stream()
-            .map(this::convertToDto)
-            .collect(Collectors.toList());
-    return publicationDTOs;
+
+@GetMapping("/retrieveByIdPub/{idpub}")
+public List<PublicationDTO> retrieveByIdPub (@PathVariable("idpub") Integer idpub){
+        List<Publication> publications = iForum.retrieveById(idpub);
+        List<PublicationDTO> publicationDTOS = publications.stream()
+                .map(this:: convertToDto)
+                .collect(Collectors.toList());
+        return publicationDTOS;
 }
+
 
 
     @GetMapping("/retrieveByTagsP")
@@ -78,9 +77,9 @@ public List<PublicationDTO> retrieveById (@PathVariable int idpub){
     }
 
 
-    @GetMapping("/retrieveByCategory")
-    public List<PublicationDTO> retrieveByCategories(@RequestParam categories category) {
-        List<Publication> publications = iForum.retrieveByCategories(category);
+    @GetMapping("/retrieveByCategories/{categories}")
+    public List<PublicationDTO> retrieveByCategories(@PathVariable categories categories) {
+        List<Publication> publications = iForum.retrieveByCategories(categories);
         List<PublicationDTO> publicationDTOS = publications.stream()
                 .map(this::convertToDto)
                 .collect(Collectors.toList());

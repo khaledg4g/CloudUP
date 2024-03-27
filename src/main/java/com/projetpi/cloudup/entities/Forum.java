@@ -1,5 +1,6 @@
 package com.projetpi.cloudup.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -20,7 +21,7 @@ public class Forum implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id_Forum;
     private int nbr_pub;
-
+@JsonIgnore
     @OneToMany(mappedBy="forum")//, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Set<Publication> publications;
 

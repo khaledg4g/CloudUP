@@ -11,11 +11,11 @@ public interface IForum {
     public Forum addForum (Forum f);
     public void deleteForum (Long idf);
     public List<Publication> retrieveAll ();
-    /*public List<Publication> retrieveSubjectDate();*/
-    public List<Publication> retrievePById(int id_pub);
+List<Publication> retrieveById (int idpub);
     public List<Publication> retrieveByTags(String tags);
     public List<Publication> retrieveBySubject(String subject);
     public List<Publication> retrieveByContent (String content);
 
     List<Publication> retrieveByCategories(categories categories);
+
 }
