@@ -11,6 +11,7 @@ import java.util.List;
 
 @RestController
 @NoArgsConstructor
+@CrossOrigin("*")
 public class PublicationRestController {
     public IPublication iPublication;
 
@@ -20,7 +21,7 @@ public class PublicationRestController {
     }
 
 
-    @PostMapping("/addPub/{idu}/{idf}")
+    @PostMapping("/{idu}/{idf}/addPub")
     public Publication addPub(@RequestBody Publication pub, @PathVariable Long idf,@PathVariable Long idu) {
         return iPublication.addPubtoForumUser(pub,idf,idu);
     }

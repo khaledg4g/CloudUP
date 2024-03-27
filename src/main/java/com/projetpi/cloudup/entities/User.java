@@ -24,10 +24,10 @@ public class User implements Serializable {
  private int nbr_com;
 
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "user")// ,cascade = CascadeType.ALL)
     private Set<Publication> publications;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "user")//, cascade = CascadeType.ALL)
     private Set<Commentary>commentaries;
 
 

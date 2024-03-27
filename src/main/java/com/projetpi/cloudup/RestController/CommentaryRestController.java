@@ -1,7 +1,7 @@
 package com.projetpi.cloudup.RestController;
 
-import com.projetpi.cloudup.entities.Commentary;
-import com.projetpi.cloudup.entities.Publication;
+import com.projetpi.cloudup.entities.*;
+import com.projetpi.cloudup.repository.CommentaryRepository;
 import com.projetpi.cloudup.service.ICommentary;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,9 +9,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @NoArgsConstructor
+@CrossOrigin("*")
 public class CommentaryRestController {
     @Autowired
     public ICommentary iCommentary;
@@ -31,13 +33,20 @@ public class CommentaryRestController {
     }
 
     @GetMapping("/retrieveALLC")
-    public List<Commentary> retrieveAllC (){
-        return iCommentary.retrieveAllC();
+    public List<CommentaryDTO> retrieveAllC (){
+        List<Commentary> commentaries = iCommentary.retrieveAllC();
+        List<CommentaryDTO> commentaryDTOs = commentaries.stream()
+                .map(this::convertToDto)
+                .collect(Collectors.toList());
+        return commentaryDTOs;
     }
-    @GetMapping("/retrieveByKeyWordsC")
-    public List<Commentary> retrieveByKeyWords(@RequestParam String keyWords) {
 
-            return iCommentary.retrieveByKeyWords(keyWords);
+
+
+    @GetMapping("/retrieveByTagsC")
+    public List<Commentary> retrieveByTags(@RequestParam String tags) {
+
+            return iCommentary.retrieveByTags(tags);
 
     }
     @GetMapping("/retrieveByContentC")
@@ -54,5 +63,26 @@ public class CommentaryRestController {
     public ResponseEntity<?> downvoteCommentary(@PathVariable("commentId") int commentId) {
         iCommentary.downvoteCommentary(commentId);
         return ResponseEntity.ok().build();
+    }
+
+    private CommentaryDTO convertToDto(Commentary com) {
+        CommentaryDTO publicationDTO = new CommentaryDTO();
+        publicationDTO.setId_com(com.getId_com());
+        publicationDTO.setDatePublication(com.getDatePublication());
+        publicationDTO.setContent(com.getContent());
+        publicationDTO.setTags(com.getTags());
+        publicationDTO.setVotePositif(com.getVotePositif());
+        publicationDTO.setVoteNegatif(com.getVoteNegatif());
+        publicationDTO.setSolution(com.getSolution());
+        publicationDTO.setPublicationId(com.getPublication().getIdpub());
+        User user = com.getUser();
+        if (user != null) {
+            publicationDTO.setUserID(user.getId());
+            publicationDTO.setUsername(user.getNom());
+        } else {
+            publicationDTO.setUserID(0);
+            publicationDTO.setUsername("");
+        }
+        return publicationDTO;
     }
 }

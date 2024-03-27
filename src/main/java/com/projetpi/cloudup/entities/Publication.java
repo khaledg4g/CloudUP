@@ -26,26 +26,31 @@ public class Publication implements Serializable {
  private static final long serialVersionUID=1L;
    @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id_pub;
+    private int idpub;
 
 
     @Temporal(TemporalType.DATE)
     private Date datePub = new Date();
     private String subject;
     private String content;
-    private String keyWords;
-    private int nbr_vue;
-    private int nbr_com;
+    private String tags;
+    private int nbr_vue=0;
+    private int nbr_com=0;
+    @Enumerated( EnumType.STRING)
+    private categories categories;
     private String closed="false";
+    private String username;
 
     @ManyToOne
     Forum forum;
 
- @OneToMany(mappedBy = "publication", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+ @OneToMany(mappedBy = "publication")//, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Set<Commentary> commentaries;
 
    @ManyToOne
    User user;
 
 
+ public Publication(String subject, Date datePub) {
+ }
 }

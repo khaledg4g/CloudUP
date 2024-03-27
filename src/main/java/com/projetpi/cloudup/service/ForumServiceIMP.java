@@ -2,6 +2,7 @@ package com.projetpi.cloudup.service;
 
 import com.projetpi.cloudup.entities.Forum;
 import com.projetpi.cloudup.entities.Publication;
+import com.projetpi.cloudup.entities.categories;
 import com.projetpi.cloudup.repository.ForumRepository;
 import com.projetpi.cloudup.repository.PublicationRepository;
 import lombok.NoArgsConstructor;
@@ -9,7 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java.util.Collections;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -42,10 +43,31 @@ forumRepository.deleteById(idf);
     }
 
     @Override
-    public List<Publication> retrieveByKeyWords(@RequestParam String keyWords
+    public List<Publication> retrievePById(int idpub) {return publicationRepository.findByidpub(idpub);}
+
+   /* @Override
+    public List<Publication> retrieveSubjectDate() {
+        List<Forum> forums = forumRepository.findAll();
+        List<Publication> publicationsListe = new ArrayList<>();
+        for (Forum f : forums) {
+
+            for (Publication p : f.getPublications()) {
+                Publication pub = new Publication();
+                pub.setSubject(p.getSubject());
+                pub.setDatePub(p.getDatePub());
+
+                publicationsListe.add(pub);
+            }
+        }
+        return publicationsListe;
+    }*/
+
+
+    @Override
+    public List<Publication> retrieveByTags(@RequestParam String tags
                                                 ) {
 
-            return publicationRepository.findByKeyWordsContaining(keyWords);
+            return publicationRepository.findBytagsContaining(tags);
 
     }
   @Override
@@ -56,5 +78,9 @@ forumRepository.deleteById(idf);
     @Override
     public List<Publication> retrieveByContent (@RequestParam String content) {
         return publicationRepository.findByContentContaining(content);
+    }
+    @Override
+    public List<Publication> retrieveByCategories(@RequestParam categories categories){
+        return publicationRepository.findByCategoriesContaining(categories);
     }
 }

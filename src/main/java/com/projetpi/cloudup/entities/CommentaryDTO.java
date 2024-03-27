@@ -1,20 +1,16 @@
 package com.projetpi.cloudup.entities;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
-import java.io.Serializable;
 import java.util.Date;
-
 @Entity
-@Setter
 @Getter
+@Setter
 @NoArgsConstructor
+@AllArgsConstructor
 @ToString
-public class Commentary implements Serializable {
+public class CommentaryDTO {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id_com;
@@ -26,13 +22,7 @@ public class Commentary implements Serializable {
     private int voteNegatif;
     private String solution="false";
     private String username;
-
-    @ManyToOne
-    Publication publication;
-
-    @ManyToOne
-    User user;
-
-
+    private int PublicationId;
+    private int UserID;
 
 }

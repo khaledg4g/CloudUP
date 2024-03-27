@@ -21,7 +21,7 @@ public class Forum implements Serializable {
     private int id_Forum;
     private int nbr_pub;
 
-    @OneToMany(mappedBy="forum", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy="forum")//, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Set<Publication> publications;
 
 

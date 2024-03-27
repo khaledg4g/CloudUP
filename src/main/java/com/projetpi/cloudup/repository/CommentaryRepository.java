@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 public interface CommentaryRepository extends JpaRepository<Commentary,Long> {
-    List<Commentary> findByKeyWordsContaining(String keyWords);
+    List<Commentary> findBytagsContaining(String tags);
 
     List<Commentary> findByContentContaining(String content) ;
 

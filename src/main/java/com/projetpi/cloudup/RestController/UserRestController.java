@@ -6,15 +6,13 @@ import com.projetpi.cloudup.entities.User;
 import com.projetpi.cloudup.service.IUser;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @NoArgsConstructor
+@CrossOrigin("*")
 public class UserRestController {
     public IUser iUser;
 

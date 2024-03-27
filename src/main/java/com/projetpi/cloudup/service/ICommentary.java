@@ -10,7 +10,7 @@ public interface ICommentary {
     public Commentary updateC (Commentary com);
     public void deleteC (int idC);
     public List<Commentary> retrieveAllC ();
-    public List<Commentary> retrieveByKeyWords(String keyWords);
+    public List<Commentary> retrieveByTags(String tags);
 
     public List<Commentary> findByContent(String content);
 

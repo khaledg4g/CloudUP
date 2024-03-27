@@ -49,11 +49,11 @@ public class PublicationServiceIMP implements IPublication {
 
     @Override
     public Publication updatePub(Publication pub) {
-        Optional<Publication> existingPubOptional = publicationRepository.findById((long) pub.getId_pub());
+        Optional<Publication> existingPubOptional = publicationRepository.findById((long) pub.getIdpub());
         if (existingPubOptional.isPresent()) {
             Publication existingPub = existingPubOptional.get();
             existingPub.setContent(pub.getContent());
-            existingPub.setKeyWords(pub.getKeyWords());
+            existingPub.setTags(pub.getTags());
 
             return publicationRepository.save(existingPub);
         } else {

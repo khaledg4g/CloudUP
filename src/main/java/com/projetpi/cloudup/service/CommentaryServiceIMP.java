@@ -56,7 +56,7 @@ private PublicationRepository publicationRepository;
         if (existingComOptional.isPresent()){
             Commentary comexisting= existingComOptional.get();
             comexisting.setContent(com.getContent());
-            comexisting.setKeyWords(com.getKeyWords());
+            comexisting.setTags(com.getTags());
             return commentaryRepository.save(comexisting);
         } else {return null;}
     }
@@ -72,8 +72,8 @@ private PublicationRepository publicationRepository;
     }
 
     @Override
-    public List<Commentary> retrieveByKeyWords(String keyWords) {
-        return commentaryRepository.findByKeyWordsContaining(keyWords);
+    public List<Commentary> retrieveByTags(String tags) {
+        return commentaryRepository.findBytagsContaining(tags);
     }
 
     @Override
@@ -100,6 +100,7 @@ private PublicationRepository publicationRepository;
             commentaryRepository.save(com);
         }
     }
+
 
 
 
