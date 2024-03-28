@@ -39,7 +39,7 @@ public class ForumRestController {
     }
 
 @GetMapping("/retrieveByIdPub/{idpub}")
-public List<PublicationDTO> retrieveByIdPub (@PathVariable("idpub") Integer idpub){
+public List<PublicationDTO> retrieveByIdPub (@PathVariable("idpub")int idpub){
         List<Publication> publications = iForum.retrieveById(idpub);
         List<PublicationDTO> publicationDTOS = publications.stream()
                 .map(this:: convertToDto)

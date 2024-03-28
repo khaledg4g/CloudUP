@@ -32,14 +32,7 @@ public class CommentaryRestController {
         iCommentary.deleteC(idC);
     }
 
-    @GetMapping("/retrieveALLC")
-    public List<CommentaryDTO> retrieveAllC (){
-        List<Commentary> commentaries = iCommentary.retrieveAllC();
-        List<CommentaryDTO> commentaryDTOs = commentaries.stream()
-                .map(this::convertToDto)
-                .collect(Collectors.toList());
-        return commentaryDTOs;
-    }
+
 
 
 
@@ -67,14 +60,14 @@ public class CommentaryRestController {
 
     private CommentaryDTO convertToDto(Commentary com) {
         CommentaryDTO publicationDTO = new CommentaryDTO();
-        publicationDTO.setId_com(com.getId_com());
+        publicationDTO.setIdCom(com.getIdCom());
         publicationDTO.setDatePublication(com.getDatePublication());
         publicationDTO.setContent(com.getContent());
         publicationDTO.setTags(com.getTags());
         publicationDTO.setVotePositif(com.getVotePositif());
         publicationDTO.setVoteNegatif(com.getVoteNegatif());
         publicationDTO.setSolution(com.getSolution());
-        publicationDTO.setPublicationId(com.getPublication().getIdpub());
+        publicationDTO.setIdpub(com.getPublication().getIdpub());
         User user = com.getUser();
         if (user != null) {
             publicationDTO.setUserID(user.getId());

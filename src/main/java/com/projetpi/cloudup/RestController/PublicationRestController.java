@@ -1,13 +1,18 @@
 package com.projetpi.cloudup.RestController;
 
+import com.projetpi.cloudup.entities.Commentary;
+import com.projetpi.cloudup.entities.CommentaryDTO;
 import com.projetpi.cloudup.entities.Publication;
+import com.projetpi.cloudup.entities.User;
 import com.projetpi.cloudup.service.IPublication;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @NoArgsConstructor
@@ -46,5 +51,39 @@ public class PublicationRestController {
     public ResponseEntity<String> markSolutionAndClosePublication() {
         iPublication.markSolutionAndClosePublication();
         return ResponseEntity.ok("Method executed successfully!");
+    }
+
+    @GetMapping("/retrieveALLC/{idpub}")
+    public List<CommentaryDTO> retrieveAllC(@PathVariable int idpub) {
+        Publication publication = iPublication.findById(idpub);
+        if (publication != null) {
+            List<Commentary> commentaries = iPublication.retrieveAllCByPub(publication.getIdpub());
+            List<CommentaryDTO> commentaryDTOs = commentaries.stream()
+                    .map(this::convertToDto)
+                    .collect(Collectors.toList());
+            return commentaryDTOs;
+        }
+        return Collections.emptyList();
+    }
+
+    private CommentaryDTO convertToDto (Commentary commentary) {
+        CommentaryDTO commentaryDTO = new CommentaryDTO();
+        commentaryDTO.setIdCom(commentary.getIdCom());
+        commentaryDTO.setDatePublication(commentary.getDatePublication());
+        commentaryDTO.setContent(commentary.getContent());
+        commentaryDTO.setTags(commentary.getTags());
+        commentaryDTO.setVotePositif(commentary.getVotePositif());
+        commentaryDTO.setVoteNegatif(commentary.getVoteNegatif());
+        commentaryDTO.setSolution(commentary.getSolution());
+        User user = commentary.getUser();
+        if (user != null) {
+            commentaryDTO.setUserID(user.getId());
+            commentaryDTO.setUsername(user.getNom());
+        } else {
+            commentaryDTO.setUserID(0);
+            commentaryDTO.setUsername("");
+        }
+        commentaryDTO.setIdpub(commentaryDTO.getIdpub());
+return commentaryDTO;
     }
 }

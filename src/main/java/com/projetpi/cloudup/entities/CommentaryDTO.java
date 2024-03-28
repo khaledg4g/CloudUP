@@ -13,7 +13,7 @@ import java.util.Date;
 public class CommentaryDTO {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id_com;
+    private int idCom;
     @Temporal(TemporalType.DATE)
     private Date datePublication= new Date();
     private String content;
@@ -22,7 +22,9 @@ public class CommentaryDTO {
     private int voteNegatif;
     private String solution="false";
     private String username;
-    private int PublicationId;
+    private int idpub;
     private int UserID;
 
 }
+
+

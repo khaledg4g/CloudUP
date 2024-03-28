@@ -17,7 +17,7 @@ import java.util.Date;
 public class Commentary implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id_com;
+    private int idCom;
     @Temporal(TemporalType.DATE)
     private Date datePublication= new Date();
     private String content;
@@ -26,6 +26,7 @@ public class Commentary implements Serializable {
     private int voteNegatif;
     private String solution="false";
     private String username;
+    private int idpub;
 
     @ManyToOne
     Publication publication;

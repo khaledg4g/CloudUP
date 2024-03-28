@@ -114,6 +114,18 @@ public class PublicationServiceIMP implements IPublication {
         }
         return solutionComment;
     }
+    @Override
+    public List<Commentary> retrieveAllCByPub(int idpub) {
+        Publication publication = publicationRepository.findById((long) idpub).orElse(null);
+        if (publication != null) {
+            return commentaryRepository.findAllByPublication(publication);
+        }
+        return Collections.emptyList();
+    }
+
+    public Publication findById(int idpub) {
+        return publicationRepository.findById((long) idpub).orElse(null);
+    }
 }
 
 

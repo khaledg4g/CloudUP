@@ -52,7 +52,7 @@ private PublicationRepository publicationRepository;
 
     @Override
     public Commentary updateC(Commentary com) {
-        Optional<Commentary> existingComOptional= commentaryRepository.findById((long) com.getId_com());
+        Optional<Commentary> existingComOptional= commentaryRepository.findById((long) com.getIdCom());
         if (existingComOptional.isPresent()){
             Commentary comexisting= existingComOptional.get();
             comexisting.setContent(com.getContent());
@@ -66,10 +66,7 @@ private PublicationRepository publicationRepository;
         commentaryRepository.deleteById((long) idC);
     }
 
-    @Override
-    public List<Commentary> retrieveAllC() {
-        return commentaryRepository.findAll();
-    }
+
 
     @Override
     public List<Commentary> retrieveByTags(String tags) {
