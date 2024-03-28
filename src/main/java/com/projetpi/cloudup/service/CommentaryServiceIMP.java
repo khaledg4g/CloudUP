@@ -98,7 +98,15 @@ private PublicationRepository publicationRepository;
         }
     }
 
-
+    public int getCommentLikes(int idCom) {
+        Commentary comment = commentaryRepository.findById((long) idCom).orElse(null);
+        return comment.getVotePositif();
+    }
+    public int getCommentDislikes(int idCom) {
+        Commentary comment = commentaryRepository.findById((long) idCom)
+                .orElse(null) ;
+        return comment.getVoteNegatif();
+    }
 
 
 }

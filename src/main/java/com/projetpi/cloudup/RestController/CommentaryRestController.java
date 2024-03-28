@@ -43,7 +43,7 @@ public class CommentaryRestController {
 
     }
     @GetMapping("/retrieveByContentC")
-    public List<Commentary> retrieveByContent(@RequestBody String content){
+    public List<Commentary> retrieveByContent(@RequestParam String content){
         return iCommentary.findByContent(content);
     }
 
@@ -56,6 +56,17 @@ public class CommentaryRestController {
     public ResponseEntity<?> downvoteCommentary(@PathVariable("commentId") int commentId) {
         iCommentary.downvoteCommentary(commentId);
         return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/{commentId}/likes")
+    public ResponseEntity<Integer> getCommentLikes(@PathVariable("commentId") int commentId) {
+        int likes = iCommentary.getCommentLikes(commentId);
+        return ResponseEntity.ok(likes);
+    }
+    @GetMapping("/{commentId}/dislikes")
+    public ResponseEntity<Integer> getCommentDislikes(@PathVariable("commentId") int commentId) {
+        int dislikes = iCommentary.getCommentDislikes(commentId);
+        return ResponseEntity.ok(dislikes);
     }
 
     private CommentaryDTO convertToDto(Commentary com) {

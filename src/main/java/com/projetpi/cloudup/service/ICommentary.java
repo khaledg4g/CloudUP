@@ -15,6 +15,7 @@ public interface ICommentary {
 
     public void upvoteCommentary(int commentId);
     public void downvoteCommentary(int commentId);
-
+    public int getCommentLikes(int idCom);
+    public int getCommentDislikes(int idCom);
 
 }
