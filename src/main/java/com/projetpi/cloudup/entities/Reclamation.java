@@ -16,6 +16,7 @@ public class Reclamation implements Serializable {
     @Id
     private Integer id;
     private String description;
+    private String objet;
     private CategorieReclamation type;
     private EtatReclamation traite;
     @JsonIgnore
