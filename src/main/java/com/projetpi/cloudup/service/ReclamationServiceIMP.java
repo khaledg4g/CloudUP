@@ -1,5 +1,6 @@
 package com.projetpi.cloudup.service;
 
+import com.projetpi.cloudup.entities.EtatReclamation;
 import com.projetpi.cloudup.entities.Reclamation;
 import com.projetpi.cloudup.repository.ReclamationRepository;
 import lombok.AllArgsConstructor;
@@ -12,6 +13,7 @@ public class ReclamationServiceIMP implements IReclamation{
     private ReclamationRepository reclamationRepository;
     @Override
     public Reclamation AjouterReclamation(Reclamation reclamation) {
+        reclamation.setTraite(EtatReclamation.EnAttente);
         return reclamationRepository.save(reclamation);
     }
 
