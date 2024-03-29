@@ -64,6 +64,7 @@ public class PublicationServiceIMP implements IPublication {
     @Override
     public void deletePub(int idP) {
         publicationRepository.deleteById((long) idP);
+
     }
 
     @Override
@@ -86,7 +87,7 @@ public class PublicationServiceIMP implements IPublication {
 
         for (Forum forum : forums) {
             for (Publication publication : forum.getPublications()) {
-                if (publication.getClosed()==null){
+                if (Objects.equals(publication.getClosed(), "false")){
                     Commentary solutionComment = getCommentary(publication);
 
                     if (solutionComment != null) {

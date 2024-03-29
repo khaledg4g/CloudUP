@@ -15,9 +15,13 @@ import java.util.stream.Collectors;
 @NoArgsConstructor
 @CrossOrigin("*")
 public class CommentaryRestController {
-    @Autowired
+
     public ICommentary iCommentary;
 
+    @Autowired
+    public CommentaryRestController(ICommentary iCommentary){
+        this.iCommentary=iCommentary;
+    }
 
    @PostMapping("/addCom/{idu}/{idpub}")
     public Commentary addC (@RequestBody Commentary com, @PathVariable Long idpub, @PathVariable Long idu){

@@ -63,7 +63,15 @@ private PublicationRepository publicationRepository;
 
     @Override
     public void deleteC(int idC) {
+
         commentaryRepository.deleteById((long) idC);
+        Optional<Commentary> existingComOptional = commentaryRepository.findById((long) idC);
+        if (existingComOptional.isPresent()) {
+            Commentary com = existingComOptional.get();
+            com.setVoteNegatif(com.getVoteNegatif() - 1);
+            commentaryRepository.save(com);
+        }
+
     }
 
 
