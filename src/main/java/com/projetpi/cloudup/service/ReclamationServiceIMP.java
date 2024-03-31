@@ -31,9 +31,9 @@ public class ReclamationServiceIMP implements IReclamation{
     public Reclamation UpdateReclamation(Reclamation reclamation) {
         Reclamation reclamation1 = reclamationRepository.findById(reclamation.getId()).orElse(null);
         reclamation1.setId(reclamation.getId());
+        reclamation1.setObjet(reclamation.getObjet());
         reclamation1.setDescription(reclamation.getDescription());
         reclamation1.setType(reclamation.getType());
-        reclamation1.setTraite(reclamation.getTraite());
 
         return reclamationRepository.save(reclamation1);
     }

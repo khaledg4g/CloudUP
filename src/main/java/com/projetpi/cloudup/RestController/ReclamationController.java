@@ -28,7 +28,7 @@ public class ReclamationController {
     {
         return iReclamation.RetrieveById(id);
     }
-    @PutMapping("/updatereclam/{reclamation}")
+    @PutMapping("/updatereclam")
     public Reclamation UpdateReclamation (@RequestBody Reclamation reclamation)
     {
         return iReclamation.UpdateReclamation(reclamation);
