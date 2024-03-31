@@ -82,8 +82,8 @@ private PublicationRepository publicationRepository;
     }
 
     @Override
-    public List<Commentary> findByContent(String content) {
-        return commentaryRepository.findByContentContaining(content);
+    public List<Commentary> findByContent(Long idpub, String content) {
+        return commentaryRepository.findByPublicationIdpubAndContentContaining(idpub, content);
     }
 
     @Override

@@ -11,7 +11,7 @@ public interface ICommentary {
     public void deleteC (int idC);
     public List<Commentary> retrieveByTags(String tags);
 
-    public List<Commentary> findByContent(String content);
+    public List<Commentary> findByContent(Long idpub, String content);
 
     public void upvoteCommentary(int commentId);
     public void downvoteCommentary(int commentId);

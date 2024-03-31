@@ -46,9 +46,9 @@ public class CommentaryRestController {
             return iCommentary.retrieveByTags(tags);
 
     }
-    @GetMapping("/retrieveByContentC")
-    public List<Commentary> retrieveByContent(@RequestParam String content){
-        return iCommentary.findByContent(content);
+    @GetMapping("/retrieveByContentC/{idpub}")
+    public List<Commentary> retrieveByContent(@PathVariable Long idpub, @RequestParam String content){
+        return iCommentary.findByContent(idpub, content);
     }
 
     @PutMapping("/{commentId}/upvote")

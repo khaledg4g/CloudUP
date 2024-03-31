@@ -13,4 +13,6 @@ public interface CommentaryRepository extends JpaRepository<Commentary,Long> {
 
 
     List<Commentary> findAllByPublication(Publication publication);
+
+    List<Commentary> findByPublicationIdpubAndContentContaining(Long idpub, String content);
 }
