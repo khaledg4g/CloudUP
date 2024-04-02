@@ -3,6 +3,7 @@ package com.projetpi.cloudup.entities;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.io.Serializable;
 import java.util.List;
 
 @Data
@@ -11,13 +12,12 @@ import java.util.List;
 @Entity
 @ToString
 @EqualsAndHashCode
-public class User {
+public class User implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
 
     private int    iduser;
     private String nom;
 
-    @OneToMany(mappedBy = "user")
-    private List<Collaboration> collaborations;
+
 }
