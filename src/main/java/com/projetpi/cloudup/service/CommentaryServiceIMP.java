@@ -77,8 +77,8 @@ private PublicationRepository publicationRepository;
 
 
     @Override
-    public List<Commentary> retrieveByTags(String tags) {
-        return commentaryRepository.findBytagsContaining(tags);
+    public List<Commentary> retrieveByTags(Long idpub, String tags) {
+        return commentaryRepository.findByPublicationIdpubAndTagsContaining(idpub, tags);
     }
 
     @Override

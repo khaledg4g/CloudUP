@@ -9,7 +9,7 @@ public interface ICommentary {
     public Commentary addCommentToPubUser (Commentary com, Long idpub, Long idu);
     public Commentary updateC (Commentary com);
     public void deleteC (int idC);
-    public List<Commentary> retrieveByTags(String tags);
+    public List<Commentary> retrieveByTags(Long idpub, String tags);
 
     public List<Commentary> findByContent(Long idpub, String content);
 

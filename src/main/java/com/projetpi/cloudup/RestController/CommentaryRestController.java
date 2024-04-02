@@ -40,10 +40,10 @@ public class CommentaryRestController {
 
 
 
-    @GetMapping("/retrieveByTagsC")
-    public List<Commentary> retrieveByTags(@RequestParam String tags) {
+    @GetMapping("/retrieveByTagsC/{idpub}")
+    public List<Commentary> retrieveByTags(@PathVariable Long idpub, @RequestParam String tags) {
 
-            return iCommentary.retrieveByTags(tags);
+            return iCommentary.retrieveByTags(idpub,tags);
 
     }
     @GetMapping("/retrieveByContentC/{idpub}")
