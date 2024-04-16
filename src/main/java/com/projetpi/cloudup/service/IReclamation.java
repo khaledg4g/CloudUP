@@ -1,6 +1,8 @@
 package com.projetpi.cloudup.service;
 
 import com.projetpi.cloudup.entities.Reclamation;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 
 import java.util.List;
 
@@ -10,4 +12,7 @@ public List<Reclamation> RetrieveAll ();
 public Reclamation RetrieveById (Integer id);
 public Reclamation UpdateReclamation (Reclamation reclamation);
 public void DeleteReclamation (Integer id);
+public List<Reclamation> RetrieveObjet(String objet);
+public Page<Reclamation>GetAllWithPagination(int size,int page);
+
 }
