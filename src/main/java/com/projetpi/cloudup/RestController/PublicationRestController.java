@@ -46,13 +46,11 @@ public class PublicationRestController {
         iPublication.incrementViews(id);
         return ResponseEntity.ok().build();
     }
-
     @PutMapping("/mark-solution-and-close")
     public ResponseEntity<String> markSolutionAndClosePublication() {
         iPublication.markSolutionAndClosePublication();
         return ResponseEntity.ok("Method executed successfully!");
     }
-
     @GetMapping("/retrieveALLC/{idpub}")
     public List<CommentaryDTO> retrieveAllC(@PathVariable int idpub) {
         Publication publication = iPublication.findById(idpub);
