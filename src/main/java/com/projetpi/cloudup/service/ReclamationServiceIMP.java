@@ -11,6 +11,7 @@ import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 
 import java.awt.print.Pageable;
+import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.List;
 import java.util.logging.Logger;
@@ -31,6 +32,7 @@ public class ReclamationServiceIMP implements IReclamation{
     @Override
     public Reclamation AjouterReclamation(Reclamation reclamation) {
         reclamation.setTraite(EtatReclamation.EnAttente);
+        reclamation.setTime(LocalDateTime.now());
         simpMessagingTemplate.convertAndSend("/topic/notification", "New reclam created");
         LOGGER.info("Notification sent successfully");
         return reclamationRepository.save(reclamation);
