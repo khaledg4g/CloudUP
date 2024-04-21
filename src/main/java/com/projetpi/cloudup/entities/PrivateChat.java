@@ -19,10 +19,11 @@ public class PrivateChat {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
+    private String creator;
     @OneToMany(mappedBy = "privateChat")
-    @JsonIgnore
     private List<Message> messages = new ArrayList<>();
 
-
+    public PrivateChat(String creator) {
+        this.creator = creator;
+    }
 }

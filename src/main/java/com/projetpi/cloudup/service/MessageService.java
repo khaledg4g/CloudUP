@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.Collections;
+import java.util.List;
 
 
 @Service
@@ -28,17 +29,36 @@ public class MessageService {
     }
 
     public void sendMessage(MessageRequest messageRequest,String userid) {
+        Message message = new Message();
+        message.setTimestamp(LocalDateTime.now());
+        message.setContent(messageRequest.getMessage());
+        message.setSenderId(userid);
+        PrivateChat privateChat =privateChatRepository.findAllByCreatorEquals(userid);
+        if(privateChat==null) privateChat =privateChatRepository.save(new PrivateChat(userid));
+        message.setPrivateChat(privateChat);
+        messageRepository.save(message);
+        messagingTemplate.convertAndSend("/topic/admin/.chat",messageRequest);
+    }
 
-//        Message message = new Message();
-//        message.setTimestamp(LocalDateTime.now());
-//        message.setContent(messageRequest.getMessage());
-//        PrivateChat privateChat =privateChatRepository.findFirstByOrderByIdAsc();
-//        if(privateChat==null) privateChat =privateChatRepository.save(new PrivateChat());
-//        message.setPrivateChat(privateChat);
-//        messageRepository.save(message);
-        messagingTemplate.convertAndSendToUser(userid,"/topic/chat",messageRequest );
+
+    public PrivateChat getPrivateChat(String id) {
+       return privateChatRepository.findAllByCreatorEquals(id);
     }
 
 
 
+    public void sendAdminMessage(MessageRequest messageRequest, String userid) {
+        Message message = new Message();
+        message.setTimestamp(LocalDateTime.now());
+        message.setContent(messageRequest.getMessage());
+        message.setSenderId("admin");
+        PrivateChat privateChat =privateChatRepository.findAllByCreatorEquals(userid);
+        message.setPrivateChat(privateChat);
+        messageRepository.save(message);
+        messagingTemplate.convertAndSend("/topic/"+userid+"/.chat",messageRequest);
+    }
+
+    public List<PrivateChat> getAdminPrivateChat() {
+        return privateChatRepository.findAll();
+    }
 }
