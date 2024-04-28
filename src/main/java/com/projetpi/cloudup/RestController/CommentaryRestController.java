@@ -14,6 +14,7 @@ import java.util.stream.Collectors;
 @RestController
 @NoArgsConstructor
 @CrossOrigin("*")
+@RequestMapping("/auth")
 public class CommentaryRestController {
 
     public ICommentary iCommentary;
@@ -86,7 +87,7 @@ public class CommentaryRestController {
         User user = com.getUser();
         if (user != null) {
             publicationDTO.setUserID(Math.toIntExact(user.getIdUser()));
-            publicationDTO.setUsername(user.getNom());
+            publicationDTO.setUsername(user.getNom()+ user.getPrenom());
         } else {
             publicationDTO.setUserID(0);
             publicationDTO.setUsername("");

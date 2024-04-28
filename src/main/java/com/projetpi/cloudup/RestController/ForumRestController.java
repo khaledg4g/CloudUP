@@ -13,6 +13,7 @@ import java.util.stream.Collectors;
 @RestController
 @NoArgsConstructor
 @CrossOrigin("*")
+@RequestMapping("/auth")
 public class ForumRestController {
     public IForum iForum;
 
