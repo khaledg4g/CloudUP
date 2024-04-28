@@ -31,9 +31,9 @@ public class CommentaryRestController {
     public Commentary updateC (@RequestBody Commentary com){
         return iCommentary.updateC(com);
     }
-    @DeleteMapping("/deleteC/{idC}")
-    public void deleteC (@PathVariable int idC){
-        iCommentary.deleteC(idC);
+    @DeleteMapping("/deleteC/{idC}/{idpub}")
+    public void deleteC (@PathVariable int idC, @PathVariable int idpub){
+        iCommentary.deleteC (idC,idpub);
     }
 
 
@@ -85,7 +85,7 @@ public class CommentaryRestController {
         publicationDTO.setIdpub(com.getPublication().getIdpub());
         User user = com.getUser();
         if (user != null) {
-            publicationDTO.setUserID(user.getId());
+            publicationDTO.setUserID(Math.toIntExact(user.getIdUser()));
             publicationDTO.setUsername(user.getNom());
         } else {
             publicationDTO.setUserID(0);

@@ -100,7 +100,7 @@ public List<PublicationDTO> retrieveByIdPub (@PathVariable("idpub")int idpub){
         publicationDTO.setForumId(publication.getForum().getId_Forum());
         User user = publication.getUser();
         if (user != null) {
-            publicationDTO.setUserId(user.getId());
+            publicationDTO.setUserId(Math.toIntExact(user.getIdUser()));
             publicationDTO.setUsername(user.getNom());
         } else {
             publicationDTO.setUserId(0);

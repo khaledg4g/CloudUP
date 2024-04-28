@@ -75,7 +75,7 @@ public class PublicationRestController {
         commentaryDTO.setSolution(commentary.getSolution());
         User user = commentary.getUser();
         if (user != null) {
-            commentaryDTO.setUserID(user.getId());
+            commentaryDTO.setUserID(Math.toIntExact(user.getIdUser()));
             commentaryDTO.setUsername(user.getNom());
         } else {
             commentaryDTO.setUserID(0);

@@ -62,16 +62,15 @@ private PublicationRepository publicationRepository;
     }
 
     @Override
-    public void deleteC(int idC) {
-
-        commentaryRepository.deleteById((long) idC);
+    public void deleteC (int idC, int idpub) {
+        Publication publication = publicationRepository.findById((long) idpub).orElse(null);
         Optional<Commentary> existingComOptional = commentaryRepository.findById((long) idC);
         if (existingComOptional.isPresent()) {
             Commentary com = existingComOptional.get();
-            com.setVoteNegatif(com.getVoteNegatif() - 1);
-            commentaryRepository.save(com);
+            com.setPublication(publication);
+            publication.setNbr_com(publication.getNbr_com() - 1);
         }
-
+        commentaryRepository.deleteById((long) idC);
     }
 
 

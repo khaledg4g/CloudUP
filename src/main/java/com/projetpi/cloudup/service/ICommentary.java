@@ -8,7 +8,7 @@ import java.util.List;
 public interface ICommentary {
     public Commentary addCommentToPubUser (Commentary com, Long idpub, Long idu);
     public Commentary updateC (Commentary com);
-    public void deleteC (int idC);
+    public void deleteC (int idC, int idpub);
     public List<Commentary> retrieveByTags(Long idpub, String tags);
 
     public List<Commentary> findByContent(Long idpub, String content);
