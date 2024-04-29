@@ -12,10 +12,8 @@ import org.hibernate.validator.internal.util.stereotypes.Lazy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 @Service
 @NoArgsConstructor
@@ -113,6 +111,18 @@ private PublicationRepository publicationRepository;
         Commentary comment = commentaryRepository.findById((long) idCom)
                 .orElse(null) ;
         return comment.getVoteNegatif();
+    }
+
+    @Override
+    public String getUsername(long userId) {
+        String name = "";
+        List<User> user= userRepository.findAll();
+        for (User u: user){
+            if (u.getIdUser() == userId){
+                name= u.getNom()+" "+u.getPrenom();
+            }
+        }
+        return name;
     }
 
 

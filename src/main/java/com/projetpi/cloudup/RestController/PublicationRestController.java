@@ -6,6 +6,7 @@ import com.projetpi.cloudup.entities.Publication;
 import com.projetpi.cloudup.entities.User;
 import com.projetpi.cloudup.service.IPublication;
 import lombok.NoArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,6 +17,7 @@ import java.util.stream.Collectors;
 
 @RestController
 @NoArgsConstructor
+@Slf4j
 @CrossOrigin("*")
 @RequestMapping("/auth")
 public class PublicationRestController {
@@ -64,6 +66,10 @@ public class PublicationRestController {
         }
         return Collections.emptyList();
     }
+    @GetMapping("/retrieveByUser/{idUser}")
+    public List<Publication> retrievePubByUser (@PathVariable long idUser){
+        return iPublication.fetchPubByIDUser(idUser);
+    }
 
     private CommentaryDTO convertToDto (Commentary commentary) {
         CommentaryDTO commentaryDTO = new CommentaryDTO();
@@ -77,7 +83,8 @@ public class PublicationRestController {
         User user = commentary.getUser();
         if (user != null) {
             commentaryDTO.setUserID(Math.toIntExact(user.getIdUser()));
-            commentaryDTO.setUsername(user.getNom()+ user.getPrenom());
+            commentaryDTO.setUsername(user.getNom()+" "+ user.getPrenom());
+            log.info("commentaire " + commentaryDTO.getUsername());
         } else {
             commentaryDTO.setUserID(0);
             commentaryDTO.setUsername("");

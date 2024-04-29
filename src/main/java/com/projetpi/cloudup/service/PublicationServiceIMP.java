@@ -127,6 +127,18 @@ public class PublicationServiceIMP implements IPublication {
     public Publication findById(int idpub) {
         return publicationRepository.findById((long) idpub).orElse(null);
     }
+
+    @Override
+    public List<Publication> fetchPubByIDUser(long idUser) {
+        List<Publication> resultat = new ArrayList<>();
+        List<Publication> publiste = publicationRepository.findAll();
+        for (Publication p : publiste){
+            if (p.getUser().getIdUser()== idUser){
+                resultat.add(p);
+            }
+        }
+        return resultat;
+    }
 }
 
 

@@ -4,6 +4,7 @@ import com.projetpi.cloudup.entities.*;
 import com.projetpi.cloudup.repository.CommentaryRepository;
 import com.projetpi.cloudup.service.ICommentary;
 import lombok.NoArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,6 +14,7 @@ import java.util.stream.Collectors;
 
 @RestController
 @NoArgsConstructor
+@Slf4j
 @CrossOrigin("*")
 @RequestMapping("/auth")
 public class CommentaryRestController {
@@ -87,11 +89,18 @@ public class CommentaryRestController {
         User user = com.getUser();
         if (user != null) {
             publicationDTO.setUserID(Math.toIntExact(user.getIdUser()));
-            publicationDTO.setUsername(user.getNom()+ user.getPrenom());
+            publicationDTO.setUsername(user.getNom()+" "+ user.getPrenom());
+           log.info("commentaire"+ publicationDTO.getUsername());
         } else {
             publicationDTO.setUserID(0);
             publicationDTO.setUsername("");
         }
         return publicationDTO;
     }
+
+    @GetMapping("/comments")
+    public String getCommentsForUser(@RequestParam long userId) {
+        return iCommentary.getUsername(userId);
+    }
+
 }

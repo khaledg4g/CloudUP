@@ -4,6 +4,7 @@ package com.projetpi.cloudup.RestController;
 import com.projetpi.cloudup.entities.*;
 import com.projetpi.cloudup.service.IForum;
 import lombok.NoArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,6 +13,7 @@ import java.util.stream.Collectors;
 
 @RestController
 @NoArgsConstructor
+@Slf4j
 @CrossOrigin("*")
 @RequestMapping("/auth")
 public class ForumRestController {
@@ -102,7 +104,8 @@ public List<PublicationDTO> retrieveByIdPub (@PathVariable("idpub")int idpub){
         User user = publication.getUser();
         if (user != null) {
             publicationDTO.setUserId(Math.toIntExact(user.getIdUser()));
-            publicationDTO.setUsername(user.getNom());
+            publicationDTO.setUsername(user.getNom()+ " " + user.getPrenom());
+            log.info("publication" +publicationDTO.getUsername());
         } else {
             publicationDTO.setUserId(0);
             publicationDTO.setUsername("");

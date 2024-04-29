@@ -1,7 +1,6 @@
 package com.projetpi.cloudup.service;
 
 import com.projetpi.cloudup.entities.Commentary;
-import com.projetpi.cloudup.entities.Publication;
 
 import java.util.List;
 
@@ -18,4 +17,5 @@ public interface ICommentary {
     public int getCommentLikes(int idCom);
     public int getCommentDislikes(int idCom);
 
+    String getUsername(long userId);
 }

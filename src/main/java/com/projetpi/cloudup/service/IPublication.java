@@ -15,4 +15,6 @@ public interface IPublication {
     public List<Commentary> retrieveAllCByPub(int idpub);
 
     Publication findById(int idpub);
+
+    List<Publication> fetchPubByIDUser (long idUser);
 }

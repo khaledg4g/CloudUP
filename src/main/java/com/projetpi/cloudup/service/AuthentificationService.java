@@ -10,9 +10,12 @@ import com.projetpi.cloudup.entities.Token;
 import com.projetpi.cloudup.entities.User;
 import com.projetpi.cloudup.repository.TokenRepository;
 import com.projetpi.cloudup.repository.UserRepository;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jwts;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.mail.MessagingException;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.tomcat.util.net.openssl.ciphers.Authentication;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -25,9 +28,11 @@ import org.springframework.transaction.annotation.Transactional;
 import java.security.SecureRandom;
 import java.time.LocalDateTime;
 import java.util.HashMap;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class AuthentificationService {
 
 
@@ -120,6 +125,17 @@ public class AuthentificationService {
                 .build();
     }
 
+    /*public long getUserIdByToken (String token){
+        List<Token> tokenList = tokenRepository.findAll();
+        log.info("this is token " +token);
+        for (Token t : tokenList){
+            if (t.getToken() == token){
+                return t.getUser().getIdUser();
+            }
+        }
+        return 0;
+    }*/
+
     public void activateAccount(String token) throws MessagingException {
         Token savedToken = tokenRepository.findTokenByToken(token)
                 .orElseThrow(() -> new RuntimeException("Token not found"));
@@ -134,4 +150,6 @@ public class AuthentificationService {
         tokenRepository.save(savedToken);
 
     }
+
+
 }

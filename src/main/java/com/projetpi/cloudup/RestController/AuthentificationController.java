@@ -1,18 +1,22 @@
 package com.projetpi.cloudup.RestController;
 
 import com.projetpi.cloudup.service.AuthentificationService;
+import com.projetpi.cloudup.service.JwtService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.mail.MessagingException;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("auth")
+@RequestMapping("/auth")
 @RequiredArgsConstructor
 @Tag(name = "Authentification")
+
+
 public class AuthentificationController {
     private final AuthentificationService service;
 
@@ -23,6 +27,7 @@ public class AuthentificationController {
         service.register(request);
         return ResponseEntity.accepted().build();
     }
+
 
 
     @PostMapping("/authenticate")
@@ -37,6 +42,8 @@ public class AuthentificationController {
     public void confirm(@RequestParam String token) throws MessagingException {
         service.activateAccount(token);
     }
+
+
 
 
 }
