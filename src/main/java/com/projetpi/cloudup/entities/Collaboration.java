@@ -26,7 +26,10 @@ public class Collaboration implements Serializable {
     private Date datecol;
     private String placecol;
     private float prixcol;
-
+    private int votePositif;
+    private int voteNegatif;
+    private int nbrres;
+    private String qrString;
     @Lob
     @Column(columnDefinition = "MEDIUMBLOB")
     private String imgcol ;

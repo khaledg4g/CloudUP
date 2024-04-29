@@ -10,6 +10,9 @@ import jakarta.persistence.LockModeType;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.Lock;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
@@ -132,13 +135,76 @@ public class CollaborationServiceIMP implements ICollaboration {
         return null;
     }
 
+    @Override
+    public List<Collaboration> findCollaborationWithSorting(String field) {
+        return collaborationRepository.findAll(Sort.by(Sort.Direction.ASC,field));
+    }
 
 
+    public Page<Collaboration> findCollaborationWithPagination(int offset, int pageSize){
+        Page<Collaboration> Collaborations = collaborationRepository.findAll(PageRequest.of(offset, pageSize));
+        return  Collaborations;
+    }
 
+    @Override
+    public Page<Collaboration> GetAllWithPagination(int size, int page) {
+        return collaborationRepository.findAll(PageRequest.of(size,page));
 
+    }
 
+    @Override
+    public List<Collaboration> RetrieveObjet(String objet) {
+        return collaborationRepository.findByNomcolContaining(objet);
+    }
 
+    @Override
+    public void upvoteCollaboration(int commentId) {
 
+        Optional<Collaboration> existingComOptional = collaborationRepository.findById((int) commentId);
+        if (existingComOptional.isPresent()) {
+            Collaboration com = existingComOptional.get();
+            com.setVotePositif(com.getVotePositif() + 1);
+            collaborationRepository.save(com);
+        }
+    }
 
+    @Override
+    public void downvoteCollaboration(int commentId) {
+        Optional<Collaboration> existingComOptional = collaborationRepository.findById((int) commentId);
+        if (existingComOptional.isPresent()) {
+            Collaboration com = existingComOptional.get();
+            com.setVoteNegatif(com.getVoteNegatif() + 1);
+            collaborationRepository.save(com);
+        }
+    }
+
+    @Override
+    public void downnumberCollaboration(int idcol) {
+        Optional<Collaboration> existingComOptional = collaborationRepository.findById((int) idcol);
+        if (existingComOptional.isPresent()) {
+            Collaboration com = existingComOptional.get();
+            com.setNbrres(com.getNbrres() - 1);
+            collaborationRepository.save(com);
+        }
+    }
+
+    @Override
+    public int getCollaborationLikes(int idcol) {
+        Collaboration collaboration = collaborationRepository.findById((int) idcol).orElse(null);
+        return collaboration.getVotePositif();
+    }
+
+    @Override
+    public int getCollaborationDislikes(int idcol) {
+        Collaboration collaboration = collaborationRepository.findById((int) idcol)
+                .orElse(null) ;
+        return collaboration.getVotePositif();
+    }
+
+    public Collaboration getCollaborationFromDatabase(int idcol) {
+        // Retrieve collaboration from the repository based on the collaboration ID
+        return collaborationRepository.findById(idcol)
+                .orElse(null); // Return null if collaboration is not found
+    }
 
 }
