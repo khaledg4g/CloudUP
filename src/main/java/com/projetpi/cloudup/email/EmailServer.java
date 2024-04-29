@@ -69,4 +69,18 @@ public class EmailServer {
 
         mailSender.send(mimeMessage);
     }
+
+    public void sendEmailNotification(String userEmail) {
+        MimeMessage message = mailSender.createMimeMessage();
+        MimeMessageHelper helper = new MimeMessageHelper(message);
+        try {
+            helper.setTo(userEmail);
+            helper.setSubject("Publication solved Notification");
+            helper.setText("Your publication has been solved! Please check your blog for more info." );
+            mailSender.send(message);
+        } catch (MessagingException e) {
+            e.printStackTrace();
+            // Handle exception
+        }
+    }
 }

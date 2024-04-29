@@ -1,6 +1,7 @@
 package com.projetpi.cloudup.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.projetpi.cloudup.service.ClassListener;
 import jakarta.persistence.*;
 import jakarta.transaction.Transactional;
 import lombok.Getter;
@@ -22,6 +23,7 @@ import java.util.UUID;
 @Setter
 @NoArgsConstructor
 @ToString
+@EntityListeners(ClassListener.class)
 public class Publication implements Serializable {
  @Serial
  private static final long serialVersionUID=1L;
@@ -50,6 +52,7 @@ public class Publication implements Serializable {
     private Set<Commentary> commentaries;
 
    @ManyToOne
+   @JsonIgnore
    User user;
 
 
