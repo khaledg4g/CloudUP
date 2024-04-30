@@ -44,14 +44,22 @@ public class CommentaryRestController {
 
 
     @GetMapping("/retrieveByTagsC/{idpub}")
-    public List<Commentary> retrieveByTags(@PathVariable Long idpub, @RequestParam String tags) {
-
-            return iCommentary.retrieveByTags(idpub,tags);
+    public List<CommentaryDTO> retrieveByTags(@PathVariable Long idpub, @RequestParam String tags) {
+        List<Commentary> comments = iCommentary.retrieveByTags( idpub, tags);
+        List<CommentaryDTO> commentDTOs = comments.stream()
+                .map(this::convertToDto)
+                .collect(Collectors.toList());
+        return commentDTOs;
 
     }
     @GetMapping("/retrieveByContentC/{idpub}")
-    public List<Commentary> retrieveByContent(@PathVariable Long idpub, @RequestParam String content){
-        return iCommentary.findByContent(idpub, content);
+    public List<CommentaryDTO> retrieveByContent(@PathVariable Long idpub, @RequestParam String content){
+        //return iCommentary.findByContent(idpub, content);
+        List<Commentary> commentaries = iCommentary.findByContent(idpub,content);
+        List<CommentaryDTO> commentDTOs = commentaries.stream()
+                .map(this::convertToDto)
+                .collect(Collectors.toList());
+        return commentDTOs;
     }
 
     @PutMapping("/{commentId}/upvote")
