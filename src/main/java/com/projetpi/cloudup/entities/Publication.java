@@ -1,29 +1,23 @@
 package com.projetpi.cloudup.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.projetpi.cloudup.service.ClassListener;
 import jakarta.persistence.*;
-import jakarta.transaction.Transactional;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
-import org.hibernate.annotations.GenericGenerator;
 
 
 import java.io.Serial;
 import java.io.Serializable;
 import java.util.Date;
-import java.util.List;
 import java.util.Set;
-import java.util.UUID;
 
 @Entity
 @Getter
 @Setter
 @NoArgsConstructor
 @ToString
-@EntityListeners(ClassListener.class)
 public class Publication implements Serializable {
  @Serial
  private static final long serialVersionUID=1L;

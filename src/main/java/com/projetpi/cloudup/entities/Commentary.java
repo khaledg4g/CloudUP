@@ -1,5 +1,6 @@
 package com.projetpi.cloudup.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -29,9 +30,11 @@ public class Commentary implements Serializable {
     private int idpub;
 
     @ManyToOne
+            @JsonIgnore
     Publication publication;
 
     @ManyToOne
+            @JsonIgnore
     User user;
 
 
