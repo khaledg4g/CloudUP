@@ -1,5 +1,6 @@
 package com.projetpi.cloudup.RestController;
 
+import com.projetpi.cloudup.entities.EtatReclamation;
 import com.projetpi.cloudup.entities.Reclamation;
 import com.projetpi.cloudup.service.IReclamation;
 import com.projetpi.cloudup.service.ReclamationServiceIMP;
@@ -10,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 @CrossOrigin(origins = "*")
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/reclamation")
 @AllArgsConstructor
 public class ReclamationController {
     private IReclamation iReclamation;
@@ -49,5 +50,19 @@ public class ReclamationController {
                                               @RequestParam(defaultValue = "0") int page) {
         return iReclamation.GetAllWithPagination(page,size);
     }
-
+    @PutMapping("/traitereclam")
+    public Reclamation SetReclam (@RequestBody Reclamation reclamation)
+    {
+        return iReclamation.SetReclam(reclamation);
+    }
+    @GetMapping("/getarchivereclam")
+    public List<Reclamation> GetArchives()
+    {
+        return iReclamation.GetArchives();
+    }
+    @GetMapping("/getreclamtraite")
+    public List<Reclamation> OrderTraite()
+    {
+        return iReclamation.OrderTraite();
+    }
 }

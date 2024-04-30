@@ -23,6 +23,7 @@ public class Reclamation implements Serializable {
     private String objet;
     private CategorieReclamation type;
     private EtatReclamation traite;
+    private boolean archive;
     @JsonFormat(pattern="dd/MM/yyyy HH:mm:ss")
     private LocalDateTime time;
     @JsonIgnore

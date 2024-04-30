@@ -8,11 +8,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.awt.print.Pageable;
+import java.time.Duration;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -78,5 +83,58 @@ public class ReclamationServiceIMP implements IReclamation{
 
     }
 
+    @Override
+    public Reclamation SetReclam(Reclamation reclamation) {
+        Reclamation reclam = reclamationRepository.findById(reclamation.getId()).orElse(null);
+        EtatReclamation etatReclamation;
+        if(reclam!=null)
+        {
+            reclam.setTraite(reclamation.getTraite());
+            return reclamationRepository.save(reclam);
+        }
+        return null;
+    }
+
+            @Scheduled(fixedDelay = 360000)
+            @Override
+            public List<Reclamation> ArchiveReclam() {
+                List<Reclamation> reclam = reclamationRepository.findAll();
+
+                if (!reclam.isEmpty()) {
+                    for (Reclamation r : reclam) {
+                        LocalDateTime dateCreation = r.getTime();
+                        LocalDateTime elapsed = LocalDateTime.now();
+                        Duration difference = Duration.between(dateCreation, elapsed);
+
+                        if (difference.toHours() > 1) {
+                            r.setArchive(true);
+                            reclamationRepository.save(r);
+                        }
+
+                    }
+                    return reclam;
+
+                }
+                return null;
+            }
+
+    @Override
+    public List<Reclamation> GetArchives() {
+        List<Reclamation> reclamations = reclamationRepository.findAll();
+        List<Reclamation> recs = new ArrayList<>();
+        for (Reclamation rec : reclamations)
+        {
+            if(rec.isArchive())
+            {
+                recs.add(rec);
+            }
+        }
+        return recs;
+    }
+
+    @Override
+    public List<Reclamation> OrderTraite() {
+        return reclamationRepository.findAllByOrderByTraiteDesc();
+    }
 
 }
