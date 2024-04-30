@@ -43,6 +43,5 @@ public class Collaboration implements Serializable {
     private User user;
 
     @ManyToOne
-
     private Partenaires partenaires;
 }

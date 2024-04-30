@@ -195,8 +195,8 @@ public class CollaborationController {
         String qrString = generateQRStringg(collaboration);
 
         // Set the width and height of the QR code image
-        int width = 400;
-        int height = 400;
+        int width = 500;
+        int height = 500;
 
         // Generate QR code image based on the QR code string and size
         QRCodeWriter qrCodeWriter = new QRCodeWriter();
