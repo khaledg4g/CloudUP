@@ -1,6 +1,8 @@
 package com.projetpi.cloudup.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.projetpi.cloudup.service.ClassListener;
+import com.projetpi.cloudup.service.CommentListener;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -15,6 +17,7 @@ import java.util.Date;
 @Getter
 @NoArgsConstructor
 @ToString
+@EntityListeners(CommentListener.class)
 public class Commentary implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

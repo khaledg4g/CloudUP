@@ -80,7 +80,19 @@ public class EmailServer {
             mailSender.send(message);
         } catch (MessagingException e) {
             e.printStackTrace();
-            // Handle exception
         }
     }
+    public void sendEmailNotif (String userEmail){
+        MimeMessage message = mailSender.createMimeMessage();
+        MimeMessageHelper helper = new MimeMessageHelper(message);
+        try {
+            helper.setTo(userEmail);
+            helper.setSubject("Your comment is tagged as a solution");
+            helper.setText("Your comment was tagged as a solution. Thank you for helping others!");
+            mailSender.send(message);
+        } catch (MessagingException e) {
+            e.printStackTrace();
+        }
+    }
+
 }
