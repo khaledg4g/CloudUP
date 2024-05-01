@@ -50,10 +50,11 @@ public class CollaborationController {
                                    @RequestParam("placecol") String placecol,
                                    @RequestParam("prixcol") float prixcol,
                                   // @RequestParam("cours_idcour") int cours_idcour,
-                                   @RequestParam("partenaires_id_part") int partenaires_id_part)
+                                   @RequestParam("partenaires_id_part") int partenaires_id_part,
+                                    @RequestParam("nbrres") int nbrres)
                                   // @RequestParam("user_iduser") int user_iduser
                                   {
-        return iCollaboration.saveCollaboration(file, nomcol,   desccol,   datecol,   placecol,   prixcol,     partenaires_id_part    );
+        return iCollaboration.saveCollaboration(file, nomcol,   desccol,   datecol,   placecol,   prixcol,     partenaires_id_part,nbrres    );
     }
 
 

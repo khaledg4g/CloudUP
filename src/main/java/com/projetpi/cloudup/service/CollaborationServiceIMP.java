@@ -41,7 +41,7 @@ public class CollaborationServiceIMP implements ICollaboration {
     }
 
     @Override
-    public String saveCollaboration(MultipartFile file, String nomcol, String desccol, Date datecol, String placecol, float prixcol, int partenaires_id_part) {
+    public String saveCollaboration(MultipartFile file, String nomcol, String desccol, Date datecol, String placecol, float prixcol, int partenaires_id_part,int nbrres) {
         Collaboration c = new Collaboration();
         String fileName = StringUtils.cleanPath(file.getOriginalFilename());
         if (fileName.contains("..")) {
@@ -60,6 +60,7 @@ public class CollaborationServiceIMP implements ICollaboration {
         c.setPrixcol(prixcol);
         Partenaires partenaires = partenairesRepository.findById(partenaires_id_part).orElse(null);
         c.setPartenaires(partenaires);
+        c.setNbrres(nbrres);
 
         collaborationRepository.save(c);
         return fileName;
