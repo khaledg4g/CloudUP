@@ -18,6 +18,4 @@ public class User {
     private int    iduser;
     private String nom;
 
-    @OneToMany(mappedBy = "user")
-    private List<Collaboration> collaborations;
 }
