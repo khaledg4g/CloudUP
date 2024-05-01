@@ -28,7 +28,8 @@ import java.sql.Timestamp;
 import java.sql.Types;
 import java.util.Date;
 import java.util.List;
-@CrossOrigin("*")
+@CrossOrigin(origins = "*")
+@RequestMapping("/auth")
 //@CrossOrigin(origins = {"http://localhost:4200", "http://localhost:53289"})
 @RestController
 @AllArgsConstructor
