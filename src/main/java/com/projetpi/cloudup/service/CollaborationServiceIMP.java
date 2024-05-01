@@ -6,6 +6,7 @@ import com.projetpi.cloudup.entities.Partenaires;
 import com.projetpi.cloudup.entities.User;
 import com.projetpi.cloudup.repository.CollaborationRepository;
 import com.projetpi.cloudup.repository.PartenairesRepository;
+import com.projetpi.cloudup.repository.UserRepository;
 import jakarta.persistence.LockModeType;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,8 +33,10 @@ import java.util.Optional;
 public class CollaborationServiceIMP implements ICollaboration {
     @Autowired
     private CollaborationRepository collaborationRepository;
+    @Autowired
     private PartenairesRepository partenairesRepository;
-
+    @Autowired
+    private UserRepository userRepository;
     @Autowired
     public CollaborationServiceIMP(CollaborationRepository collaborationRepository, PartenairesRepository partenairesRepository) {
         this.collaborationRepository = collaborationRepository;
@@ -41,7 +44,7 @@ public class CollaborationServiceIMP implements ICollaboration {
     }
 
     @Override
-    public String saveCollaboration(MultipartFile file, String nomcol, String desccol, Date datecol, String placecol, float prixcol, int partenaires_id_part,int nbrres) {
+    public String saveCollaboration(MultipartFile file, String nomcol, String desccol, Date datecol, String placecol, float prixcol, int partenaires_id_part,int nbrres,long user_id_user) {
         Collaboration c = new Collaboration();
         String fileName = StringUtils.cleanPath(file.getOriginalFilename());
         if (fileName.contains("..")) {
@@ -61,6 +64,9 @@ public class CollaborationServiceIMP implements ICollaboration {
         Partenaires partenaires = partenairesRepository.findById(partenaires_id_part).orElse(null);
         c.setPartenaires(partenaires);
         c.setNbrres(nbrres);
+        User user = userRepository.findById(user_id_user).orElse(null);
+        c.setUser(user);
+
 
         collaborationRepository.save(c);
         return fileName;

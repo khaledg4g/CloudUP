@@ -12,7 +12,7 @@ public interface ICollaboration {
 
 
 
-    public String saveCollaboration(MultipartFile file, String nomcol, String desccol, Date datecol, String placecol, float prixcol,int partenaires_id_part,int nbrres );
+    public String saveCollaboration(MultipartFile file, String nomcol, String desccol, Date datecol, String placecol, float prixcol,int partenaires_id_part,int nbrres, long user_id_user );
 
         public List<Collaboration> retriveCollaboration();
     public Collaboration addCollaboration(Collaboration col);

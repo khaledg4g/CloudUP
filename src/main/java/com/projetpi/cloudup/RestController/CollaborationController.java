@@ -7,7 +7,9 @@ import com.google.zxing.client.j2se.MatrixToImageWriter;
 import com.google.zxing.common.BitMatrix;
 import com.google.zxing.qrcode.QRCodeWriter;
 import com.projetpi.cloudup.entities.Collaboration;
+import com.projetpi.cloudup.entities.User;
 import com.projetpi.cloudup.repository.CollaborationRepository;
+import com.projetpi.cloudup.service.AuthentificationService;
 import com.projetpi.cloudup.service.ICollaboration;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.AllArgsConstructor;
@@ -41,7 +43,8 @@ public class CollaborationController {
     private JdbcTemplate jdbcTemplate;
     @Autowired
     private CollaborationRepository collaborationRepository;
-
+    @Autowired
+    private final AuthentificationService service;
     @PostMapping("/addColbeltaswira")
     public String addCollaboration(@RequestParam("file") MultipartFile file,
                                    @RequestParam("nomcol") String nomcol,
@@ -51,15 +54,20 @@ public class CollaborationController {
                                    @RequestParam("prixcol") float prixcol,
                                   // @RequestParam("cours_idcour") int cours_idcour,
                                    @RequestParam("partenaires_id_part") int partenaires_id_part,
-                                    @RequestParam("nbrres") int nbrres)
+                                    @RequestParam("nbrres") int nbrres,
+                                   @RequestParam("user_id_user") int user_id_user)
+
                                   // @RequestParam("user_iduser") int user_iduser
                                   {
-        return iCollaboration.saveCollaboration(file, nomcol,   desccol,   datecol,   placecol,   prixcol,     partenaires_id_part,nbrres    );
+        return iCollaboration.saveCollaboration(file, nomcol,   desccol,   datecol,   placecol,   prixcol,     partenaires_id_part,nbrres  ,user_id_user  );
     }
 
 
 
-
+    @GetMapping("/findAllusers")
+    public List<User> findAll(User user){
+        return service.finAll(user);
+    }
 
 
     @PostMapping("/addCollaboration")
