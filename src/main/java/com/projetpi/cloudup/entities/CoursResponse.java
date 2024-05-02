@@ -18,4 +18,5 @@ public class CoursResponse {
     private Modularité type;
     private float dureeC ;
     private long idUser;
+    private String usernameCours; //added field
 }

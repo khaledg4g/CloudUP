@@ -22,6 +22,9 @@ public class ReservationMapper {
                 .id_cours(reservation.getCours().getIdCours())
                 .id_etudiant(reservation.getEtudiant().getIdUser())
                 .id_professeur(reservation.getProfesseur().getIdUser())
+                .etudiantName(reservation.getEtudiant().fullName()) //added field
+                .professeurName(reservation.getProfesseur().fullName())//added field
+                .nomcours(reservation.getCours().getNomCours())//added field
                 .build();
     }
 }

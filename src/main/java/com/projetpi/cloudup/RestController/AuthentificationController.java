@@ -69,5 +69,4 @@ public class AuthentificationController {
             return ResponseEntity.badRequest().body("Error during logout: " + e.getMessage());
         }
     }
-
 }

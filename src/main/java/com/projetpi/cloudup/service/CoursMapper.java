@@ -31,6 +31,7 @@ public class CoursMapper {
                 .option(coursParticuliers.getOption())
                 .type(coursParticuliers.getType())
                 .dureeC(coursParticuliers.getDureeC())
+                .usernameCours(coursParticuliers.getProfesseur().fullName()) //added field
                 .idUser(coursParticuliers.getProfesseur().getIdUser())
                 .build();
     }
