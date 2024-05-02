@@ -10,6 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Collections;
 import java.util.List;
@@ -30,8 +31,8 @@ public class PublicationRestController {
 
 
     @PostMapping("/{idu}/{idf}/addPub")
-    public Publication addPub(@RequestBody Publication pub, @PathVariable Long idf,@PathVariable Long idu) {
-        return iPublication.addPubtoForumUser(pub,idf,idu);
+    public Publication addPub(@RequestParam List<MultipartFile> file, @RequestBody Publication pub, @PathVariable Long idf, @PathVariable Long idu) {
+        return iPublication.addPubtoForumUser(file,pub,idf,idu);
     }
 
     @PutMapping("/updatePub")

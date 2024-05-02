@@ -47,18 +47,6 @@ public class UserRestController {
     @Autowired
     private JwtService jwtService;
 
-   /* @GetMapping("/api/user")
-    public ResponseEntity<Long> getUserIdFromToken(@RequestHeader("Authorization") String token) {
-        // Extraire l'ID de l'utilisateur à partir du token
-        Long userId = jwtService.extractUserId(token);
-        if (userId != null) {
-            // L'ID de l'utilisateur a été extrait avec succès, retourner l'ID
-            return ResponseEntity.ok(userId);
-        } else {
-            // Le token est invalide ou l'ID de l'utilisateur n'a pas pu être extrait
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
-        }
-    }*/
     @GetMapping("/getTokenAndReturnID")
     public ResponseEntity<Long> getTokenAndReturnId(@RequestParam String token) {
         Long userId = service.getUserIdByToken(token);

@@ -12,7 +12,11 @@ import jakarta.transaction.Transactional;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.util.StringUtils;
 
+
+import java.io.IOException;
 import java.util.*;
 
 @Service
@@ -30,22 +34,39 @@ public class PublicationServiceIMP implements IPublication {
     @Autowired
     public UserRepository userRepository;
 
-    @Override
-    public Publication addPubtoForumUser(Publication pub, Long idf, Long idu) {
+    public Publication addPubtoForumUser(List<MultipartFile> files, Publication pub, Long idf, Long idu) {
         Forum forum = forumRepository.findById(idf).orElse(null);
-        User user= userRepository.findById(idu).orElse(null);
-        if (forum != null && user !=null) {
+        User user = userRepository.findById(idu).orElse(null);
+
+        if (forum != null && user != null) {
             pub.setForum(forum);
             pub.setUser(user);
             forum.setNbr_pub(forum.getNbr_pub() + 1);
-            user.setNbr_pub(user.getNbr_pub()+1);
+            user.setNbr_pub(user.getNbr_pub() + 1);
+
+            // Parcourir et traiter chaque fichier
+            for (MultipartFile file : files) {
+                String fileName = StringUtils.cleanPath(file.getOriginalFilename());
+                if (fileName.contains("..")) {
+                    System.out.println("not a valid file");
+                }
+                try {
+                    // Ajouter le fichier à la publication (par exemple, convertir en base64)
+                    pub.setImage(Base64.getEncoder().encodeToString(file.getBytes()));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+
             Publication savedPublication = publicationRepository.save(pub);
-            if (savedPublication.getCommentaries() == null)
+            if (savedPublication.getCommentaries() == null) {
                 savedPublication.setCommentaries(new HashSet<>());
+            }
             return savedPublication;
         }
         return publicationRepository.save(pub);
     }
+
 
     @Override
     public Publication updatePub(Publication pub) {
