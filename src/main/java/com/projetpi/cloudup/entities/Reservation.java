@@ -2,6 +2,8 @@ package com.projetpi.cloudup.entities;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.io.Serializable;
 import java.time.LocalDate;
@@ -16,6 +18,7 @@ import java.util.Date;
 @NoArgsConstructor
 @EqualsAndHashCode
 @Builder
+@EntityListeners(AuditingEntityListener.class)
 public class Reservation implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
@@ -37,5 +40,9 @@ public class Reservation implements Serializable {
     @ManyToOne
     @JoinColumn(name = "id_cours")
     private CoursParticuliers cours;
+
+    @CreatedDate
+    @Column(nullable = false, updatable = false)
+    private LocalDateTime createdDate;
 
 }

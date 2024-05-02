@@ -15,5 +15,4 @@ public class TimeSlotResponse {
     private LocalDateTime endTime;
     private String dayOfWeek;
     private long idUser;
-
 }

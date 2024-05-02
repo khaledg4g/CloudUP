@@ -18,4 +18,7 @@ public class ReservationResponse {
     private long id_etudiant;
     private long id_professeur;
     private long id_cours;
+    private String etudiantName; // Added field
+    private String professeurName; // Added field
+    private String nomcours;// Added field
 }
