@@ -7,6 +7,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
@@ -78,15 +79,17 @@ public class ReclamationServiceIMP implements IReclamation{
     }
 
     @Override
-        public Page<Reclamation> GetAllWithPagination(int size, int page) {
-        return reclamationRepository.findAll(PageRequest.of(size,page));
-
+    public Page<Reclamation> GetAllWithPagination(int size, int page, String sortBy, String sortOrder) {
+        Sort.Direction direction = sortOrder.equalsIgnoreCase("asc") ? Sort.Direction.ASC : Sort.Direction.DESC;
+        Sort sort = Sort.by(direction, sortBy);
+        return reclamationRepository.findByArchiveFalse(PageRequest.of(size, page, sort));
     }
+
+
 
     @Override
     public Reclamation SetReclam(Reclamation reclamation) {
         Reclamation reclam = reclamationRepository.findById(reclamation.getId()).orElse(null);
-        EtatReclamation etatReclamation;
         if(reclam!=null)
         {
             reclam.setTraite(reclamation.getTraite());
@@ -95,46 +98,41 @@ public class ReclamationServiceIMP implements IReclamation{
         return null;
     }
 
-            @Scheduled(fixedDelay = 360000)
-            @Override
-            public List<Reclamation> ArchiveReclam() {
-                List<Reclamation> reclam = reclamationRepository.findAll();
+    @Scheduled(fixedDelay = 360000)
+    @Override
+    public List<Reclamation> ArchiveReclam() {
+        List<Reclamation> reclam = reclamationRepository.findByTraite(EtatReclamation.Resolue);
 
-                if (!reclam.isEmpty()) {
-                    for (Reclamation r : reclam) {
-                        LocalDateTime dateCreation = r.getTime();
-                        LocalDateTime elapsed = LocalDateTime.now();
-                        Duration difference = Duration.between(dateCreation, elapsed);
+        if (reclam != null && !reclam.isEmpty()) {
+            LocalDateTime now = LocalDateTime.now();
+            for (Reclamation r : reclam) {
+                LocalDateTime dateCreation = r.getTime();
+                Duration difference = Duration.between(dateCreation, now);
 
-                        if (difference.toHours() > 1) {
-                            r.setArchive(true);
-                            reclamationRepository.save(r);
-                        }
+                if (difference.getSeconds() > 1) {
+                    // Ensure that only reclamations with Traite status Resolue are archived
 
-                    }
-                    return reclam;
+                        r.setArchive(true);
+                        reclamationRepository.save(r);
 
                 }
-                return null;
             }
-
-    @Override
-    public List<Reclamation> GetArchives() {
-        List<Reclamation> reclamations = reclamationRepository.findAll();
-        List<Reclamation> recs = new ArrayList<>();
-        for (Reclamation rec : reclamations)
-        {
-            if(rec.isArchive())
-            {
-                recs.add(rec);
-            }
+            return reclam;
         }
-        return recs;
+        return null;
     }
 
+
+
     @Override
-    public List<Reclamation> OrderTraite() {
-        return reclamationRepository.findAllByOrderByTraiteDesc();
+    public Page<Reclamation> GetArchives(int size, int page, String sortBy, String sortOrder) {
+        Sort.Direction direction = sortOrder.equalsIgnoreCase("asc") ? Sort.Direction.ASC : Sort.Direction.DESC;
+        Sort sort = Sort.by(direction, sortBy);
+        return reclamationRepository.findByTraite(EtatReclamation.Resolue, PageRequest.of(size, page, sort));
     }
+
+
+
+
 
 }

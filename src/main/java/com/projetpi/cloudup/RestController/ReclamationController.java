@@ -41,28 +41,32 @@ public class ReclamationController {
         iReclamation.DeleteReclamation(id);
     }
     @GetMapping("/findobjetrec/{objet}")
-    public List<Reclamation> RetrieveObjet(@PathVariable String objet)
-    {
+    public List<Reclamation> RetrieveObjet(@PathVariable String objet) {
         return iReclamation.RetrieveObjet(objet);
     }
+
     @GetMapping("/pagination")
     public Page<Reclamation> GetAllPagination(@RequestParam(defaultValue = "10") int size,
-                                              @RequestParam(defaultValue = "0") int page) {
-        return iReclamation.GetAllWithPagination(page,size);
+                                              @RequestParam(defaultValue = "0") int page,
+                                              @RequestParam(defaultValue = "id") String sortBy,
+                                              @RequestParam(defaultValue = "desc") String sortOrder) {
+        return iReclamation.GetAllWithPagination(page, size,sortBy,sortOrder);
     }
+
     @PutMapping("/traitereclam")
-    public Reclamation SetReclam (@RequestBody Reclamation reclamation)
-    {
+    public Reclamation SetReclam(@RequestBody Reclamation reclamation) {
         return iReclamation.SetReclam(reclamation);
     }
+
     @GetMapping("/getarchivereclam")
-    public List<Reclamation> GetArchives()
-    {
-        return iReclamation.GetArchives();
+    public Page<Reclamation> GetArchives(@RequestParam(defaultValue = "10") int size,
+    @RequestParam(defaultValue = "0") int page,
+    @RequestParam(defaultValue = "id") String sortBy,
+    @RequestParam(defaultValue = "desc") String sortOrder) {
+        return iReclamation.GetArchives(page,size,sortBy,sortOrder);
     }
-    @GetMapping("/getreclamtraite")
-    public List<Reclamation> OrderTraite()
-    {
-        return iReclamation.OrderTraite();
-    }
+
+
+
+
 }

@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/reclamation")
 @CrossOrigin(origins = "*")
 public class MessageController {
 
@@ -31,22 +31,18 @@ public class MessageController {
 
 
     @PostMapping("/send-private-message/{id}")
-    public void sendPrivateMessage(@PathVariable final String id,
+    public void sendPrivateMessage(@PathVariable final Long id,
                                    @RequestBody final MessageRequest message) {
          messageService.sendMessage(message,id);
     }
-    @GetMapping("/get-private-chat/{id}")
-    public PrivateChat getPrivateChat(@PathVariable final String id) {
-       return  messageService.getPrivateChat(id);
+    @GetMapping("/get-private-chat")
+    public List<PrivateChat> getPrivateChat() {
+       return  messageService.getPrivateChat();
     }
 
-    @PostMapping("/send-admin-private-message/{id}")
-    public void sendAdminPrivateMessage(@PathVariable final String id,
-                                   @RequestBody final MessageRequest message) {
-        messageService.sendAdminMessage(message,id);
+    @GetMapping("/vu-message/{id}")
+    public void sendPrivateMessage(@PathVariable final Long id) {
+        messageService.readMSg(id);
     }
-    @GetMapping("/getadmin-private-chat")
-    public List<PrivateChat> getPrivateChat() {
-        return  messageService.getAdminPrivateChat();
-    }
+
 }

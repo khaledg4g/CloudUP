@@ -1,4 +1,4 @@
-package com.projetpi.cloudup.config;
+package com.projetpi.cloudup.Config;
 
 
 import org.springframework.context.annotation.Configuration;
@@ -17,7 +17,6 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
     @Override
     public void registerStompEndpoints(final StompEndpointRegistry registry) {
         registry.addEndpoint("/websocket")
-                .setHandshakeHandler(new UserHandshakeHandler())
                 .setAllowedOrigins("http://localhost:4200")
                 .withSockJS(); // WebSocket endpoint for clients to connect
     }

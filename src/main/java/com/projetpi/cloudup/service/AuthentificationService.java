@@ -128,6 +128,7 @@ public class AuthentificationService{
         return AuthentificationResponse
                 .builder()
                 .token(jwtToken)
+                .user(user)
                 .build();
     }
 
