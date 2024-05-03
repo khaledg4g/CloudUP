@@ -26,4 +26,5 @@ public class PublicationDTO implements Serializable {
     private int forumId;
     private int UserId;
     private String username;
+    private String image;
 }

@@ -48,26 +48,6 @@ public List<Publication> retrieveById(int idpub){
         return publicationRepository.findByidpub(idpub);
 }
 
-
-
-   /* @Override
-    public List<Publication> retrieveSubjectDate() {
-        List<Forum> forums = forumRepository.findAll();
-        List<Publication> publicationsListe = new ArrayList<>();
-        for (Forum f : forums) {
-
-            for (Publication p : f.getPublications()) {
-                Publication pub = new Publication();
-                pub.setSubject(p.getSubject());
-                pub.setDatePub(p.getDatePub());
-
-                publicationsListe.add(pub);
-            }
-        }
-        return publicationsListe;
-    }*/
-
-
     @Override
     public List<Publication> retrieveByTags(@RequestParam String tags
                                                 ) {

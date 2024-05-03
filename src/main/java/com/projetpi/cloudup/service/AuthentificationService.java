@@ -124,18 +124,6 @@ public class AuthentificationService {
                 .token(jwtToken)
                 .build();
     }
-
-    /*public long getUserIdByToken (String token){
-        List<Token> tokenList = tokenRepository.findAll();
-        log.info("this is token " +token);
-        for (Token t : tokenList){
-            if (t.getToken() == token){
-                return t.getUser().getIdUser();
-            }
-        }
-        return 0;
-    }*/
-
     public void activateAccount(String token) throws MessagingException {
         Token savedToken = tokenRepository.findTokenByToken(token)
                 .orElseThrow(() -> new RuntimeException("Token not found"));

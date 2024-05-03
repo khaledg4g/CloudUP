@@ -9,9 +9,12 @@ import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.util.Base64;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -31,8 +34,13 @@ public class PublicationRestController {
 
 
     @PostMapping("/{idu}/{idf}/addPub")
-    public Publication addPub(@RequestParam List<MultipartFile> file, @RequestBody Publication pub, @PathVariable Long idf, @PathVariable Long idu) {
-        return iPublication.addPubtoForumUser(file,pub,idf,idu);
+    public Publication addPub(@RequestBody Publication pub, @PathVariable Long idf, @PathVariable Long idu) {
+        return iPublication.addPubtoForumUser(pub,idf,idu);
+    }
+
+    @PostMapping("/upload/{idpub}")
+    public void uploadImage(@RequestParam MultipartFile imageFile, @PathVariable int idpub) throws IOException {
+       iPublication.uploadImage(imageFile, idpub);
     }
 
     @PutMapping("/updatePub")

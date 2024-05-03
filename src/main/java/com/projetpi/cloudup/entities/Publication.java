@@ -39,7 +39,9 @@ public class Publication implements Serializable {
     private categories categories;
     private String closed="false";
     private String username;
-    private String image;
+ @Lob
+ @Column(columnDefinition = "MEDIUMBLOB")
+    private  String image;
 
     @ManyToOne
     Forum forum;
