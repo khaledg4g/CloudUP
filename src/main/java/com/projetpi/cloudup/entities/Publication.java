@@ -39,6 +39,7 @@ public class Publication implements Serializable {
     private categories categories;
     private String closed="false";
     private String username;
+    private int gotMail=0;
  @Lob
  @Column(columnDefinition = "MEDIUMBLOB")
     private  String image;

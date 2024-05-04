@@ -31,6 +31,7 @@ public class Commentary implements Serializable {
     private String solution="false";
     private String username;
     private int idpub;
+    private int gotMail=0;
 
     @ManyToOne
             @JsonIgnore

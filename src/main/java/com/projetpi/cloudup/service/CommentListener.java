@@ -16,9 +16,9 @@ public class CommentListener {
     @PostUpdate
     public void onCommentUpdate(Commentary comment) {
         // Check if the 'closed' attribute has changed to true
-        if ("true".equals(comment.getSolution())) {
-            // Trigger email notification
-            emailServer.sendEmailNotif(comment.getUser().getEmail());
+        if ("true".equals(comment.getSolution()) && comment.getGotMail()==0) {
+            comment.setGotMail(1);
+            emailServer.sendEmailNotif(comment.getUser().getEmail(), comment.getContent(), comment.getPublication().getSubject());
         }
     }
 }

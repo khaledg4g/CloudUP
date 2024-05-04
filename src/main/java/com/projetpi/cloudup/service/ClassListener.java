@@ -17,18 +17,15 @@ public class ClassListener {
 
     private String previousClosedState;
 
-    @PreUpdate
+    @PostUpdate
     public void onPublicationUpdate(Publication publication) {
-        // Check if the 'closed' attribute is updated
-        if (publication.getClosed() != null && !publication.getClosed().equals(previousClosedState)) {
-            // Check if the 'closed' attribute has changed to true
-            if ("true".equals(publication.getClosed())) {
-                // Trigger email notification
-                emailServer.sendEmailNotification(publication.getUser().getEmail());
+            if ("true".equals(publication.getClosed()) && publication.getGotMail()==0) {
+                publication.setGotMail(1);
+                emailServer.sendEmailNotification(publication.getUser().getEmail(), publication.getSubject());
             }
             // Update previousClosedState to the current value
-            previousClosedState = publication.getClosed();
-        }
+
     }
+
 
 }

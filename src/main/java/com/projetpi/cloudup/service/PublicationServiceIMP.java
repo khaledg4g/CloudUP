@@ -90,7 +90,6 @@ public class PublicationServiceIMP implements IPublication {
     }
 
     @Override
-    @Transactional
     public void incrementViews(Long publicationId) {
         Optional<Publication> publicationOptional = publicationRepository.findById(publicationId);
         if (publicationOptional.isPresent()) {
@@ -103,23 +102,26 @@ public class PublicationServiceIMP implements IPublication {
     }
 
     @Override
-    @Transactional
     public void markSolutionAndClosePublication() {
-        List<Forum> forums = forumRepository.findAll();
+        try {
+            List<Forum> forums = forumRepository.findAll();
 
-        for (Forum forum : forums) {
-            for (Publication publication : forum.getPublications()) {
-                if (Objects.equals(publication.getClosed(), "false")){
-                    Commentary solutionComment = getCommentary(publication);
+            for (Forum forum : forums) {
+                for (Publication publication : forum.getPublications()) {
+                    if (Objects.equals(publication.getClosed(), "false")) {
+                        Commentary solutionComment = getCommentary(publication);
 
-                    if (solutionComment != null) {
-                        solutionComment.setSolution("true");
-                        publication.setClosed("true");
-                        commentaryRepository.save(solutionComment);
-                        publicationRepository.save(publication);
+                        if (solutionComment != null) {
+                            solutionComment.setSolution("true");
+                            publication.setClosed("true");
+                            commentaryRepository.save(solutionComment);
+                            publicationRepository.save(publication);
+                        }
                     }
                 }
             }
+        } catch (Exception ex) {
+            ex.printStackTrace();
         }
     }
 

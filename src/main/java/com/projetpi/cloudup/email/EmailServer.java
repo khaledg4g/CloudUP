@@ -70,25 +70,26 @@ public class EmailServer {
         mailSender.send(mimeMessage);
     }
 
-    public void sendEmailNotification(String userEmail) {
+    public void sendEmailNotification(String userEmail, String subject) {
         MimeMessage message = mailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(message);
         try {
             helper.setTo(userEmail);
             helper.setSubject("Publication solved Notification");
-            helper.setText("Your publication has been solved! Please check your blog for more info." );
+            helper.setText("Your publication has been solved! Please check your blog for more info.\n **Subject of the publication :\n" + subject );
             mailSender.send(message);
         } catch (MessagingException e) {
             e.printStackTrace();
         }
     }
-    public void sendEmailNotif (String userEmail){
+    public void sendEmailNotif (String userEmail, String content, String subject){
         MimeMessage message = mailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(message);
         try {
             helper.setTo(userEmail);
             helper.setSubject("Your comment is tagged as a solution");
-            helper.setText("Your comment was tagged as a solution. Thank you for helping others!");
+            helper.setText("Your comment was tagged as a solution. Thank you for helping others! \n **Content of the comment :\n" +
+                    content + "\n **This comment was written under the subject of this post:\n" + subject);
             mailSender.send(message);
         } catch (MessagingException e) {
             e.printStackTrace();
