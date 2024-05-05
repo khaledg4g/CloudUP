@@ -2,6 +2,7 @@ package com.projetpi.cloudup.RestController;
 
 import com.projetpi.cloudup.entities.Commentary;
 import com.projetpi.cloudup.entities.Publication;
+import com.projetpi.cloudup.entities.Role;
 import com.projetpi.cloudup.entities.User;
 import com.projetpi.cloudup.service.AuthentificationService;
 import com.projetpi.cloudup.service.IUser;
@@ -51,6 +52,11 @@ public class UserRestController {
     public ResponseEntity<Long> getTokenAndReturnId(@RequestParam String token) {
         Long userId = service.getUserIdByToken(token);
         return ResponseEntity.ok(userId);
+    }
+
+    @GetMapping("/getRole/{idUser}")
+    public Role getRole (@PathVariable long idUser){
+        return iUser.getRole(idUser);
     }
 
 }

@@ -2,6 +2,7 @@ package com.projetpi.cloudup.service;
 
 import com.projetpi.cloudup.entities.Commentary;
 import com.projetpi.cloudup.entities.Publication;
+import com.projetpi.cloudup.entities.Role;
 import com.projetpi.cloudup.entities.User;
 import com.projetpi.cloudup.repository.CommentaryRepository;
 import com.projetpi.cloudup.repository.PublicationRepository;
@@ -39,5 +40,13 @@ public class UserServiceIMP implements IUser{
     @Override
     public List<Commentary> retrieveAllC() {
         return commentaryRepository.findAll();
+    }
+
+    public Role getRole (long idUser) {
+        User u = userRepository.findById(idUser).orElse(null);
+        if (u!=null){
+            return u.getRoles();
+        }
+        return null;
     }
 }
