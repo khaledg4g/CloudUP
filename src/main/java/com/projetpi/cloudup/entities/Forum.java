@@ -19,12 +19,10 @@ import java.util.Set;
 public class Forum implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id_Forum=1;
-    private int nbr_pub=0;
+    private int id_Forum;
+    private int nbr_pub;
 @JsonIgnore
     @OneToMany(mappedBy="forum")//, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Set<Publication> publications;
-
-
 }
 

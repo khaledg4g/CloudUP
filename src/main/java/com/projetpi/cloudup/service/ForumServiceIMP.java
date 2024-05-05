@@ -30,7 +30,7 @@ public class ForumServiceIMP implements IForum {
 
     @Override
     public Forum addForum(Forum f) {
-        return forumRepository.save(f);
+       return forumRepository.save(f);
     }
 
     @Override
