@@ -10,7 +10,7 @@
     </parent>
     <groupId>com.Projetpi</groupId>
     <artifactId>CloudUP</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>1.0</version>
     <name>CloudUP</name>
     <description>CloudUP</description>
     <properties>

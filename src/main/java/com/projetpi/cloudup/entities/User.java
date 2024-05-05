@@ -16,6 +16,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import java.io.Serializable;
 import java.security.Principal;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.List;
@@ -35,10 +36,7 @@ public class User implements Serializable, UserDetails, Principal {
     private Long idUser;
     private String nom;
     private String prenom;
-    @NotNull
-    @Email(message = "Email should be valid")
-    @Column(unique = true, nullable = false)
-    @ValidEmailDomain(domain = "esprit.tn")
+
     private String email;
     private String motDePasse;
 
@@ -49,6 +47,7 @@ public class User implements Serializable, UserDetails, Principal {
     @Enumerated(EnumType.STRING)
     private Role roles;
 
+    private String image;
     @JsonIgnore
     @OneToMany(mappedBy = "user")
     private List<TokenAuth> tokenAuths;
@@ -64,7 +63,27 @@ public class User implements Serializable, UserDetails, Principal {
     @Column(insertable = false)
     private LocalDateTime LastModifiedDate;
 
+    @Enumerated(EnumType.STRING)
+    private Gender gender;
 
+    private LocalDate DateOfBirth;
+
+    private String aboutMe;
+
+    private String city;
+    private String country;
+    private int codePostal;
+
+    @Enumerated(EnumType.STRING)
+    private University college;
+
+    @Enumerated(EnumType.STRING)
+    private Classe degree;
+
+    @Enumerated(EnumType.STRING)
+    private Options option;
+
+    private String membership;
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(new SimpleGrantedAuthority(roles.name()));
