@@ -27,10 +27,10 @@ import java.util.List;
 @NoArgsConstructor
 @Entity
 @EntityListeners(AuditingEntityListener.class)
-@JsonIdentityInfo(
-        generator = ObjectIdGenerators.PropertyGenerator.class,
-        property = "idUser")
 public class User implements Serializable, UserDetails, Principal {
+    @JsonIdentityInfo(
+            generator = ObjectIdGenerators.PropertyGenerator.class,
+            property = "idUser")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     private Long idUser;
@@ -39,23 +39,21 @@ public class User implements Serializable, UserDetails, Principal {
 
     private String email;
     private String motDePasse;
-
     @NotNull
     @Pattern(regexp = "^\\+(?:[0-9] ?){6,14}[0-9]$", message = "Phone number must be in valid international format")
     private String phoneNumber;
-
     @Enumerated(EnumType.STRING)
     private Role roles;
+
 
     private String image;
     @JsonIgnore
     @OneToMany(mappedBy = "user")
-    private List<TokenAuth> tokenAuths;
-
+    private List<Reclamation> reclamations;
     private boolean accountLocked;
     private boolean enabled;
-
-
+    // Remove @CreatedDate from here
+    // private List<TokenAuth> tokenAuths;
     @CreatedDate
     @Column(nullable = false, updatable = false)
     private LocalDateTime createdDate;

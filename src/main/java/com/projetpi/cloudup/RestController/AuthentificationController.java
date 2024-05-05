@@ -66,6 +66,7 @@ public class AuthentificationController {
         }
     }
 
+
     @PostMapping(value = "/image", consumes = "multipart/form-data")
     public ResponseEntity<?> uploadUserPhoto(
             @Parameter()

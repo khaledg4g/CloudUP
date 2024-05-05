@@ -130,6 +130,7 @@ private final FileStorageServiceYass fileStorageServiceYass;
         return AuthentificationResponse
                 .builder()
                 .token(jwtToken)
+                .user(user)
                 .build();
     }
 
@@ -171,7 +172,7 @@ private final FileStorageServiceYass fileStorageServiceYass;
         tokenRepository.save(savedToken);
 
     }
-
+}
     public void uploadUserPhoto(MultipartFile file, Authentication authentication) {
 
         User user = (User) authentication.getPrincipal();
