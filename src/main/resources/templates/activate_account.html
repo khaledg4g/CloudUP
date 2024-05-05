@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registration Confirmation</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #ffffff;
+            color: #333333;
+        }
+        .header {
+            background-color: #D32F2F;
+            padding: 20px;
+            text-align: center;
+        }
+        .header img {
+            width: auto; /* Adjust as needed */
+            height: 60px; /* Adjust as needed */
+            margin-top: 10px;
+        }
+        .email-content {
+            padding: 30px;
+            text-align: center;
+        }
+        .email-content h1 {
+            color: #D32F2F;
+            font-size: 24px;
+            margin-top: 25px;
+            margin-bottom: 10px;
+        }
+        .email-content p {
+            font-size: 16px;
+            line-height: 1.6;
+        }
+
+
+        .activation-code {
+            font-size: 36px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .activation-link {
+            display: block;
+            text-align: center;
+            margin-top: 20px;
+        }
+        .activation-link a {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 5px;}
+        .footer {
+            font-size: 12px;
+            color: #888888;
+            text-align: center;
+            padding: 20px;
+        }
+
+
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <img src="images/gmail.png" alt="Gmail Logo">
+    </div>
+    <div class="email-content">
+        <img src="images/logoEsprit.jpg" alt="Esprit Logo" style="width: auto; height: 64px;"> <!-- Adjust src as needed -->
+        <h1>Thank you for Registration!</h1>
+        <p class="greeting" th:text="'Hello ' + ${username} + ','"></p>
+        <p>You are just one step away from completing your registration,
+            activate your account by clicking the button below to start
+            your web development career and gain access to Esprit courses, tutorials, events...!</p>
+        <!-- Replace href with your actual activation link -->
+        <div class="activation-code"><span th:text="${activation_code}"></span></div>
+        <div class="activation-link">
+            <a th:href="${confirmationUrl}" target="_blank">Activate your account</a>
+        </div>
+
+
+
+        <div class="footer">
+            <table width="100%" border="0" cellpadding="0" cellspacing="0" align="center">
+                <tbody>
+                <tr>
+                    <td width="100%" align="center">
+                        <a href="https://www.facebook.com/esprit.tn"><img width="25" height="25" src="images/facebook.png" alt="Facebook" border="0" style="text-align: center;"/></a>
+                        <a href="https://www.esprit.tn/"><img width="25" height="25" src="images/browser.png" alt="LinkedIn" border="0" style="text-align: center;"/></a>
+                        <a href="https://www.instagram.com/esprit_ingenieur/?hl=fr"><img width="25" height="25" src="images/instagram.png" alt="Instagram" border="0" style="text-align: center;"/></a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <table width="100%" border="0" cellpadding="0" cellspacing="0" align="center">
+                <tbody>
+                <tr>
+                    <td width="100%" align="center" style="padding-left:15px; padding-right:15px;">
+                        <p style="font-family:'Ubuntu Mono', monospace;
+                    color:#D32F2F; font-size:12px;">Esprit &copy; 2024, All Rights Reserved</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td width="100%" align="center" style="padding-left:15px; padding-right:15px;">
+
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+</body>
+</html>
