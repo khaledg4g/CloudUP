@@ -10,9 +10,14 @@ import com.projetpi.cloudup.entities.*;
 import com.projetpi.cloudup.repository.TokeAuthRepository;
 import com.projetpi.cloudup.repository.TokenRepository;
 import com.projetpi.cloudup.repository.UserRepository;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jwts;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.mail.MessagingException;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.tomcat.util.net.openssl.ciphers.Authentication;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -29,9 +34,10 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
+
 public class AuthentificationService{
-
-
+  
     private final PasswordEncoder passwordEncoder;
     private final UserRepository userRepository;
     private final TokenRepository tokenRepository;
@@ -157,7 +163,6 @@ private final FileStorageServiceYass fileStorageServiceYass;
         tokeAuthRepository.save(token);
     }
 
-
     public void activateAccount(String token) throws MessagingException {
         Token savedToken = tokenRepository.findTokenByToken(token)
                 .orElseThrow(() -> new RuntimeException("Token not found"));
@@ -172,6 +177,8 @@ private final FileStorageServiceYass fileStorageServiceYass;
         tokenRepository.save(savedToken);
 
     }
+
+
 }
     public void uploadUserPhoto(MultipartFile file, Authentication authentication) {
 

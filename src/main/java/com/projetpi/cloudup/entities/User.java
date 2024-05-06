@@ -1,4 +1,6 @@
 package com.projetpi.cloudup.entities;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.projetpi.cloudup.utilities.UniqueEmail;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -20,12 +22,15 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
+@ToString
+@EqualsAndHashCode
 @EntityListeners(AuditingEntityListener.class)
 public class User implements Serializable, UserDetails, Principal {
     @JsonIdentityInfo(
@@ -39,6 +44,18 @@ public class User implements Serializable, UserDetails, Principal {
 
     private String email;
     private String motDePasse;
+    private int nbr_pub;
+    private int nbr_com;
+
+
+    @OneToMany(mappedBy = "user")// ,cascade = CascadeType.ALL)
+    @JsonIgnore
+    private Set<Publication> publications;
+
+    @OneToMany(mappedBy = "user")//, cascade = CascadeType.ALL)
+    @JsonIgnore
+    private Set<Commentary>commentaries;
+
     @NotNull
     @Pattern(regexp = "^\\+(?:[0-9] ?){6,14}[0-9]$", message = "Phone number must be in valid international format")
     private String phoneNumber;

@@ -3,6 +3,7 @@ package com.projetpi.cloudup.RestController;
 import com.projetpi.cloudup.entities.User;
 import com.projetpi.cloudup.entities.UserResponse;
 import com.projetpi.cloudup.service.AuthentificationService;
+import com.projetpi.cloudup.service.JwtService;
 import com.projetpi.cloudup.service.LogoutService;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -11,6 +12,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,6 +26,8 @@ import java.util.List;
 @RequestMapping("/auth")
 @RequiredArgsConstructor
 @Tag(name = "Authentification")
+
+
 public class AuthentificationController {
     private final AuthentificationService service;
     private final LogoutService logoutService;
@@ -35,6 +39,8 @@ public class AuthentificationController {
         service.register(request);
         return ResponseEntity.accepted().build();
     }
+
+
 
     @GetMapping("/getUser")
     public ResponseEntity<User> getUser(Authentication authentication) {
@@ -75,7 +81,7 @@ public class AuthentificationController {
             ){
         service.uploadUserPhoto(file, authentication);
 
-
+}
         return ResponseEntity.accepted().build();
     }
 
@@ -90,7 +96,5 @@ public class AuthentificationController {
     public Long updateUser(@RequestBody @Valid UpdateRequest request , Authentication authentication) {
     return service.updateUser(request,authentication);
     }
-
-
 
     }
