@@ -1,4 +1,6 @@
 package com.projetpi.cloudup.entities;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.projetpi.cloudup.utilities.UniqueEmail;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -17,10 +19,12 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.io.Serializable;
 
 import java.security.Principal;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Collection;
 
 import java.util.List;
+import java.util.Set;
 
 @Data
 @Builder
@@ -28,44 +32,57 @@ import java.util.List;
 @NoArgsConstructor
 @Entity
 
+
 @ToString
 @EqualsAndHashCode
 
 
+
+@ToString
+@EqualsAndHashCode
 @EntityListeners(AuditingEntityListener.class)
-@JsonIdentityInfo(
-        generator = ObjectIdGenerators.PropertyGenerator.class,
-        property = "idUser")
 public class User implements Serializable, UserDetails, Principal {
 
+
+    @JsonIdentityInfo(
+            generator = ObjectIdGenerators.PropertyGenerator.class,
+            property = "idUser")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     private Long idUser;
     private String nom;
     private String prenom;
-    @NotNull
-    @Email(message = "Email should be valid")
-    @Column(unique = true, nullable = false)
-    @ValidEmailDomain(domain = "esprit.tn")
+
     private String email;
     private String motDePasse;
+    private int nbr_pub;
+    private int nbr_com;
+
+
+    @OneToMany(mappedBy = "user")// ,cascade = CascadeType.ALL)
+    @JsonIgnore
+    private Set<Publication> publications;
+
+    @OneToMany(mappedBy = "user")//, cascade = CascadeType.ALL)
+    @JsonIgnore
+    private Set<Commentary>commentaries;
 
 
     @NotNull
     @Pattern(regexp = "^\\+(?:[0-9] ?){6,14}[0-9]$", message = "Phone number must be in valid international format")
     private String phoneNumber;
-
     @Enumerated(EnumType.STRING)
     private Role roles;
 
+
+    private String image;
     @JsonIgnore
     @OneToMany(mappedBy = "user")
-    private List<TokenAuth> tokenAuths;
-
+    private List<Reclamation> reclamations;
     private boolean accountLocked;
     private boolean enabled;
-
-
+    // Remove @CreatedDate from here
+    // private List<TokenAuth> tokenAuths;
     @CreatedDate
     @Column(nullable = false, updatable = false)
     private LocalDateTime createdDate;
@@ -73,7 +90,27 @@ public class User implements Serializable, UserDetails, Principal {
     @Column(insertable = false)
     private LocalDateTime LastModifiedDate;
 
+    @Enumerated(EnumType.STRING)
+    private Gender gender;
 
+    private LocalDate DateOfBirth;
+
+    private String aboutMe;
+
+    private String city;
+    private String country;
+    private int codePostal;
+
+    @Enumerated(EnumType.STRING)
+    private University college;
+
+    @Enumerated(EnumType.STRING)
+    private Classe degree;
+
+    @Enumerated(EnumType.STRING)
+    private Options option;
+
+    private String membership;
     @Override
     @JsonIgnore
     public Collection<? extends GrantedAuthority> getAuthorities() {
