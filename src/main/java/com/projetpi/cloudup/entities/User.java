@@ -33,8 +33,6 @@ import java.util.Set;
 @Entity
 
 
-@ToString
-@EqualsAndHashCode
 
 
 

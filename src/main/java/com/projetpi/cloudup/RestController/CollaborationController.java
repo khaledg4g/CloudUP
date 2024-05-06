@@ -121,38 +121,38 @@ public class CollaborationController {
         return iCollaboration.GetAllWithPagination(page,size);
     }
 
-    @GetMapping("/findobjetrec/{objet}")
+    @GetMapping("/findobjetrecssssss/{objet}")
     public List<Collaboration> RetrieveObjet(@PathVariable String objet)
     {
         return iCollaboration.RetrieveObjet(objet);
     }
 
 
-    @PutMapping("/{commentId}/upvote")
+    @PutMapping("/{commentId}/upvotesssssssss")
     public ResponseEntity<?> upvoteCommentary(@PathVariable("commentId") int commentId) {
         iCollaboration.upvoteCollaboration(commentId);
         return ResponseEntity.ok().build();
     }
-    @PutMapping("/{commentId}/downvote")
+    @PutMapping("/{commentId}/downvotessssssss")
     public ResponseEntity<?> downvoteCommentary(@PathVariable("commentId") int commentId) {
         iCollaboration.downvoteCollaboration(commentId);
         return ResponseEntity.ok().build();
     }
 
 
-    @PutMapping("/{commentId}/downb")
+    @PutMapping("/{commentId}/downbssssssss")
     public ResponseEntity<?> downnumber(@PathVariable("commentId") int commentId) {
         iCollaboration.downnumberCollaboration(commentId);
         return ResponseEntity.ok().build();
     }
 
 
-    @GetMapping("/{commentId}/likes")
+    @GetMapping("/{commentId}/likesssssssssss")
     public ResponseEntity<Integer> getCommentLikes(@PathVariable("commentId") int commentId) {
         int likes = iCollaboration.getCollaborationLikes(commentId);
         return ResponseEntity.ok(likes);
     }
-    @GetMapping("/{commentId}/dislikes")
+    @GetMapping("/{commentId}/dislikessssssssss")
     public ResponseEntity<Integer> getCommentDislikes(@PathVariable("commentId") int commentId) {
         int dislikes = iCollaboration.getCollaborationDislikes(commentId);
         return ResponseEntity.ok(dislikes);

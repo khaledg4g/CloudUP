@@ -17,22 +17,19 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
 import org.springframework.web.multipart.MultipartFile;
 
 import java.security.SecureRandom;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-public class AuthentificationService {
+public class AuthentificationService{
 
 
     private final PasswordEncoder passwordEncoder;
@@ -133,7 +130,6 @@ public class AuthentificationService {
         return AuthentificationResponse
                 .builder()
                 .token(jwtToken)
-                .user(user)
                 .build();
     }
 
@@ -175,15 +171,6 @@ public class AuthentificationService {
         tokenRepository.save(savedToken);
 
     }
-
-    public Optional<User> getUserByEmail(String email) {
-        return userRepository.findUserByEmail(email);
-    }
-    public final Optional<User> getAuthenticatedUser() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        return getUserByEmail(authentication.getName());
-    }
-
 
     public void uploadUserPhoto(MultipartFile file, Authentication authentication) {
 
