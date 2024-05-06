@@ -1,8 +1,6 @@
 package com.projetpi.cloudup.entities;
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import com.projetpi.cloudup.utilities.UniqueEmail;
 import com.projetpi.cloudup.utilities.ValidEmailDomain;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
@@ -10,6 +8,7 @@ import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+import org.springframework.format.annotation.NumberFormat;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -26,10 +25,7 @@ import java.util.List;
 @NoArgsConstructor
 @Entity
 @EntityListeners(AuditingEntityListener.class)
-@JsonIdentityInfo(
-        generator = ObjectIdGenerators.PropertyGenerator.class,
-        property = "idUser")
-public class User implements Serializable, UserDetails, Principal {
+public class User implements Serializable , UserDetails, Principal {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     private Long idUser;
@@ -42,6 +38,7 @@ public class User implements Serializable, UserDetails, Principal {
     private String email;
     private String motDePasse;
 
+
     @NotNull
     @Pattern(regexp = "^\\+(?:[0-9] ?){6,14}[0-9]$", message = "Phone number must be in valid international format")
     private String phoneNumber;
@@ -49,16 +46,11 @@ public class User implements Serializable, UserDetails, Principal {
     @Enumerated(EnumType.STRING)
     private Role roles;
 
-    @JsonIgnore
-    @OneToMany(mappedBy = "user")
-    private List<TokenAuth> tokenAuths;
-
     private boolean accountLocked;
     private boolean enabled;
 
-
     @CreatedDate
-    @Column(nullable = false, updatable = false)
+    @Column(nullable = false , updatable = false)
     private LocalDateTime createdDate;
     @LastModifiedDate
     @Column(insertable = false)
@@ -79,8 +71,7 @@ public class User implements Serializable, UserDetails, Principal {
     public String getUsername() {
         return email;
     }
-
-    public String fullName() {
+    public String fullName(){
         return nom + " " + prenom;
     }
 

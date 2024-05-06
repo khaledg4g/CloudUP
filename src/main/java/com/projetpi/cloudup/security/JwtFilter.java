@@ -1,7 +1,5 @@
 package com.projetpi.cloudup.security;
 
-import com.projetpi.cloudup.entities.TokenAuth;
-import com.projetpi.cloudup.repository.TokeAuthRepository;
 import com.projetpi.cloudup.service.JwtService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -26,7 +24,6 @@ public class JwtFilter extends OncePerRequestFilter {
 
     private final JwtService jwtService;
     private final UserDetailsService userDetailsService;
-    private final TokeAuthRepository tokeAuthRepository ;
     @Override
     protected void doFilterInternal(
             @NonNull HttpServletRequest request,
@@ -41,19 +38,16 @@ public class JwtFilter extends OncePerRequestFilter {
         final String authHeader = request.getHeader(HttpHeaders.AUTHORIZATION);
         final String jwt;
         final String userEmail;
-        if(authHeader == null || !authHeader.startsWith("Bearer ")){
+        if(authHeader == null || authHeader.startsWith("Bearer ")){
             filterChain.doFilter(request, response);
             return;
         }
 
-        jwt = authHeader.substring(7);
+        jwt = authHeader.substring(6);
         userEmail = jwtService.extractUsername(jwt);
         if(userEmail != null && SecurityContextHolder.getContext().getAuthentication() == null){
             UserDetails userDetails = userDetailsService.loadUserByUsername(userEmail);
-            var tokeValid = tokeAuthRepository.findByToken(jwt)
-                    .map (t -> !t.isExpired() && !t.isRevoked())
-                    .orElse(false);
-            if(jwtService.isTokenValid(jwt, userDetails) && tokeValid){
+            if(jwtService.isTokenValid(jwt, userDetails)){
                 UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
                   userDetails,
                   null,
