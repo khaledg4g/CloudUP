@@ -3,6 +3,7 @@ package com.projetpi.cloudup.RestController;
 
 import com.projetpi.cloudup.entities.Role;
 import com.projetpi.cloudup.utilities.UniqueEmail;
+
 import com.projetpi.cloudup.utilities.ValidEmailDomain;
 import jakarta.persistence.Column;
 import jakarta.validation.constraints.*;
@@ -11,6 +12,7 @@ import lombok.Data;
 import org.hibernate.validator.constraints.UniqueElements;
 
 import java.util.Set;
+
 
 @Data
 @Builder

@@ -3,27 +3,29 @@ package com.projetpi.cloudup.service;
 import com.projetpi.cloudup.RestController.AuthentificationRequest;
 import com.projetpi.cloudup.RestController.AuthentificationResponse;
 import com.projetpi.cloudup.RestController.RegistrationRequest;
+import com.projetpi.cloudup.RestController.UpdateRequest;
 import com.projetpi.cloudup.email.EmailServer;
 import com.projetpi.cloudup.email.EmailTemplateName;
-import com.projetpi.cloudup.entities.Role;
-import com.projetpi.cloudup.entities.Token;
-import com.projetpi.cloudup.entities.User;
+import com.projetpi.cloudup.entities.*;
+import com.projetpi.cloudup.repository.TokeAuthRepository;
 import com.projetpi.cloudup.repository.TokenRepository;
 import com.projetpi.cloudup.repository.UserRepository;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.mail.MessagingException;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.tomcat.util.net.openssl.ciphers.Authentication;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.security.SecureRandom;
 import java.time.LocalDateTime;
@@ -33,35 +35,41 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 @Slf4j
-public class AuthentificationService {
 
-
+public class AuthentificationService{
+  
     private final PasswordEncoder passwordEncoder;
     private final UserRepository userRepository;
     private final TokenRepository tokenRepository;
+    private final TokeAuthRepository tokeAuthRepository;
     private final EmailServer emailServer;
     private final JwtService jwtService;
     private final AuthenticationManager authentificationManager;
     @Value("${application.security.mailing.frontend.activation-url}")
     private String activationUrl;
+    private final UserMapper userMapper;
 
+private final FileStorageServiceYass fileStorageServiceYass;
 
+    public List<User> finAll(User user){
+        var users = userRepository.findAll();
+        return users;
+    }
     public void register(RegistrationRequest request) throws MessagingException {
-        var user = User.builder()
-                .nom(request.getNom())
-                .prenom(request.getPrenom())
-                .email(request.getEmail())
-                .phoneNumber(request.getPhoneNumber())
-                .motDePasse(passwordEncoder.encode(request.getMotDePasse()))
-                .enabled(false)
-                .accountLocked(false)
-                .roles(request.getRoles())
-                .build();
-        userRepository.save(user);
-        sendValidationEmail(user);
-
-
-
+        if(!userRepository.existsByEmail(request.getEmail())) {
+            var user = User.builder()
+                    .nom(request.getNom())
+                    .prenom(request.getPrenom())
+                    .email(request.getEmail())
+                    .phoneNumber(request.getPhoneNumber())
+                    .motDePasse(passwordEncoder.encode(request.getMotDePasse()))
+                    .enabled(false)
+                    .accountLocked(false)
+                    .roles(request.getRoles())
+                    .build();
+            userRepository.save(user);
+            sendValidationEmail(user);
+        }
 
 
     }
@@ -106,7 +114,6 @@ public class AuthentificationService {
 
         return codeBuilder.toString();
     }
-
     public AuthentificationResponse authenticate(AuthentificationRequest request) {
         var auth = authentificationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
@@ -115,15 +122,47 @@ public class AuthentificationService {
                 )
         );
 
+
+
+        var userSaved = userRepository.findUserByEmail(request.getEmail())
+                .orElseThrow();
+
         var claims = new HashMap<String, Object>();
         var user = ((User)auth.getPrincipal());
         claims.put("fullName", user.fullName());
         var jwtToken = jwtService.generateToken2(claims , user);
+        revokeAllUserTokens(userSaved);
+        saveUserToken(userSaved,jwtToken );
         return AuthentificationResponse
                 .builder()
                 .token(jwtToken)
+                .user(user)
                 .build();
     }
+
+
+    private void revokeAllUserTokens(User user) {
+        var validUserTokens = tokeAuthRepository.findAllValidTokensByUser(user.getIdUser());
+        if (validUserTokens.isEmpty())
+            return;
+        validUserTokens.forEach(token -> {
+            token.setExpired(true);
+            token.setRevoked(true);
+        });
+        tokeAuthRepository.saveAll(validUserTokens);
+    }
+    private void saveUserToken(User user, String jwtToken)
+    {
+        var token = TokenAuth.builder()
+                .user(user)
+                .token(jwtToken)
+                .tokenType(TokenType.BEARER)
+                .expired(false)
+                .revoked(false)
+                .build();
+        tokeAuthRepository.save(token);
+    }
+
     public void activateAccount(String token) throws MessagingException {
         Token savedToken = tokenRepository.findTokenByToken(token)
                 .orElseThrow(() -> new RuntimeException("Token not found"));
@@ -140,4 +179,43 @@ public class AuthentificationService {
     }
 
 
+}
+    public void uploadUserPhoto(MultipartFile file, Authentication authentication) {
+
+        User user = (User) authentication.getPrincipal();
+        var userPhoto = fileStorageServiceYass.saveFile(file, user.getIdUser());
+        user.setImage(userPhoto);
+        userRepository.save(user);
+
+
+    }
+
+    public Long updateUser(UpdateRequest request , Authentication authentication){
+        User userConnected = (User) authentication.getPrincipal();
+        User user = userRepository.findById(userConnected.getIdUser()).orElseThrow(() ->
+                new EntityNotFoundException("NO USER FOUND WITH ID ::" + userConnected.getIdUser()));
+
+        user.setNom(request.getNom());
+        user.setPrenom(request.getPrenom());
+        user.setEmail(user.getEmail());
+        user.setPhoneNumber(request.getPhoneNumber());
+        user.setGender(request.getGender());
+        user.setDateOfBirth(request.getDateOfBirth());
+        user.setAboutMe(request.getAboutMe());
+        user.setCity(request.getCity());
+        user.setCountry(request.getCountry());
+        user.setCodePostal(request.getCodePostal());
+        user.setCollege(request.getCollege());
+        user.setDegree(request.getDegree());
+        user.setOption(request.getOption());
+        user.setMembership(request.getMembership());
+        userRepository.save(user);
+        return user.getIdUser();
+
+    }
+
+    public UserResponse findById(Long idUser) {
+        return userRepository.findById(idUser).map(UserMapper::toUserResponse)
+                .orElseThrow(() -> new EntityNotFoundException("No user found with ID:: " + idUser));
+    }
 }
