@@ -26,31 +26,26 @@ import java.util.List;
 @RequestMapping("/auth")
 @RequiredArgsConstructor
 @Tag(name = "Authentification")
-
-
 public class AuthentificationController {
     private final AuthentificationService service;
     private final LogoutService logoutService;
 
-    @PostMapping("/Register")
+    @PostMapping("/register")
     @ResponseStatus(HttpStatus.ACCEPTED)
-    public ResponseEntity<?> register(@RequestBody @Valid RegistrationRequest request) throws MessagingException
-    {
+    public ResponseEntity<?> register(@RequestBody @Valid RegistrationRequest request) throws MessagingException {
         service.register(request);
         return ResponseEntity.accepted().build();
     }
-
-
 
     @GetMapping("/getUser")
     public ResponseEntity<User> getUser(Authentication authentication) {
         User user = (User) authentication.getPrincipal();
         return ResponseEntity.ok(user);
     }
+
     @PostMapping("/authenticate")
     public ResponseEntity<AuthentificationResponse> authenticate(
-            @RequestBody @Valid AuthentificationRequest request){
-
+            @RequestBody @Valid AuthentificationRequest request) {
         return ResponseEntity.ok(service.authenticate(request));
     }
 
@@ -65,36 +60,29 @@ public class AuthentificationController {
                                     Authentication authentication) {
         try {
             logoutService.logout(request, response, authentication);
-
             return ResponseEntity.ok().body("User has been logged out successfully.");
         } catch (Exception e) {
             return ResponseEntity.badRequest().body("Error during logout: " + e.getMessage());
         }
     }
 
-
     @PostMapping(value = "/image", consumes = "multipart/form-data")
     public ResponseEntity<?> uploadUserPhoto(
             @Parameter()
-            @RequestPart("file")MultipartFile file,
-            Authentication authentication
-            ){
+            @RequestPart("file") MultipartFile file,
+            Authentication authentication) {
         service.uploadUserPhoto(file, authentication);
-
-}
         return ResponseEntity.accepted().build();
     }
 
     @GetMapping("/{idUser}")
     public ResponseEntity<UserResponse> findUserById(
-            @PathVariable("idUser") Long idUser
-    ) {
+            @PathVariable("idUser") Long idUser) {
         return ResponseEntity.ok(service.findById(idUser));
     }
 
     @PostMapping("/updateUser")
-    public Long updateUser(@RequestBody @Valid UpdateRequest request , Authentication authentication) {
-    return service.updateUser(request,authentication);
+    public Long updateUser(@RequestBody @Valid UpdateRequest request, Authentication authentication) {
+        return service.updateUser(request, authentication);
     }
-
-    }
+}
