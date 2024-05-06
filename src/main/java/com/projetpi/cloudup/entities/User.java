@@ -75,6 +75,7 @@ public class User implements Serializable, UserDetails, Principal {
 
 
     @Override
+    @JsonIgnore
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(new SimpleGrantedAuthority(roles.name()));
     }

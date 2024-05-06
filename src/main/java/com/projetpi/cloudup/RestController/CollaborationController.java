@@ -9,6 +9,7 @@ import com.google.zxing.qrcode.QRCodeWriter;
 import com.projetpi.cloudup.entities.Collaboration;
 import com.projetpi.cloudup.entities.User;
 import com.projetpi.cloudup.repository.CollaborationRepository;
+import com.projetpi.cloudup.repository.UserRepository;
 import com.projetpi.cloudup.service.AuthentificationService;
 import com.projetpi.cloudup.service.ICollaboration;
 import jakarta.servlet.http.HttpServletResponse;
@@ -30,6 +31,8 @@ import java.sql.Timestamp;
 import java.sql.Types;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
+
 @CrossOrigin(origins = "*")
 @RequestMapping("/auth")
 //@CrossOrigin(origins = {"http://localhost:4200", "http://localhost:53289"})
@@ -45,6 +48,9 @@ public class CollaborationController {
     private CollaborationRepository collaborationRepository;
     @Autowired
     private final AuthentificationService service;
+    @Autowired
+    private UserRepository userRepository;
+
     @PostMapping("/addColbeltaswira")
     public String addCollaboration(@RequestParam("file") MultipartFile file,
                                    @RequestParam("nomcol") String nomcol,
@@ -65,9 +71,10 @@ public class CollaborationController {
 
 
     @GetMapping("/findAllusers")
-    public List<User> findAll(User user){
-        return service.finAll(user);
+    public List<User> findAll() {
+        return userRepository.findAll();
     }
+
 
 
     @PostMapping("/addCollaboration")
@@ -205,8 +212,8 @@ public class CollaborationController {
         String qrString = generateQRStringg(collaboration);
 
         // Set the width and height of the QR code image
-        int width = 500;
-        int height = 500;
+        int width = 200;
+        int height = 200;
 
         // Generate QR code image based on the QR code string and size
         QRCodeWriter qrCodeWriter = new QRCodeWriter();
