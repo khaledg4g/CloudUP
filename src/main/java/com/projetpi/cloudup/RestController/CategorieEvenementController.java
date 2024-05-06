@@ -14,7 +14,7 @@ import java.util.List;
 @CrossOrigin(origins = "http://localhost:4200")
 @Service
 @RestController
-@RequestMapping("/categories")  // Base path for all category-related endpoints
+@RequestMapping("auth/categories")  // Base path for all category-related endpoints
 public class CategorieEvenementController {
     @Autowired
 

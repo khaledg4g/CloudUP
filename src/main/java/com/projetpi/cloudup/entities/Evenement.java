@@ -1,15 +1,17 @@
 package com.projetpi.cloudup.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
 @Data
 @Entity
-public class Evenement {
+public class Evenement implements   Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -47,5 +49,12 @@ public class Evenement {
 
     @ManyToOne
     private Salle salle;
-
+    @Lob
+    @Column(columnDefinition = "MEDIUMBLOB")
+    private String imgevent ;
+    @JsonIgnore
+    @OneToMany(mappedBy = "evenement")
+    private List<Reactions> reactions;
+//    @OneToMany(mappedBy = "evenement", cascade = CascadeType.ALL)
+//    private List<Reactions> reactions;
 }

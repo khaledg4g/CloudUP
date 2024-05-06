@@ -66,6 +66,8 @@ public class User implements Serializable, UserDetails, Principal {
 
 
     @Override
+    @JsonIgnore
+
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(new SimpleGrantedAuthority(roles.name()));
     }
@@ -108,4 +110,17 @@ public class User implements Serializable, UserDetails, Principal {
     public String getName() {
         return email;
     }
+    private String location;
+    private String aboutMe;
+    @OneToMany(mappedBy = "user")
+    private List<Education> educations;
+
+    @OneToMany(mappedBy = "user")
+    private List<Speciality> specialities;
+
+    @OneToMany(mappedBy = "user")
+    private List<Award> awards;
+    @JsonIgnore
+    @OneToMany(mappedBy = "user")
+    private List<Reactions> reactions;
 }

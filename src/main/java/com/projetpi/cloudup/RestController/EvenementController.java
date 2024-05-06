@@ -1,21 +1,28 @@
 package com.projetpi.cloudup.RestController;
 
 import com.projetpi.cloudup.entities.Evenement;
+import com.projetpi.cloudup.entities.Reactions;
 import com.projetpi.cloudup.entities.User;
 import com.projetpi.cloudup.service.EvenementServiceIMP;
 import com.projetpi.cloudup.service.IEvenement;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 @CrossOrigin(origins = "http://localhost:4200")
 @RestController
 @Service
-@RequestMapping("/evenements") // Base path for events
+@RequestMapping("/auth/evenement") // Base path for events
+@AllArgsConstructor
+
 public class EvenementController {
     @Autowired
 
@@ -24,6 +31,21 @@ public class EvenementController {
     @PostMapping("/add")
     public Evenement addEvenement(@RequestBody Evenement evenement) {
         return ievenementService.addEvenement(evenement);
+    }
+    @PostMapping("/add2")
+    public String addCollaboration(@RequestParam("file") MultipartFile file,
+                                   @RequestParam("nom") String nomcol,
+                                   @RequestParam("description") String desccol,
+                                   @RequestParam("datedebut") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate datecol,
+                                   @RequestParam("datefin") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate datefin,
+                                   @RequestParam("lieu") String placecol,
+                                   @RequestParam("maxparticipant") long prixcol,
+                                   // @RequestParam("cours_idcour") int cours_idcour,
+                                   @RequestParam("organisateur_id_user") long partenaires_id_part,
+                                   @RequestParam("categorie_id") long nbrres)
+    // @RequestParam("user_iduser") int user_iduser
+    {
+        return ievenementService.saveEvenement(file, nomcol,desccol,datecol,datefin,   placecol,   prixcol,     partenaires_id_part,nbrres    );
     }
 
     @GetMapping("/{id}")
@@ -79,4 +101,7 @@ public class EvenementController {
             return ResponseEntity.notFound().build();
         }
     }
-}
+
+    }
+
+
