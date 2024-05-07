@@ -152,12 +152,13 @@ public class User implements Serializable, UserDetails, Principal {
     }
 
     private String location;
+    @JsonIgnore
     @OneToMany(mappedBy = "user")
     private List<Education> educations;
-
+    @JsonIgnore
     @OneToMany(mappedBy = "user")
     private List<Speciality> specialities;
-
+    @JsonIgnore
     @OneToMany(mappedBy = "user")
     private List<Award> awards;
     @JsonIgnore
