@@ -1,4 +1,6 @@
 package com.projetpi.cloudup.service;
+import com.projetpi.cloudup.entities.Token;
+import com.projetpi.cloudup.repository.TokenRepository;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.io.Decoders;
@@ -23,6 +25,7 @@ import java.util.function.Function;
 public class JwtService {
     @Autowired
     private TokenRepository tokenRepository;
+
     @Value("${application.security.expiration}")
 
     private long jwtExpiration;
@@ -33,6 +36,7 @@ public class JwtService {
     public String extractUsername(String token) {
         return extractClaim(token, Claims::getSubject);
     }
+
 
     private <T> T extractClaim(String token, Function<Claims, T> claimResolver) {
         final Claims claims = extractAllClaims(token);
@@ -97,6 +101,34 @@ public class JwtService {
         byte[] keyBytes = Decoders.BASE64.decode(secretKey);
         return Keys.hmacShaKeyFor(keyBytes);
     }
+    public long getUserIdByToken(String token) {
+        log.info("Token received: " + token);
+
+        try {
+            // Décode le token JWT pour extraire les claims
+            Jws<Claims> claims = (Jws<Claims>) Jwts.parserBuilder()
+                    .setSigningKey(getSingInKey())
+                    .build()
+                    .parseClaimsJws(token);
+
+
+            // Récupère le nom d'utilisateur à partir des claims du token
+            String username = claims.getBody().getSubject();
+
+            // Parcoure la liste des tokens pour trouver l'utilisateur correspondant
+            List<Token> tokenList = tokenRepository.findAll();
+            for (Token t : tokenList) {
+                if (t.getUser().getUsername().equals(username)) {
+                    return t.getUser().getIdUser();
+                }
+            }
+        } catch (Exception e) {
+            log.error("Error decoding token or retrieving user ID: " + e.getMessage());
+
+        }
+        return 0; // Retourne 0 si aucun utilisateur correspondant n'est trouvé ou s'il y a une erreur
+    }
+
     public long getUserIdByToken(String token) {
         log.info("Token received: " + token);
 
