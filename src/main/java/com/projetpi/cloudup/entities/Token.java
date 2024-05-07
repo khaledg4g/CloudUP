@@ -22,7 +22,9 @@ public class Token {
     @JoinColumn(name = "idUser" , nullable = false)
     private User user;
 
+
     @Column(name = "codeValidation")
+
     private String token;
     private LocalDateTime createdAt;
     private LocalDateTime expiredAt;
