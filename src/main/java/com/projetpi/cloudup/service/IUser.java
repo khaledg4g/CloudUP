@@ -9,8 +9,7 @@ import com.projetpi.cloudup.entities.User;
 import java.util.List;
 
 public interface IUser {
-    public User addU(User u);
-    public List<Evenement> retrieveAllP ();
+
 
     User addU(User u);
     List<Publication> retrieveAllP ();

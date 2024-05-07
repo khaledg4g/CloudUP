@@ -145,7 +145,6 @@ public class User implements Serializable, UserDetails, Principal {
         return email;
     }
     private String location;
-    private String aboutMe;
     @OneToMany(mappedBy = "user")
     private List<Education> educations;
 

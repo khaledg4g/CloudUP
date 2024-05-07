@@ -12,8 +12,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
-import com.projetpi.cloudup.entities.Token;
-import com.projetpi.cloudup.repository.TokenRepository;
 
 import java.security.Key;
 import java.util.*;
@@ -100,33 +98,6 @@ public class JwtService {
     private Key getSingInKey() {
         byte[] keyBytes = Decoders.BASE64.decode(secretKey);
         return Keys.hmacShaKeyFor(keyBytes);
-    }
-    public long getUserIdByToken(String token) {
-        log.info("Token received: " + token);
-
-        try {
-            // Décode le token JWT pour extraire les claims
-            Jws<Claims> claims = (Jws<Claims>) Jwts.parserBuilder()
-                    .setSigningKey(getSingInKey())
-                    .build()
-                    .parseClaimsJws(token);
-
-
-            // Récupère le nom d'utilisateur à partir des claims du token
-            String username = claims.getBody().getSubject();
-
-            // Parcoure la liste des tokens pour trouver l'utilisateur correspondant
-            List<Token> tokenList = tokenRepository.findAll();
-            for (Token t : tokenList) {
-                if (t.getUser().getUsername().equals(username)) {
-                    return t.getUser().getIdUser();
-                }
-            }
-        } catch (Exception e) {
-            log.error("Error decoding token or retrieving user ID: " + e.getMessage());
-
-        }
-        return 0; // Retourne 0 si aucun utilisateur correspondant n'est trouvé ou s'il y a une erreur
     }
 
     public long getUserIdByToken(String token) {
