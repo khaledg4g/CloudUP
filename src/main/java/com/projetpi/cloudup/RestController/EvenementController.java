@@ -88,6 +88,10 @@ public class EvenementController {
         int participantCount = ievenementService.getParticipantCount(eventId);
         return ResponseEntity.ok(participantCount);
     }
+    @PutMapping("/{eventId}/start-date")
+    public Evenement updateEventStartDate(@PathVariable Long eventId, @RequestBody LocalDate newStartDate) {
+        return ievenementService.updateEventStartDate(eventId, newStartDate);
+    }
     @GetMapping("/Top3")
     public List<Evenement> getAllEvents() {
         return ievenementService.findAllEventsWithParticipantCount();
