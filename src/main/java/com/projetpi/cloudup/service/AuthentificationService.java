@@ -221,7 +221,7 @@ public class AuthentificationService {
 
     }
 
-    public UserResponse findById(Long idUser) {
+    public UserResponse findById(long idUser) {
         return userRepository.findById(idUser).map(UserMapper::toUserResponse)
                 .orElseThrow(() -> new EntityNotFoundException("No user found with ID:: " + idUser));
     }
