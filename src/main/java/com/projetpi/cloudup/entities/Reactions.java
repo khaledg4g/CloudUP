@@ -23,8 +23,8 @@ public class Reactions  {
     @JsonIgnore
    private Evenement evenement;
 //
-   @ManyToOne
-
+@JsonIgnore
+@ManyToOne(fetch = FetchType.EAGER)
    private  User user;
 }
 

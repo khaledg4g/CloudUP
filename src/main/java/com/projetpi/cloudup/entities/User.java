@@ -17,10 +17,12 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.io.Serializable;
+
 import java.security.Principal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Collection;
+
 import java.util.List;
 import java.util.Set;
 
@@ -29,13 +31,16 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
+
 @ToString
 @EqualsAndHashCode
 @EntityListeners(AuditingEntityListener.class)
 public class User implements Serializable, UserDetails, Principal {
+
     @JsonIdentityInfo(
             generator = ObjectIdGenerators.PropertyGenerator.class,
             property = "idUser")
+
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     private Long idUser;
@@ -55,6 +60,7 @@ public class User implements Serializable, UserDetails, Principal {
     @OneToMany(mappedBy = "user")//, cascade = CascadeType.ALL)
     @JsonIgnore
     private Set<Commentary>commentaries;
+
 
     @NotNull
     @Pattern(regexp = "^\\+(?:[0-9] ?){6,14}[0-9]$", message = "Phone number must be in valid international format")
@@ -144,16 +150,19 @@ public class User implements Serializable, UserDetails, Principal {
     public String getName() {
         return email;
     }
+
     private String location;
+    @JsonIgnore
     @OneToMany(mappedBy = "user")
     private List<Education> educations;
-
+    @JsonIgnore
     @OneToMany(mappedBy = "user")
     private List<Speciality> specialities;
-
+    @JsonIgnore
     @OneToMany(mappedBy = "user")
     private List<Award> awards;
     @JsonIgnore
     @OneToMany(mappedBy = "user")
     private List<Reactions> reactions;
+
 }

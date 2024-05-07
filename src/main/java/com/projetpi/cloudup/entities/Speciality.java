@@ -1,5 +1,6 @@
 package com.projetpi.cloudup.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -12,6 +13,7 @@ public class Speciality {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String speciality;
-    @ManyToOne
+    @JsonIgnore
+    @ManyToOne(fetch = FetchType.EAGER)
     private User user;
 }

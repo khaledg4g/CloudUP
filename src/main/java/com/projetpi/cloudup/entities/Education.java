@@ -1,5 +1,6 @@
 package com.projetpi.cloudup.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -15,6 +16,8 @@ public class Education {
     private String location;
     private LocalDate dateDebut;
     private LocalDate  dateFin;
-    @ManyToOne
+
+    @JsonIgnore
+    @ManyToOne(fetch = FetchType.EAGER)
     private User user;
 }
