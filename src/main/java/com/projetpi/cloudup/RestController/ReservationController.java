@@ -5,6 +5,7 @@ import com.projetpi.cloudup.entities.ReservationRequest;
 import com.projetpi.cloudup.entities.ReservationResponse;
 import com.projetpi.cloudup.entities.User;
 import com.projetpi.cloudup.service.ReservationService;
+import jakarta.mail.MessagingException;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -76,6 +77,12 @@ public class ReservationController {
         return service.getMyStudents(connectedUser);
 
     }
+
+    @PostMapping("/sendPaymentEmail/{idR}")
+    private void sendPaymentEmail(@PathVariable Long  idR) throws MessagingException {
+        service.sendPaymentEmail(idR);
+    }
+
 
 
 }

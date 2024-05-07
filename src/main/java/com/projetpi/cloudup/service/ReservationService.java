@@ -1,10 +1,15 @@
 package com.projetpi.cloudup.service;
 
+import com.projetpi.cloudup.email.payment_request.EmailServerPayment;
+import com.projetpi.cloudup.email.payment_request.EmailTemplateName;
 import com.projetpi.cloudup.entities.*;
 import com.projetpi.cloudup.repository.CoursParticuliersRepository;
 import com.projetpi.cloudup.repository.ReservationRepository;
+import com.projetpi.cloudup.repository.UserRepository;
+import jakarta.mail.MessagingException;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
@@ -19,6 +24,10 @@ public class ReservationService {
     public final ReservationRepository reservationRepository;
     private final ReservationMapper reservationMapper;
     private final CoursParticuliersRepository coursParticuliersRepository;
+    private final EmailServerPayment emailServerPayment;
+    private final UserRepository userRepository;
+    @Value("${application.security.mailing.frontend.payment-url}")
+    private String payment_url;
 
 
     public Long save(ReservationRequest request, Long idCours, Authentication connectedUser) {
@@ -28,7 +37,9 @@ public class ReservationService {
         }
         CoursParticuliers cours = coursParticuliersRepository.findById(idCours)
                 .orElseThrow(() -> new EntityNotFoundException("NO COURSE FOUND WITH ID ::" + idCours));
-
+        if (user.getIdUser() == cours.getProfesseur().getIdUser()) {
+            throw new EntityNotFoundException("No permission for you to make a reservation");
+        }
         Reservation savedReservation = reservationMapper.toReservation(request);
 
         savedReservation.setEtudiant(user);
@@ -123,28 +134,18 @@ public class ReservationService {
         return listUsers;
     }
 
-/*
-    public ReservationResponse createReservationResponse(Reservation reservation) {
-        User professor = reservation.getProfesseur();
-        User student = reservation.getEtudiant();
+    public void sendPaymentEmail(Long idR) throws MessagingException {
+        Reservation R = reservationRepository.findReservationByIdR(idR);
+        User user = userRepository.findUserByIdUser(R.getEtudiant().getIdUser());
 
-        String profPhone = professor != null ? professor.getPhoneNumber() : null;
-        String studentPhone = student != null ? student.getPhoneNumber() : null;
+        emailServerPayment.sendMail(
+                user.getEmail(),
+                user.fullName(),
+                EmailTemplateName.PAYMENT_REQUEST,
+                payment_url,
+                "PAYMENT REQUEST");
 
-        return ReservationResponse.builder()
-                .idR(reservation.getIdR())
-                .dateR(reservation.getDateR())
-                .statusR(reservation.getStatusR())
-                .id_etudiant(student != null ? student.getIdUser() : null)
-                .id_professeur(professor != null ? professor.getIdUser() : null)
-                .id_cours(reservation.getCours() != null ? reservation.getCours().getIdCours() : null)
-                .etudiantName(student != null ? student.getName() : null)
-                .professeurName(professor != null ? professor.getName() : null)
-                .nomcours(reservation.getCours() != null ? reservation.getCours().getNomCours() : null)
-                .professeurPhoneNumber(profPhone)
-                .etudiantPhoneNumber(studentPhone)
-                .build();
     }
-*/
+
 
 }

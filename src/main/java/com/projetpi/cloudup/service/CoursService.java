@@ -63,64 +63,30 @@ public class CoursService {
                 .orElseThrow(() -> new EntityNotFoundException(" No Cours found with the ID ::" + idC));
     }
 
-    public PageResponse<CoursResponse> findByName(int page, int size, Authentication connectedUser, String name) {
+
+    public List<CoursResponse> findAllCourses(Authentication connectedUser) {
+        User user = (User) connectedUser.getPrincipal();
+        List<CoursParticuliers> coursParticuliersList = coursRepository.findAll();
+        List<CoursResponse> coursResponses = coursParticuliersList.stream().map(coursMapper::toCoursResponse).toList();
+        return coursResponses;
+
+    }
+
+    public List<CoursResponse> findByCourseName(Authentication connectedUser, String name) {
         User user = (User) connectedUser.getPrincipal();
         long idUser = user.getIdUser();
-        Pageable pageable = PageRequest.of(page, size);
-        Page<CoursParticuliers> cours = coursRepository.findByNomCoursContainingIgnoreCaseAndProfesseur_IdUser(name, pageable, idUser);
-        List<CoursResponse> coursResponses = cours.stream()
-                .map(coursMapper::toCoursResponse)
-                .toList();
-        return new PageResponse<CoursResponse>(
-                coursResponses,
-                cours.getNumber(),
-                cours.getSize(),
-                cours.getTotalPages(),
-                cours.getTotalElements(),
-                cours.isFirst(),
-                cours.isLast()
-        );
+        List<CoursParticuliers> coursParticuliersList = coursRepository.findByNomCoursContainingIgnoreCaseAndProfesseur_IdUser(name, idUser);
+        List<CoursResponse> coursResponses = coursParticuliersList.stream().map(coursMapper::toCoursResponse).toList();
+        return coursResponses;
     }
 
-
-    public PageResponse<CoursResponse> findAllCours(int page, int size, Authentication connectedUser) {
+    public List<CoursResponse> findCoursesByOwner(Authentication connectedUser) {
         User user = (User) connectedUser.getPrincipal();
-        Pageable pageable = PageRequest.of(page, size);
-        Page<CoursParticuliers> cours = coursRepository.findAll(pageable);
+        List<CoursParticuliers> cours = coursRepository.findAll(withOwnerId(user.getIdUser()));
         List<CoursResponse> coursResponses = cours.stream()
                 .map(coursMapper::toCoursResponse)
                 .toList();
-
-        return new PageResponse<>(
-                coursResponses,
-                cours.getNumber(),
-                cours.getSize(),
-                cours.getTotalPages(),
-                cours.getTotalElements(),
-                cours.isFirst(),
-                cours.isLast()
-        );
-    }
-
-    public PageResponse<CoursResponse> findCoursByOwner(int page, int size, Authentication connectedUser) {
-
-        User user = (User) connectedUser.getPrincipal();
-        Pageable pageable = PageRequest.of(page, size);
-        /* withOwnerId(user.getIdUser()), pageable*/
-        Page<CoursParticuliers> cours = coursRepository.findAll(withOwnerId(user.getIdUser()),pageable);
-        List<CoursResponse> coursResponses = cours.stream()
-                .map(coursMapper::toCoursResponse)
-                .toList();
-
-        return new PageResponse<>(
-                coursResponses,
-                cours.getNumber(),
-                cours.getSize(),
-                cours.getTotalPages(),
-                cours.getTotalElements(),
-                cours.isFirst(),
-                cours.isLast()
-        );
+        return coursResponses;
 
     }
 
@@ -137,13 +103,11 @@ public class CoursService {
     }
 
 
-
-    public List<CoursParticuliers> findTopCourses()
-    {
+    public List<CoursParticuliers> findTopCourses() {
         return coursRepository.findCoursWithMostReservations();
     }
-    public List<User> findTopProfessor()
-    {
+
+    public List<User> findTopProfessor() {
         return userRepository.findProfessorsWithMostConfirmedReservations();
     }
 
