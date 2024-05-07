@@ -3,6 +3,7 @@ package com.projetpi.cloudup.security;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.orm.hibernate5.support.OpenSessionInViewFilter;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
@@ -14,6 +15,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.server.resource.introspection.OpaqueTokenIntrospector;
 import org.springframework.security.web.authentication.logout.LogoutHandler;
+import org.springframework.security.web.context.SecurityContextPersistenceFilter;
 import org.springframework.web.reactive.function.client.WebClient;
 
 import static org.springframework.security.config.Customizer.withDefaults;
@@ -28,6 +30,7 @@ public class SecurityConfig {
     private final JwtFilter jwtAuthFilter;
     private final AuthenticationProvider authenticationProvider;
     private final LogoutHandler logoutHandler;
+
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception{
@@ -60,5 +63,6 @@ public class SecurityConfig {
                                 .logoutSuccessHandler((request, response, authentication) -> SecurityContextHolder.clearContext())
                 );
         return http.build();
+
     }
 }
