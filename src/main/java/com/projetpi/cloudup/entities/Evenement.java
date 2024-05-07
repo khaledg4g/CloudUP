@@ -53,7 +53,7 @@ public class Evenement implements   Serializable {
     @Column(columnDefinition = "MEDIUMBLOB")
     private String imgevent ;
     @JsonIgnore
-    @OneToMany(mappedBy = "evenement")
+    @OneToMany(mappedBy = "evenement", cascade = CascadeType.REMOVE)
     private List<Reactions> reactions;
 //    @OneToMany(mappedBy = "evenement", cascade = CascadeType.ALL)
 //    private List<Reactions> reactions;

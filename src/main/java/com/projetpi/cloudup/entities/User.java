@@ -162,7 +162,7 @@ public class User implements Serializable, UserDetails, Principal {
     @OneToMany(mappedBy = "user")
     private List<Award> awards;
     @JsonIgnore
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user",cascade = CascadeType.REMOVE)
     private List<Reactions> reactions;
 
 }
