@@ -32,19 +32,15 @@ import java.util.Set;
 @NoArgsConstructor
 @Entity
 
-
-
-
-
 @ToString
 @EqualsAndHashCode
 @EntityListeners(AuditingEntityListener.class)
 public class User implements Serializable, UserDetails, Principal {
 
-
     @JsonIdentityInfo(
             generator = ObjectIdGenerators.PropertyGenerator.class,
             property = "idUser")
+
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     private Long idUser;
@@ -111,6 +107,7 @@ public class User implements Serializable, UserDetails, Principal {
     private String membership;
     @Override
     @JsonIgnore
+
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(new SimpleGrantedAuthority(roles.name()));
     }
@@ -153,5 +150,18 @@ public class User implements Serializable, UserDetails, Principal {
     public String getName() {
         return email;
     }
+
+    private String location;
+    @OneToMany(mappedBy = "user")
+    private List<Education> educations;
+
+    @OneToMany(mappedBy = "user")
+    private List<Speciality> specialities;
+
+    @OneToMany(mappedBy = "user")
+    private List<Award> awards;
+    @JsonIgnore
+    @OneToMany(mappedBy = "user")
+    private List<Reactions> reactions;
 
 }

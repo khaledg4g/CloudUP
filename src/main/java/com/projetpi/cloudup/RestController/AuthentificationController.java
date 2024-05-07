@@ -30,7 +30,7 @@ public class AuthentificationController {
     private final AuthentificationService service;
     private final LogoutService logoutService;
 
-    @PostMapping("/register")
+    @PostMapping("/Register")
     @ResponseStatus(HttpStatus.ACCEPTED)
     public ResponseEntity<?> register(@RequestBody @Valid RegistrationRequest request) throws MessagingException {
         service.register(request);
