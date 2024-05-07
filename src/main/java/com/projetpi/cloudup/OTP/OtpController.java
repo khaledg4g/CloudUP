@@ -42,8 +42,8 @@ public class OtpController {
     }
 
     @PostMapping("/sendReservationCancelationSMS")
-    public OtpResponseDto sendReservationCancelationSMS(@RequestBody ReservationResponse reservation) {
-        return smsService.sendReservationCancelationSMS(reservation);
+    public OtpResponseDto sendReservationCancelationSMS(@RequestBody ReservationResponse reservation,Authentication connectedUser) {
+        return smsService.sendReservationCancelationSMS(connectedUser,reservation);
     }
 
 

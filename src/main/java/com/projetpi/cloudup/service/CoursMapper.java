@@ -14,6 +14,7 @@ public class CoursMapper {
                 .nomCours(request.nomCours())
                 .descriptionCours(request.descriptionCours())
                 .price(request.price())
+                .dureeC(request.dureeC())
                 .niveau(request.niveau())
                 .option(request.option())
                 .type(request.type())
