@@ -96,4 +96,17 @@ public class EmailServer {
         }
     }
 
+    public void sendEmailNotificationcol(String userEmail, String subject) {
+        MimeMessage message = mailSender.createMimeMessage();
+        MimeMessageHelper helper = new MimeMessageHelper(message);
+        try {
+            helper.setTo(userEmail);
+            helper.setSubject("Collaboration  Notification");
+            helper.setText("Your Collaboration is fully booked" + subject );
+            mailSender.send(message);
+        } catch (MessagingException e) {
+            e.printStackTrace();
+        }
+    }
+
 }
