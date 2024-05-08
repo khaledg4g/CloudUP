@@ -98,8 +98,8 @@ public class AuthentificationController {
     }
 
     @PostMapping("/updatePassword")
-    public Long updatePassword(@RequestBody @Valid UpdatePasswordRequest updatePasswordRequest, Authentication authentication) {
-        return service.updatePassword(updatePasswordRequest, authentication);
+    public Long updatePassword(@RequestBody @Valid CombinedPasswordUpdateDto combinedDto ) {
+        return service.updatePassword(combinedDto.getUpdatePasswordRequest(), combinedDto.getUserUpdatePasswordRequest());
     }
 
     @Autowired

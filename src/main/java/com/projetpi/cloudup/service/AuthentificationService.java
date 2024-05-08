@@ -202,10 +202,8 @@ private final FileStorageServiceYass fileStorageServiceYass;
         return user.getIdUser();
 
     }
-    public Long updatePassword(UpdatePasswordRequest updatePasswordRequest , Authentication authentication){
-        User userConnected = (User) authentication.getPrincipal();
-        User user = userRepository.findById(userConnected.getIdUser()).orElseThrow(() ->
-                new EntityNotFoundException("NO USER FOUND WITH ID ::" + userConnected.getIdUser()));
+    public Long updatePassword(UpdatePasswordRequest updatePasswordRequest , UserUpdatePWDRequest U){
+        User user = userRepository.findUserByPhoneNumber(U.getPhoneNumber());
         user.setMotDePasse(passwordEncoder.encode(updatePasswordRequest.getMotDePasse()));
         userRepository.save(user);
         return user.getIdUser();
