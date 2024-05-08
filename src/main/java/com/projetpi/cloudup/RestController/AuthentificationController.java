@@ -85,4 +85,5 @@ public class AuthentificationController {
     public Long updateUser(@RequestBody @Valid UpdateRequest request, Authentication authentication) {
         return service.updateUser(request, authentication);
     }
+
 }

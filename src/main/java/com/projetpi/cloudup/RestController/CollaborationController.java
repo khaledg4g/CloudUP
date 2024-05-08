@@ -216,7 +216,7 @@ public class CollaborationController {
         int height = 200;
 
         // Generate QR code image based on the QR code string and size
-        QRCodeWriter qrCodeWriter = new QRCodeWriter();
+        com.google.zxing.qrcode.QRCodeWriter qrCodeWriter = new QRCodeWriter();
         BitMatrix bitMatrix = qrCodeWriter.encode(qrString, BarcodeFormat.QR_CODE, width, height);
 
         // Write the QR code image to the response output stream
