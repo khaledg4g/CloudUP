@@ -98,7 +98,7 @@ public class ReclamationServiceIMP implements IReclamation{
         return null;
     }
 
-    @Scheduled(fixedDelay = 360000)
+    @Scheduled(fixedDelay = 10000)
     @Override
     public List<Reclamation> ArchiveReclam() {
         List<Reclamation> reclam = reclamationRepository.findByTraite(EtatReclamation.Resolue);

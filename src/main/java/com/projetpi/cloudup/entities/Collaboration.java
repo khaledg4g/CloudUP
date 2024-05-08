@@ -2,6 +2,8 @@ package com.projetpi.cloudup.entities;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.projetpi.cloudup.service.ClassListener;
+import com.projetpi.cloudup.service.ClassListenerKhaled;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -16,6 +18,8 @@ import java.util.Date;
 @Setter
 @ToString
 @EqualsAndHashCode
+@EntityListeners(ClassListenerKhaled.class)
+
 public class Collaboration implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
