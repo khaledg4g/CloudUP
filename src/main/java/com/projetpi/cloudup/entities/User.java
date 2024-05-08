@@ -1,6 +1,4 @@
 package com.projetpi.cloudup.entities;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.projetpi.cloudup.utilities.UniqueEmail;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -17,30 +15,22 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.io.Serializable;
-
 import java.security.Principal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Collection;
-
 import java.util.List;
-import java.util.Set;
 
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-
-@ToString
-@EqualsAndHashCode
 @EntityListeners(AuditingEntityListener.class)
+@JsonIdentityInfo(
+        generator = ObjectIdGenerators.PropertyGenerator.class,
+        property = "idUser")
 public class User implements Serializable, UserDetails, Principal {
-
-    @JsonIdentityInfo(
-            generator = ObjectIdGenerators.PropertyGenerator.class,
-            property = "idUser")
-
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     private Long idUser;
@@ -49,34 +39,23 @@ public class User implements Serializable, UserDetails, Principal {
 
     private String email;
     private String motDePasse;
-    private int nbr_pub;
-    private int nbr_com;
-
-
-    @OneToMany(mappedBy = "user")// ,cascade = CascadeType.ALL)
-    @JsonIgnore
-    private Set<Publication> publications;
-
-    @OneToMany(mappedBy = "user")//, cascade = CascadeType.ALL)
-    @JsonIgnore
-    private Set<Commentary>commentaries;
-
 
     @NotNull
     @Pattern(regexp = "^\\+(?:[0-9] ?){6,14}[0-9]$", message = "Phone number must be in valid international format")
     private String phoneNumber;
+
     @Enumerated(EnumType.STRING)
     private Role roles;
-
 
     private String image;
     @JsonIgnore
     @OneToMany(mappedBy = "user")
-    private List<Reclamation> reclamations;
+    private List<TokenAuth> tokenAuths;
+
     private boolean accountLocked;
     private boolean enabled;
-    // Remove @CreatedDate from here
-    // private List<TokenAuth> tokenAuths;
+
+
     @CreatedDate
     @Column(nullable = false, updatable = false)
     private LocalDateTime createdDate;
@@ -106,8 +85,6 @@ public class User implements Serializable, UserDetails, Principal {
 
     private String membership;
     @Override
-    @JsonIgnore
-
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(new SimpleGrantedAuthority(roles.name()));
     }
@@ -150,19 +127,4 @@ public class User implements Serializable, UserDetails, Principal {
     public String getName() {
         return email;
     }
-
-    private String location;
-    @JsonIgnore
-    @OneToMany(mappedBy = "user")
-    private List<Education> educations;
-    @JsonIgnore
-    @OneToMany(mappedBy = "user")
-    private List<Speciality> specialities;
-    @JsonIgnore
-    @OneToMany(mappedBy = "user")
-    private List<Award> awards;
-    @JsonIgnore
-    @OneToMany(mappedBy = "user",cascade = CascadeType.REMOVE)
-    private List<Reactions> reactions;
-
 }

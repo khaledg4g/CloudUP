@@ -1,9 +1,6 @@
 package com.projetpi.cloudup.service;
 
-import com.projetpi.cloudup.RestController.AuthentificationRequest;
-import com.projetpi.cloudup.RestController.AuthentificationResponse;
-import com.projetpi.cloudup.RestController.RegistrationRequest;
-import com.projetpi.cloudup.RestController.UpdateRequest;
+import com.projetpi.cloudup.RestController.*;
 import com.projetpi.cloudup.email.EmailServer;
 import com.projetpi.cloudup.email.EmailTemplateName;
 import com.projetpi.cloudup.entities.*;
@@ -17,23 +14,19 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
 import org.springframework.web.multipart.MultipartFile;
-
 
 import java.security.SecureRandom;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-public class AuthentificationService {
+public class AuthentificationService{
 
 
     private final PasswordEncoder passwordEncoder;
@@ -47,7 +40,7 @@ public class AuthentificationService {
     private String activationUrl;
     private final UserMapper userMapper;
 
-    private final FileStorageServiceYass fileStorageServiceYass;
+private final FileStorageServiceYass fileStorageServiceYass;
 
     public List<User> finAll(User user){
         var users = userRepository.findAll();
@@ -134,7 +127,6 @@ public class AuthentificationService {
         return AuthentificationResponse
                 .builder()
                 .token(jwtToken)
-                .user(user)
                 .build();
     }
 
@@ -177,16 +169,6 @@ public class AuthentificationService {
 
     }
 
-
-    public Optional<User> getUserByEmail(String email) {
-        return userRepository.findUserByEmail(email);
-    }
-    public final Optional<User> getAuthenticatedUser() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        return getUserByEmail(authentication.getName());
-    }
-
-
     public void uploadUserPhoto(MultipartFile file, Authentication authentication) {
 
         User user = (User) authentication.getPrincipal();
@@ -220,10 +202,20 @@ public class AuthentificationService {
         return user.getIdUser();
 
     }
+    public Long updatePassword(UpdatePasswordRequest updatePasswordRequest , UserUpdatePWDRequest U){
+        User user = userRepository.findUserByPhoneNumber(U.getPhoneNumber());
+        user.setMotDePasse(passwordEncoder.encode(updatePasswordRequest.getMotDePasse()));
+        userRepository.save(user);
+        return user.getIdUser();
+    }
 
-    public UserResponse findById(long idUser) {
+    public UserResponse findById(Long idUser) {
         return userRepository.findById(idUser).map(UserMapper::toUserResponse)
                 .orElseThrow(() -> new EntityNotFoundException("No user found with ID:: " + idUser));
     }
 
+    public User getUserbyPhoneNumber(String phone){
+        User user = userRepository.findUserByPhoneNumber(phone);
+        return user;
+    }
 }

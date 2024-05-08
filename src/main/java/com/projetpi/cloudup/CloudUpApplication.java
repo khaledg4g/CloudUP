@@ -29,5 +29,4 @@ public class CloudUpApplication {
         SpringApplication.run(CloudUpApplication.class, args);
     }
 
-
 }

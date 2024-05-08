@@ -1,6 +1,5 @@
 package com.projetpi.cloudup.RestController;
 
-import com.projetpi.cloudup.entities.User;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
@@ -14,6 +13,5 @@ public class AuthentificationResponse {
 
 
     private String token;
-    private User user;
 
 }

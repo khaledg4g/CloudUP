@@ -1,5 +1,5 @@
-
 package com.projetpi.cloudup.Config;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -14,7 +14,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
-
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
@@ -45,7 +44,6 @@ public class BeansConfig {
         return configuration.getAuthenticationManager();
     }
 
-
     @Bean
     public CorsFilter corsFilter() {
         final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
@@ -65,6 +63,7 @@ public class BeansConfig {
                 "PUT",
                 "PATCH"
         ));
+
 
         source.registerCorsConfiguration("/**", config);
         return new CorsFilter(source);
