@@ -234,7 +234,7 @@ public class CollaborationController {
         // Encode collaboration information into a single string
         // For the image, encode a reference to the image (e.g., URL or file path)
         String qrString = "QRCODE.\n";
-        qrString += " Collaboration Name: " + collaboration.getNomcol() + "\n"+ "Collaboration description"+collaboration.getDesccol() + "\n"
+        qrString += " Collaboration Name: " + collaboration.getNomcol() + "\n"+ "Collaboration description: "+collaboration.getDesccol() + "\n"
                ;
         // Assuming imgcol contains the image reference
 
