@@ -44,6 +44,18 @@ public class UserProfileService {
         userRepository.save(user);
         addEducations(user);
     }
+    public Education addE(Education evenement) {
+        return educationRepository.save(evenement);
+    }
+
+    public Speciality addS(Speciality evenement) {
+        return specialityRepository.save(evenement);
+    }
+
+    public Award addaw(Award evenement) {
+        return awardRepository.save(evenement);
+    }
+
 
     @Transactional
     public void deleteUserProfile(Long userId) {

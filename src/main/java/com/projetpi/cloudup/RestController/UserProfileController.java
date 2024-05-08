@@ -1,15 +1,19 @@
 package com.projetpi.cloudup.RestController;
 
-import com.projetpi.cloudup.entities.Education;
-import com.projetpi.cloudup.entities.Evenement;
-import com.projetpi.cloudup.entities.User;
-import com.projetpi.cloudup.repository.UtilisateurRepository;
+import com.projetpi.cloudup.entities.*;
+import com.projetpi.cloudup.repository.*;
 import com.projetpi.cloudup.service.UserProfileService;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.time.LocalDate;
+import java.util.List;
 
 @CrossOrigin(origins = "http://localhost:4200")
 @RestController
@@ -17,8 +21,12 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/auth/profile") // Base path for events
 @AllArgsConstructor
 public class UserProfileController {
+    private AwardRepository awardRepository;
+    private SpecialityRepository specialityRepository;
     @Autowired
     private UserProfileService userProfileService;
+    private UserRepository userRepository;
+    private EducationRepository educationRepository;
 //    @Autowired
 //    private UserR
     @PutMapping("/update/{id}")
@@ -26,6 +34,36 @@ public class UserProfileController {
         evenement.setIdUser(id); // Ensure ID is set for update
         return userProfileService.updateProfile(evenement);
     }
+@GetMapping("/getA/{id}")
+public List<Award> getAw(@PathVariable Long id) {
+        return awardRepository.findAllByUserIdUser(id);
+}
+    @GetMapping("/getS/{id}")
+    public List<Speciality> getS(@PathVariable Long id) {
+        return specialityRepository.findAllByUserIdUser(id);
+    }
+    @GetMapping("/getE/{id}")
+    public List<Education> getE(@PathVariable Long id) {
+        return educationRepository.findAllByUserIdUser(id);
+    }
+    @PostMapping("/addE/{id}")
+
+    public ResponseEntity<Education> addE(@RequestBody Education award,@PathVariable Long id) {
+        User idu= userRepository.findUserByIdUser(id);
+        award.setUser(idu);
+        return new ResponseEntity<>(userProfileService.addE(award), HttpStatus.CREATED);}
+    @PostMapping("/addS/{id}")
+
+    public ResponseEntity<Speciality> addS(@RequestBody Speciality award,@PathVariable Long id) {
+        User idu= userRepository.findUserByIdUser(id);
+        award.setUser(idu);
+        return new ResponseEntity<>(userProfileService.addS(award), HttpStatus.CREATED);}
+    @PostMapping("/addaw/{id}")
+
+    public ResponseEntity<Award> addAward(@RequestBody Award award,@PathVariable Long id) {
+        User idu= userRepository.findUserByIdUser(id);
+        award.setUser(idu);
+        return new ResponseEntity<>(userProfileService.addaw(award), HttpStatus.CREATED);}
     @PostMapping("/addP")
     public ResponseEntity<String> addUserProfile(@RequestBody User user) {
         userProfileService.addUserProfile(user);

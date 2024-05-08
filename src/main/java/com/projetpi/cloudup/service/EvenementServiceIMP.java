@@ -143,7 +143,17 @@ public Evenement addParticipant(Long evenementId, Long utilisateurId)  {
 
         return evenement.getParticipants().contains(participant);
     }
-
+    public Evenement updateEventStartDate(Long eventId, LocalDate newStartDate) {
+        Optional<Evenement> optionalEvent = evenementRepository.findById(eventId);
+        if (optionalEvent.isPresent()) {
+            Evenement event = optionalEvent.get();
+            event.setDateDebut(newStartDate);
+            return evenementRepository.save(event);
+        } else {
+            // Handle case where event with eventId is not found
+            throw new IllegalArgumentException("User is not  in this event");
+        }
+    }
     public int getParticipantCount(Long eventId) {
         Evenement event = evenementRepository.findById(eventId)
                 .orElseThrow(() -> new NoSuchElementException("Event not found"));
