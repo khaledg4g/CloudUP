@@ -75,7 +75,9 @@ public class CollaborationController {
         return userRepository.findAll();
     }
 
-
+    @GetMapping("/retriveCollaborationres")
+    public List<Collaboration> retriveCollaborations(){
+        return collaborationRepository.findAll();}
 
     @PostMapping("/addCollaboration")
     public Collaboration addCollaboration(@RequestBody Collaboration collaboration){
@@ -231,8 +233,8 @@ public class CollaborationController {
     private String generateQRStringg(Collaboration collaboration) {
         // Encode collaboration information into a single string
         // For the image, encode a reference to the image (e.g., URL or file path)
-        String qrString = "You have successfully scheduled your reservation. Please show this before entering.\n";
-        qrString += " Collaboration Name: " + collaboration.getNomcol() + "\n"
+        String qrString = "QRCODE.\n";
+        qrString += " Collaboration Name: " + collaboration.getNomcol() + "\n"+ collaboration.getDesccol() + "\n"
                ;
         // Assuming imgcol contains the image reference
 
