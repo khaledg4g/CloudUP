@@ -74,7 +74,6 @@ public class MessageService {
     public void readMSg(Long id){
         PrivateChat privateChat = privateChatRepository.findById(id).orElse(null);
 
-        assert privateChat != null;
         for(Message message : privateChat.getMessages()){
             message.setVu(true);
             messageRepository.save(message);
