@@ -20,8 +20,42 @@ import java.util.Map;
 public class EmailServerPayment {
     private final JavaMailSender mailSender;
     private final SpringTemplateEngine templateEngine;
+    public void sendMail(
+            String to,
+            String username,
+            EmailTemplateName emailTemplate,
+            long reservationId,
+            String subject,
+            String domainUrl) throws MessagingException {
+        String templateName = (emailTemplate != null) ? emailTemplate.getName() : "payment_request";
+        String paymentUrl = String.format("%s/checkout;reservationId=%d", domainUrl, reservationId);
+// http://localhost:4200/Home/students/checkout;reservationId=1reservationId=
+        MimeMessage mimeMessage = mailSender.createMimeMessage();
+        MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(
+                mimeMessage,
+                MimeMessageHelper.MULTIPART_MODE_MIXED,
+                StandardCharsets.UTF_8.name()
+        );
 
+        Map<String, Object> properties = new HashMap<>();
+        properties.put("username", username);
+        properties.put("paymentUrl", paymentUrl);
 
+        Context context = new Context();
+        context.setVariables(properties);
+
+        mimeMessageHelper.setFrom("ouerfellisami61@gmail.com"); // Set this to a relevant email address
+        mimeMessageHelper.setSubject(subject);
+        mimeMessageHelper.setTo(to);
+
+        String template = templateEngine.process(templateName, context);
+
+        mimeMessageHelper.setText(template, true);
+
+        mailSender.send(mimeMessage);
+    }
+
+/*
     public void sendMail(
             String to,
             String username,
@@ -64,5 +98,5 @@ public class EmailServerPayment {
 
         mailSender.send(mimeMessage);
     }
-
+*/
 }

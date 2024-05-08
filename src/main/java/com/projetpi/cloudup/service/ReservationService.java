@@ -120,10 +120,8 @@ public class ReservationService {
         return listRResponse;
     }
 
-    public ReservationResponse getReservationById(Long idReservation) {
-        return reservationRepository.findById(idReservation)
-                .map(reservationMapper::toReservationResponse)
-                .orElseThrow(() -> new EntityNotFoundException(" No Reservation found with the ID ::" + idReservation));
+    public Reservation getReservationById(Long idReservation) {
+        return reservationRepository.findReservationByIdR(idReservation);
 
     }
 
@@ -133,6 +131,30 @@ public class ReservationService {
         List<User> listUsers = listR.stream().map(Reservation::getEtudiant).toList();
         return listUsers;
     }
+
+    public void sendPaymentEmail(Long idR) throws MessagingException {
+        Reservation R = reservationRepository.findReservationByIdR(idR);
+        if (R == null) {
+            throw new IllegalStateException("Reservation not found!");
+        }
+        User user = userRepository.findUserByIdUser(R.getEtudiant().getIdUser());
+        if (user == null) {
+            throw new IllegalStateException("User not found!");
+        }
+
+        // Assume your application is hosted at this domain and the checkout route is defined as shown
+        String domainUrl = "http://localhost:4200/Home/students";
+        String paymentUrl = String.format("%s/checkout;reservationId=%d", domainUrl, idR);
+
+        emailServerPayment.sendMail(
+                user.getEmail(),
+                user.fullName(), // assuming there is a method getFullName in User class
+                EmailTemplateName.PAYMENT_REQUEST,
+                idR, // passing reservation ID as string
+                "PAYMENT REQUEST",
+                domainUrl);
+    }
+    /*
     public void sendPaymentEmail(Long  idR) throws MessagingException {
         Reservation R = reservationRepository.findReservationByIdR(idR);
         User user = userRepository.findUserByIdUser(R.getEtudiant().getIdUser());
@@ -144,7 +166,7 @@ public class ReservationService {
                 payment_url,
                 "PAYMENT REQUEST");
 
-    }
+    }*/
 /*
     public ReservationResponse createReservationResponse(Reservation reservation) {
         User professor = reservation.getProfesseur();

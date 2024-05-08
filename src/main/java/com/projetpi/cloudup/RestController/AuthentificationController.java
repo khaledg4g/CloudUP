@@ -77,7 +77,7 @@ public class AuthentificationController {
 
     @GetMapping("/{idUser}")
     public ResponseEntity<UserResponse> findUserById(
-            @PathVariable("idUser") Long idUser) {
+            @PathVariable("idUser") long idUser) {
         return ResponseEntity.ok(service.findById(idUser));
     }
 
