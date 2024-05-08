@@ -1,6 +1,7 @@
 package com.projetpi.cloudup.OTP;
 
 import com.projetpi.cloudup.Config.TwilioConfig;
+import com.projetpi.cloudup.RestController.UserUpdatePWDRequest;
 import com.projetpi.cloudup.entities.User;
 import com.projetpi.cloudup.repository.UserRepository;
 import com.projetpi.cloudup.service.UserDetailsServiceImpl;
@@ -22,6 +23,9 @@ import java.util.Random;
 public class SmsService {
 
     Map<String, String> otpMap = new HashMap<>();
+
+    @Autowired
+
     private UserRepository userRepository;
 
     @Autowired
@@ -57,6 +61,32 @@ public class SmsService {
     }
 
 
+
+    public String sendUpdatePasswordSMS(UserUpdatePWDRequest U) {
+        User user = userRepository.findUserByPhoneNumber(U.getPhoneNumber());
+
+        OtpResponseDto otpResponseDto = null;
+        try {
+            // User user = userRepository.findUserByIdUser(U.getIdUser());
+            PhoneNumber to = new PhoneNumber(user.getPhoneNumber());
+            PhoneNumber from = new PhoneNumber(twilioConfig.getPhoneNumber());
+
+            String otp = generateOTP();
+            String otpMessage = "Dear "+ user.getNom() + ", Your validation code is  " + otp ;
+
+            Message message = Message
+                    .creator(to, from, otpMessage)
+                    .create();
+            otpMap.put(user.getUsername(), otp);
+
+            return otp;
+        } catch (Exception e) {
+            e.printStackTrace();
+            otpResponseDto = new OtpResponseDto(OtpStatus.FAILED, e.getMessage());
+        }
+        return null;
+
+    }
 
     public String validateOtp(OtpValidationRequest otpValidationRequest) {
         Set<String> keys = otpMap.keySet();

@@ -1,9 +1,6 @@
 package com.projetpi.cloudup.service;
 
-import com.projetpi.cloudup.RestController.AuthentificationRequest;
-import com.projetpi.cloudup.RestController.AuthentificationResponse;
-import com.projetpi.cloudup.RestController.RegistrationRequest;
-import com.projetpi.cloudup.RestController.UpdateRequest;
+import com.projetpi.cloudup.RestController.*;
 import com.projetpi.cloudup.email.EmailServer;
 import com.projetpi.cloudup.email.EmailTemplateName;
 import com.projetpi.cloudup.entities.*;
@@ -205,9 +202,22 @@ private final FileStorageServiceYass fileStorageServiceYass;
         return user.getIdUser();
 
     }
+    public Long updatePassword(UpdatePasswordRequest updatePasswordRequest , Authentication authentication){
+        User userConnected = (User) authentication.getPrincipal();
+        User user = userRepository.findById(userConnected.getIdUser()).orElseThrow(() ->
+                new EntityNotFoundException("NO USER FOUND WITH ID ::" + userConnected.getIdUser()));
+        user.setMotDePasse(passwordEncoder.encode(updatePasswordRequest.getMotDePasse()));
+        userRepository.save(user);
+        return user.getIdUser();
+    }
 
     public UserResponse findById(Long idUser) {
         return userRepository.findById(idUser).map(UserMapper::toUserResponse)
                 .orElseThrow(() -> new EntityNotFoundException("No user found with ID:: " + idUser));
+    }
+
+    public User getUserbyPhoneNumber(String phone){
+        User user = userRepository.findUserByPhoneNumber(phone);
+        return user;
     }
 }

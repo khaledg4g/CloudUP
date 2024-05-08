@@ -32,8 +32,7 @@ public class AuthentificationController {
 
     @PostMapping("/Register")
     @ResponseStatus(HttpStatus.ACCEPTED)
-    public ResponseEntity<?> register(@RequestBody @Valid RegistrationRequest request) throws MessagingException
-    {
+    public ResponseEntity<?> register(@RequestBody @Valid RegistrationRequest request) throws MessagingException {
         service.register(request);
         return ResponseEntity.accepted().build();
     }
@@ -43,9 +42,15 @@ public class AuthentificationController {
         User user = (User) authentication.getPrincipal();
         return ResponseEntity.ok(user);
     }
-    @PostMapping("/authenticate")
+
+    @GetMapping("/getUserbyPhoneNumber")
+    public User getUserbyPhoneNumber(@RequestParam String phone){
+        return service.getUserbyPhoneNumber(phone);
+        }
+
+        @PostMapping("/authenticate")
     public ResponseEntity<AuthentificationResponse> authenticate(
-            @RequestBody @Valid AuthentificationRequest request){
+            @RequestBody @Valid AuthentificationRequest request) {
 
         return ResponseEntity.ok(service.authenticate(request));
     }
@@ -71,9 +76,9 @@ public class AuthentificationController {
     @PostMapping(value = "/image", consumes = "multipart/form-data")
     public ResponseEntity<?> uploadUserPhoto(
             @Parameter()
-            @RequestPart("file")MultipartFile file,
+            @RequestPart("file") MultipartFile file,
             Authentication authentication
-            ){
+    ) {
         service.uploadUserPhoto(file, authentication);
 
 
@@ -88,8 +93,13 @@ public class AuthentificationController {
     }
 
     @PostMapping("/updateUser")
-    public Long updateUser(@RequestBody @Valid UpdateRequest request , Authentication authentication) {
-    return service.updateUser(request,authentication);
+    public Long updateUser(@RequestBody @Valid UpdateRequest request, Authentication authentication) {
+        return service.updateUser(request, authentication);
+    }
+
+    @PostMapping("/updatePassword")
+    public Long updatePassword(@RequestBody @Valid UpdatePasswordRequest updatePasswordRequest, Authentication authentication) {
+        return service.updatePassword(updatePasswordRequest, authentication);
     }
 
     @Autowired
@@ -100,9 +110,14 @@ public class AuthentificationController {
         return smsService.sendUpdateConfirmationSMS(authentication);
     }
 
-    @PostMapping("/validateOtp")
-    public String validateOtp(@RequestBody OtpValidationRequest otpValidationRequest) {
-        return smsService.validateOtp(otpValidationRequest);
+    @PostMapping("/sendUpdatePasswordSMS")
+    public String sendUpdatePasswordSMS(@RequestBody UserUpdatePWDRequest user) {
+        return smsService.sendUpdatePasswordSMS(user);
     }
 
+    @PostMapping("/validateOtp")
+    public boolean validateOtp(@RequestBody OtpValidationRequest otpValidationRequest) {
+        return smsService.validateOtp(otpValidationRequest).equals("OTP is valid!");
     }
+
+}
