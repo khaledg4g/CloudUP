@@ -1,15 +1,18 @@
 package com.projetpi.cloudup.OTP;
 
+import java.text.DecimalFormat;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Random;
+import java.util.Set;
 
 import com.projetpi.cloudup.Config.TwilioConfig;
+import com.projetpi.cloudup.RestController.UserUpdatePWDRequest;
 import com.projetpi.cloudup.entities.Reservation;
 import com.projetpi.cloudup.entities.ReservationResponse;
 import com.projetpi.cloudup.entities.User;
 import com.projetpi.cloudup.repository.ReservationRepository;
 import com.projetpi.cloudup.repository.UserRepository;
-import com.projetpi.cloudup.service.UserDetailsServiceImpl;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -23,9 +26,16 @@ import com.twilio.type.PhoneNumber;
 @Service
 public class SmsService {
 
-    private TwilioConfig twilioConfig;
-    private UserRepository userRepository;
+    Map<String, String> otpMap = new HashMap<>();
+
     private ReservationRepository reservationRepository;
+
+    @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
+    private TwilioConfig twilioConfig;
+
 
 
     public OtpResponseDto sendReservationDetailsSMS(Long idR) {
@@ -127,37 +137,6 @@ public class SmsService {
         }
         return otpResponseDto;
     }
-
-import com.projetpi.cloudup.Config.TwilioConfig;
-import com.projetpi.cloudup.RestController.UserUpdatePWDRequest;
-import com.projetpi.cloudup.entities.User;
-import com.projetpi.cloudup.repository.UserRepository;
-import com.projetpi.cloudup.service.UserDetailsServiceImpl;
-import com.twilio.rest.api.v2010.account.Message;
-import com.twilio.type.PhoneNumber;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-import org.springframework.stereotype.Service;
-import java.util.Set;
-
-import java.text.DecimalFormat;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Random;
-
-@Service
-@Slf4j
-public class SmsService {
-
-    Map<String, String> otpMap = new HashMap<>();
-
-    @Autowired
-
-    private UserRepository userRepository;
-
-    @Autowired
-    private TwilioConfig twilioConfig;
 
     public String sendUpdateConfirmationSMS(Authentication authentication) {
         User user = (User) authentication.getPrincipal();

@@ -15,8 +15,8 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @EnableJpaAuditing
 @EnableAsync
 @EnableScheduling
-
 public class CloudUpApplication {
+
     @Autowired
     private TwilioConfig twilioConfig;
 

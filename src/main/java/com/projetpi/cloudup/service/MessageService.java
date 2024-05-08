@@ -89,9 +89,6 @@ public class MessageService {
        return privateChatRepository.findAllByCreatorEquals(this.getuserconneted());
     }
 
-
-
-
     public User getuserconneted(){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication != null && authentication.isAuthenticated()) {

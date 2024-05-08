@@ -127,6 +127,7 @@ private final FileStorageServiceYass fileStorageServiceYass;
         return AuthentificationResponse
                 .builder()
                 .token(jwtToken)
+                .user(user)
                 .build();
     }
 
