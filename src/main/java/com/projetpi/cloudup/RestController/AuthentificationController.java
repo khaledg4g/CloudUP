@@ -67,29 +67,11 @@ public class AuthentificationController {
     }
 
 
-    @PostMapping(value = "/image", consumes = "multipart/form-data")
-    public ResponseEntity<?> uploadUserPhoto(
-            @Parameter()
-            @RequestPart("file")MultipartFile file,
-            Authentication authentication
-            ){
-        service.uploadUserPhoto(file, authentication);
 
 
-        return ResponseEntity.accepted().build();
-    }
 
-    @GetMapping("/{idUser}")
-    public ResponseEntity<UserResponse> findUserById(
-            @PathVariable("idUser") Long idUser
-    ) {
-        return ResponseEntity.ok(service.findById(idUser));
-    }
 
-    @PostMapping("/updateUser")
-    public Long updateUser(@RequestBody @Valid UpdateRequest request , Authentication authentication) {
-    return service.updateUser(request,authentication);
-    }
+
 
 
 
